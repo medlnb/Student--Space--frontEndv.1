@@ -7,9 +7,6 @@ import Module from '../Module/Module'
 import { useContext } from 'react'
 import { AuthContext } from '../../Contexts/UserContext'
 import Announcement from '../Announcement/Announcement'
-import TaskEdit from '../TaskEdit/TaskEdit'
-import AnnouncementEdit from '../AnnouncementEdit/AnnouncementEdit'
-import ScheduleEdit from '../ScheduleEdit/ScheduleEdit'
 
 function Redirect() {
   const navigate = useNavigate()
