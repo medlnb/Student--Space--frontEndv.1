@@ -1,0 +1,14 @@
+.homepage--container {
+  height: 100vh;
+  background: #19161f;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+@media (max-width: 700px) {
+  .homepage--container {
+    height: auto;
+    flex-direction: column;
+    width: 100%;
+  }
+}

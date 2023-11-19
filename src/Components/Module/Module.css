@@ -1,0 +1,8 @@
+.module--container {
+  padding: 1rem;
+  overflow: scroll;
+  height: 100%;
+}
+.module--container::-webkit-scrollbar{
+  display: none;
+}

@@ -1,0 +1,46 @@
+.welcomePage--container {
+  background-color: gray;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+.welcomePage--container input {
+  color: black;
+}
+
+.welcomePage--left {
+  height: 100%;
+  background-color: white;
+  width: 40%;
+  text-align: center;
+}
+.welcomePage--right {
+  height: 100%;
+  width: 60%;
+  background-color: #545454;
+  display: grid;
+  place-items: center;
+}
+.welcomePage--logo {
+  width: 20rem;
+  max-width: 100%;
+  margin: 5rem 0;
+}
+@media (max-width: 700px) {
+  .welcomePage--container {
+    background: #545454;
+    flex-direction: column;
+  }
+  .welcomePage--right,
+  .welcomePage--left {
+    width: 100%;
+    background: #545454;
+  }
+  .welcomePage--left {
+    height: 8rem;
+  }
+  .welcomePage--logo {
+    width: 5rem;
+    margin: 1rem;
+  }
+}

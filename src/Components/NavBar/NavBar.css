@@ -1,0 +1,36 @@
+.navbar--container {
+  background: #24202e;
+  width: 15rem;
+  height: 100%;
+  font-size: 1.15rem;
+  white-space: nowrap;
+  box-shadow: 1px 0px 10px #423a52;
+}
+
+.navbar--logo {
+  margin-bottom: 1rem;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+.phoneNav {
+  display: none;
+}
+@media (max-width: 700px) {
+  .navbar--top {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .navbar--logo {
+    margin-bottom: 0;
+  }
+  .navbar--container {
+    width: 100%;
+    background: #19161f;
+  }
+  .phoneNav {
+    text-align: center;
+    display: block;
+  }
+}

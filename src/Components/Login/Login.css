@@ -1,0 +1,90 @@
+.form_conatiner {
+  width: 30rem;
+  max-width: 100%;
+  padding: 1.5rem;
+}
+
+.form_conatiner > * {
+  margin-top: 0.8rem;
+}
+
+.form_conatiner h2 {
+  color: #c5c7d8;
+}
+
+.form_conatiner h4 {
+  color: #d2d4da;
+}
+
+.form_conatiner h3 {
+  color: #ccd2df;
+  margin-bottom: 1.5rem;
+}
+
+.login,
+.login_google {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #fa3a3a;
+  color: white;
+}
+.isSubmitting {
+  background: gray;
+}
+
+.login_google {
+  color: black;
+  border: 1px solid #979aa8;
+  background: white;
+}
+
+.toSignup {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  color: #d9d9da;
+}
+.toSignup p {
+  cursor: pointer;
+}
+
+.inputs_container {
+  position: relative;
+}
+.inputs {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.8rem;
+  border: 2px solid #979aa8;
+  border-radius: 0.7rem;
+}
+
+.inputs:focus {
+  border-color: #fe7271;
+  outline: none;
+}
+
+.error--msg {
+  color: rgb(233, 10, 10);
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.navigator {
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 1rem;
+}
+
+@media (max-width: 700px) {
+  .form_conatiner {
+    width: 90%;
+  }
+}

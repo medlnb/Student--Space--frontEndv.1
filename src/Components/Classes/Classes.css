@@ -1,0 +1,28 @@
+.sub--main--container {
+  background: #1f1e26;
+  border-radius: 0.8rem;
+  flex: 1;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.sub--main--container::-webkit-scrollbar {
+  display: none;
+}
+.sub--main--title {
+  padding: 0.5rem;
+  text-align: center;
+}
+.classes--container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+@media (max-width:700px){
+  .classes--container {
+  grid-template-columns: repeat(2, 1fr);
+}
+}

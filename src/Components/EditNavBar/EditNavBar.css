@@ -1,0 +1,15 @@
+.editnavbar--container {
+  display: flex;
+  justify-content: space-around;
+  background: #19161f;
+}
+.EditNavBarEelemnt {
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  padding: 0.15rem;
+  border-radius: 0 0 .6rem .6rem;
+}
+.SelectedPage {
+  background: #1f1e26;
+}
