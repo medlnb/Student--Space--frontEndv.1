@@ -1,6 +1,10 @@
 .sidebar--container {
   margin-top: 1rem;
   width: 25rem;
+  overflow: scroll;
+}
+.sidebar--container::-webkit-scrollbar {
+  display: none;
 }
 @media (max-width: 700px) {
   .sidebar--container {

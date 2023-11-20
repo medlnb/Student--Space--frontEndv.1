@@ -10,6 +10,7 @@ interface TaskType {
   _id?: string,
   className: string,
   taskTitle: string,
+  Description:string,
   deadLine: date | null
 }
 
@@ -38,6 +39,7 @@ export const TasksContextProvider = ({ children }: any) => {
     _id: "default_value",
     className: "",
     taskTitle: "",
+    Description: "",
     deadLine: null
   }
   const [state, dispatch] = useReducer<React.Reducer<TaskType[], any>>(TaskReducer, [default_value])

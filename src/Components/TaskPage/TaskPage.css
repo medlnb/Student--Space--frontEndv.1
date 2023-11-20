@@ -1,0 +1,24 @@
+.Task--container {
+  border: 1px solid white;
+  margin: 0.25 .5rem;
+  padding: .5rem;
+  border-radius: .5rem;
+}
+.Task--container > *{
+  padding: .3rem;
+}
+.task--deadline {
+  color: #939395;
+  text-align: end;
+}
+.tasks--container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.tasks--title {
+  text-align: center;
+}
+.Description--container{
+  color: #d2d2d6;
+}

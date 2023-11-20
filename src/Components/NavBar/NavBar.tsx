@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/UserContext';
 import { useContext, useEffect, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai'
+import { FaTasks } from "react-icons/fa";
+
 
 function NavBar() {
   const [ToggleNavBar, setToggleNavBar] = useState(false)
@@ -35,7 +37,9 @@ function NavBar() {
   }
   const navNames = [
     { title: 'My classes', icon: <MdOutlineClass className="icon" /> },
-    { title: 'Announcement', icon: <TfiAnnouncement className="icon" /> }
+    { title: 'Announcement', icon: <TfiAnnouncement className="icon" /> },
+    { title: 'Task', icon: < FaTasks  className="icon" /> }
+    
   ]
   if (isTeacher)
     navNames.push({ title: 'Edit', icon: <FiEdit className="icon" /> })

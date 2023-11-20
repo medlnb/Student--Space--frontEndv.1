@@ -10,7 +10,6 @@ import { ClassesContextProvider } from '../../Contexts/Class'
 import { useContext } from 'react'
 import { AuthContext } from '../../Contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
-// import { useEffect } from 'react'
 
 export const notify = (toastType: "success" | "info" | "warn" | "error", toastMsg: string) =>
   toast[toastType](`${toastMsg}`, {
@@ -23,26 +22,11 @@ export const notify = (toastType: "success" | "info" | "warn" | "error", toastMs
     progress: undefined,
     theme: "dark",
   });
-// const notifyUser = (notificationText = "Thx from enabling notofications!") => {
-//   if (!("Notification" in window)) {
-//     alert("Browser does not support notification")
-//   } else if (Notification.permission === "granted") {
-//     new Notification(notificationText)
-//   } else if (Notification.permission !== "denied") {
-//     Notification.requestPermission().then((permission) => {
-//       if (permission === 'granted') {
-//         new Notification(notificationText)
-//       }
-//     })
-//   }
-// }
+
 function HomePage() {
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
-  //  notifyUser()
-  // useEffect(() => {
-  //   new Notification("kaka")
-  // }, [])
+
   if (!user.username)
     navigate("/signup")
   return (

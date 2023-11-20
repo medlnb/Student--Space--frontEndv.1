@@ -1,3 +1,9 @@
+body{
+  background: #19161f;
+}
+body::-webkit-scrollbar{
+  display: none;
+}
 .homepage--container {
   height: 100vh;
   background: #19161f;

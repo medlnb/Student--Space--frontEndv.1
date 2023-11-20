@@ -7,6 +7,7 @@ import Module from '../Module/Module'
 import { useContext } from 'react'
 import { AuthContext } from '../../Contexts/UserContext'
 import Announcement from '../Announcement/Announcement'
+import TaskPage from '../TaskPage/TaskPage'
 
 function Redirect() {
   const navigate = useNavigate()
@@ -33,6 +34,7 @@ function Main() {
         <Route path="/" element={<Redirect />} />
         <Route path="My classes" element={<Classes />} />
         <Route path="Announcement" element={<Announcement />} />
+        <Route path="Task" element={<TaskPage />} />
         <Route path="Edit/*" element={isTeacher ? <Edit /> : ""}>
         </Route>
 

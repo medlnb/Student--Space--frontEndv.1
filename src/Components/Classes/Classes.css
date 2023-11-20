@@ -2,13 +2,10 @@
   background: #1f1e26;
   border-radius: 0.8rem;
   flex: 1;
-  overflow-y: scroll;
+  overflow-y: hidden;
   display: flex;
   flex-direction: column;
-}
-
-.sub--main--container::-webkit-scrollbar {
-  display: none;
+  position: relative;
 }
 .sub--main--title {
   padding: 0.5rem;

@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import './TaskEdit.css'
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { DateTimePicker, pickersLayoutClasses } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import { AuthContext } from '../../Contexts/UserContext';
 import { TasksContext } from '../../Contexts/TaskContext';
@@ -37,8 +37,9 @@ function TaskEdit() {
   ))
 
   const today = new Date()
-  const [inputs, setInputs] = useState<{ taskTitle: string, deadline: Dayjs | null, loading: boolean }>({
+  const [inputs, setInputs] = useState < { taskTitle: string, Description:string, deadline: Dayjs | null, loading: boolean }>({
     taskTitle: "",
+    Description:"",
     deadline: dayjs(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}T00:00`),
     loading: false
   })
@@ -50,7 +51,7 @@ function TaskEdit() {
       return
 
     if (inputs.taskTitle == "")
-      return notify("error","Task must have a title")
+      return notify("error", "Task must have a title")
 
     setInputs(prev => ({
       ...prev, loading: true
@@ -59,6 +60,7 @@ function TaskEdit() {
     const task = {
       className: user.username,
       taskTitle: inputs.taskTitle,
+      Description: inputs.Description,
       deadLine: {
         day: parseInt(inputs.deadline.format('DD')),
         month: parseInt(inputs.deadline.format('MM')),
@@ -85,19 +87,40 @@ function TaskEdit() {
       })
   }
   return (
-    <div className='taskedit--container'>
+    <div className='taskedit--container overflowScroll'>
       <form className='taskedit--create' onSubmit={HandleSubmit}>
         <div className='taskedit--title'>
           <h3>New Task</h3>
         </div>
-        <div className='taskedit--body'>
+        <div className='taskedit--body '>
           <input
             placeholder='Task title...'
             value={inputs.taskTitle}
             className='task--title--input'
             onChange={e => setInputs(prev => ({ ...prev, taskTitle: e.target.value }))}
           />
+          <textarea
+            placeholder='Description...'
+            value={inputs.Description}
+            className='task--title--input'
+            onChange={e => setInputs(prev => ({ ...prev, Description: e.target.value }))}
+          />
+          
           <DateTimePicker
+            className='DateTimePicker'
+            slotProps={{
+              layout: {
+                sx: {
+                  [`.${pickersLayoutClasses.contentWrapper}`]: {
+                    background: "#19161f",
+                  },
+                  
+                  [`.${pickersLayoutClasses.actionBar}`]: {
+                    background: "#19161f"
+                  },
+                },
+              },
+            }}
             value={inputs.deadline}
             onChange={(newValue) =>
               setInputs(prev => (

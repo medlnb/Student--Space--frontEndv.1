@@ -2,6 +2,9 @@
   display: flex;
   justify-content: space-around;
   background: #19161f;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 .EditNavBarEelemnt {
   cursor: pointer;

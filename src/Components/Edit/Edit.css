@@ -1,16 +1,13 @@
 .edit--container {
   background: #1f1e26;
   border-radius: 0.8rem;
-  flex: 1;
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+}
+.edit--page {
+  padding: 0.8rem;  
 }
 .edit--container::-webkit-scrollbar {
   display: none;
 }
-.edit--page {
-  flex: 1;
-  padding: 0.8rem;
-}
-
