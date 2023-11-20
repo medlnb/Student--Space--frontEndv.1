@@ -78,7 +78,7 @@ function TaskEdit() {
     })
     const json = await response.json()
     setInputs(prev => ({
-      ...prev, loading: false, taskTitle: "",
+      ...prev, loading: false, taskTitle: "", Description:""
     }))
     if (response.ok)
       dispatch({

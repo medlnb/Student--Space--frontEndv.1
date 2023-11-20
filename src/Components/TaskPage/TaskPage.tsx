@@ -3,6 +3,7 @@ import { TasksContext } from "../../Contexts/TaskContext"
 import './TaskPage.css'
 
 function TaskPage() {
+  
   const { state } = useContext(TasksContext)
   if (!state)
     return
