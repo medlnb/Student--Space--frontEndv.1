@@ -4,18 +4,10 @@ import UserBar from '../UserBar/UserBar'
 import './Main.css'
 import Edit from '../Edit/Edit'
 import Module from '../Module/Module'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../Contexts/UserContext'
 import Announcement from '../Announcement/Announcement'
 import TaskPage from '../TaskPage/TaskPage'
-
-function Redirect() {
-  const navigate = useNavigate()
-  navigate('/My classes')
-  return (
-    <></>
-  )
-}
 
 
 function Main() {
@@ -31,14 +23,11 @@ function Main() {
     <div className='main--container'>
       <UserBar />
       <Routes>
-        <Route path="/" element={<Redirect />} />
         <Route path="My classes" element={<Classes />} />
         <Route path="Announcement" element={<Announcement />} />
         <Route path="Task" element={<TaskPage />} />
-        <Route path="Edit/*" element={isTeacher ? <Edit /> : ""}>
-        </Route>
-
-        <Route path="My classes/:selected" element={<Module />} />
+        <Route path="Edit/*" element={isTeacher ? <Edit /> : ""} />
+        <Route path=":selected" element={<Module />} />
       </Routes>
     </div>
   )

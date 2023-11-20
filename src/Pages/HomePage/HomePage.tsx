@@ -7,7 +7,7 @@ import { TasksContextProvider } from '../../Contexts/TaskContext'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ClassesContextProvider } from '../../Contexts/Class'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../Contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -27,8 +27,14 @@ function HomePage() {
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
 
-  if (!user.username)
-    navigate("/signup")
+  useEffect(() => {
+    if (!user.username) {
+      return navigate("/signup")
+      
+    }
+  }, [])
+
+
   return (
     <div className='homepage--container'>
       <ClassesContextProvider>

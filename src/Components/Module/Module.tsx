@@ -1,7 +1,8 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import './Module.css'
 import { ClassesContext } from '../../Contexts/Class'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { AuthContext } from '../../Contexts/UserContext'
 
 interface ClassType {
   Module: string,
@@ -10,9 +11,15 @@ interface ClassType {
   Chapter?: string
 }
 
-
-
 function Module() {
+  const { user } = useContext(AuthContext)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!user.username)
+      return navigate("/signup")
+  }, [])
+
+
   const { state } = useContext(ClassesContext)
   const { selected } = useParams();
 

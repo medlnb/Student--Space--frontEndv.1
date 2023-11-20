@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './Announcement.css'
 import AnnouncementElement from '../AnnouncementElement/AnnouncementElement'
 import PropagateLoader from 'react-spinners/PropagateLoader'
+import { AuthContext } from '../../Contexts/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 interface AnnouncementType {
   Publisher: string,
@@ -10,6 +12,12 @@ interface AnnouncementType {
 }
 
 function Announcement() {
+  const { user } = useContext(AuthContext)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!user.username)
+      return navigate("/signup")
+  }, [])
   const [AnnouncementsData, setAnnouncementsData] = useState<AnnouncementType[]>([{
     Publisher: "####",
     Content: "####",

@@ -9,9 +9,9 @@ interface props {
 
 
 function Class({ Module, Teacher, description }: props) {
-const navigate = useNavigate()
+  const navigate = useNavigate()
   const handleClick = () => {
-    navigate(`/My classes/:${Module}`)
+    navigate(`/:${Module}`)
   }
   return (
     <div onClick={handleClick} className='class--container'>

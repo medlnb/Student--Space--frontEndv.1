@@ -1,9 +1,19 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { TasksContext } from "../../Contexts/TaskContext"
 import './TaskPage.css'
 import PropagateLoader from "react-spinners/PropagateLoader"
+import { AuthContext } from "../../Contexts/UserContext"
+import { useNavigate } from "react-router-dom"
 
 function TaskPage() {
+  
+  const { user } = useContext(AuthContext)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!user.username)
+      return navigate("/signup")
+  }, [])
+
 
   const { state } = useContext(TasksContext)
   if (!state)

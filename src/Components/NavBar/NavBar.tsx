@@ -38,14 +38,17 @@ function NavBar() {
   const navNames = [
     { title: 'My classes', icon: <MdOutlineClass className="icon" /> },
     { title: 'Announcement', icon: <TfiAnnouncement className="icon" /> },
-    { title: 'Task', icon: < FaTasks  className="icon" /> }
-    
+    { title: 'Task', icon: < FaTasks className="icon" /> }
+
   ]
   if (isTeacher)
     navNames.push({ title: 'Edit', icon: <FiEdit className="icon" /> })
   const { pathname } = useLocation()
   const allpath = pathname.substring(1).replace("%20", " ")
-  const selectedNav = allpath.split("/")[0]
+  var selectedNav = allpath.split("/")[0]
+  if (selectedNav[0] === ":") {
+    selectedNav = "My classes"
+  }
 
   const HandleClick = (title: string) => {
     setToggleNavBar(false)

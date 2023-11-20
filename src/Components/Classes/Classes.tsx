@@ -1,8 +1,10 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import './Classes.css'
 import { ClassesContext } from '../../Contexts/Class'
 import Class from '../Class/Class'
 import PropagateLoader from 'react-spinners/PropagateLoader'
+import { AuthContext } from '../../Contexts/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 interface ClassType {
   Module: string,
@@ -11,6 +13,14 @@ interface ClassType {
   Chapter?: string
 }
 function Classes() {
+  const { user } = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!user.username)
+      return navigate("/signup")
+  }, [])
+
   const { state } = useContext(ClassesContext)
   let loading = false
   if (!state)
