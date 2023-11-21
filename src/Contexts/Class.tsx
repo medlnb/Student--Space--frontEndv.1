@@ -51,7 +51,7 @@ export const ClassesContextProvider = ({ children }: any) => {
     let json = ["dsadsad", "asdsad"]
     let index = 0
     while (json.length !== 0) {
-      const response = await fetch(`http://localhost:4000/api/file/${index}`)
+      const response = await fetch(`https://student-space-backend.onrender.com/api/file/${index}`)
       // console.log(index)
       json = await response.json();
       if (json.length === 0)
