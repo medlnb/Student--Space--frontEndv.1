@@ -9,16 +9,31 @@ export const ClassesContext = createContext<{ state: ClassType[][] | null, dispa
   state: null,
   dispatch: null
 })
+
+const GroupingData = (Data: any) => {
+  const groupedData: any = []
+  const moduleIndexes = new Map()
+  Data.forEach((item: any) => {
+    const { Module } = item
+    if (!moduleIndexes.has(Module)) {
+      moduleIndexes.set(Module, groupedData.length)
+      groupedData.push([])
+    }
+    const index = moduleIndexes.get(Module)
+    groupedData[index].push(item)
+  })
+  return groupedData
+}
 export const TaskReducer = (state: ClassType[][], action: any) => {
   switch (action.type) {
     case "SETCLASSES":
-      return action.payload
+      return GroupingData(action.payload)
 
     case "ADDCLASSES":
-      return [...state, action.payload];
-
-    // case "REMOVETASK":
-    //   return state.filter(task => task._id !== action.payload)
+      if (action.payload[1])
+        return GroupingData([...state, action.payload[0], action.payload[1]].flat())
+      else
+        return GroupingData([...state, action.payload[0]].flat())
 
     default:
       return state
@@ -32,16 +47,24 @@ export const ClassesContextProvider = ({ children }: any) => {
   }
   const [state, dispatch] = useReducer<React.Reducer<ClassType[][], any>>(TaskReducer, [[default_value]])
 
-
   const fetchNotes = async () => {
-    const response = await fetch(`https://student-space-backend.onrender.com/api/file`)
-    const json: ClassType[] = await response.json();
-    dispatch({
-      type: "SETCLASSES",
-      payload: json
-    })
-  }
+    let json = ["dsadsad", "asdsad"]
+    let index = 0
+    while (json.length !== 0) {
+      const response = await fetch(`http://localhost:4000/api/file/${index}`)
+      // console.log(index)
+      json = await response.json();
+      if (json.length === 0)
+        break 
+        dispatch({
+          type: `${index === 0 ? "SETCLASSES" : "ADDCLASSES"}`,
+          payload: json
+        })
+      index++;
+    }
 
+
+  }
   useEffect(() => {
     fetchNotes()
   }, [])

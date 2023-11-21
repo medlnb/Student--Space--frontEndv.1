@@ -17,6 +17,10 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
   padding: 0.5rem;
+  overflow: scroll;
+}
+.classes--container::-webkit-scrollbar {
+  display: none;
 }
 @media (max-width:700px){
   .classes--container {
