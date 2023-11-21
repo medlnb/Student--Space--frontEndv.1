@@ -1,11 +1,11 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import SideScheduleElement from '../SideScheduleElement/SideScheduleElement';
 import './SideSchedule.css'
 import { ScheduleContext } from '../../Contexts/ScheduleContext';
 
 interface scheduleDayType {
   id: number,
-  module: string ,
+  module: string,
   Classroom: string,
   type: "Lecture" | "TP" | "TD" | "EL" | ""
 }
@@ -19,13 +19,17 @@ function zip(array0: any[][], array1: any[]) {
 }
 
 function SideSchedule() {
-  
+  const [ToggleSchedule, setToggleSchedule] = useState(true)
+  useEffect(() => {
+    if (window.innerWidth <= 700)
+      return setToggleSchedule(false)
+  }, [])
   const days = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
   const classes = ['', "8.00", "9.40", "11.20", "13.10", "14.50", "16.30"]
   const { ScheduleData } = useContext(ScheduleContext)
   if (ScheduleData.length == 0)
     return
-  
+
   const formedSchedule: (scheduleDayType | string)[][] = zip(ScheduleData, days)
   formedSchedule.unshift(classes)
 
@@ -44,10 +48,12 @@ function SideSchedule() {
   })
 
   return (
-    <div className='sideschedule--container--big'>
+    <div className='sideschedule--container--big' onClick={() => {
+      setToggleSchedule(prev => !prev)
+    }}>
       <h3 className='sideschedule--title'>Schedule</h3>
       <div className='sideschedule--container'>
-        {schedule}
+        {ToggleSchedule && schedule}
       </div>
     </div>
   )
