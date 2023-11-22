@@ -20,7 +20,30 @@
   background-color: #545454;
   display: grid;
   place-items: center;
+  position: relative;
 }
+.teacher--select--container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: absolute;
+  padding: 2rem;
+  background: black;
+  border-radius: 0.5rem;
+  z-index: 1;
+  text-align: center;
+  cursor: pointer;
+}
+.teacher {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.none{
+  display: none;
+}
+
 .welcomePage--logo {
   width: 20rem;
   max-width: 100%;

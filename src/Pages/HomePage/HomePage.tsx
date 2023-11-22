@@ -26,31 +26,27 @@ export const notify = (toastType: "success" | "info" | "warn" | "error", toastMs
 function HomePage() {
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
-
   useEffect(() => {
     if (!user.username) {
       return navigate("/signup")
-      
     }
   }, [])
-
-
-  return (
-    <div className='homepage--container'>
-      <ClassesContextProvider>
-        <TasksContextProvider>
-          <ScheduleContextProvider>
-            <>
-              <NavBar />
-              <Main />
-              <SideBar />
-              <ToastContainer />
-            </>
-          </ScheduleContextProvider>
-        </TasksContextProvider>
-      </ClassesContextProvider>
-    </div >
-  )
+    return (
+      <div className='homepage--container'>
+        <ClassesContextProvider>
+          <TasksContextProvider>
+            <ScheduleContextProvider>
+              <>
+                <NavBar />
+                <Main />
+                <SideBar />
+                <ToastContainer />
+              </>
+            </ScheduleContextProvider>
+          </TasksContextProvider>
+        </ClassesContextProvider>
+      </div >
+    )
 }
 
 export default HomePage
