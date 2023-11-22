@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { ScheduleDefault } from '../Data/ScheduleData'
+import { Server } from "../Data/API";
 
 export const ScheduleContext = createContext<any>(ScheduleDefault)
 
@@ -9,7 +10,7 @@ export const ScheduleContextProvider = ({ children }: any) => {
 
   useEffect(() => {
     const fetchingSchedule = async () => {
-      const response = await fetch("https://student-space-back-end.vercel.app/api/schedule")
+      const response = await fetch(`${Server}/api/schedule`)
       const json = await response.json()
       setScheduleData(json)
     }

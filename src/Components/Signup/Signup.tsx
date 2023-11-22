@@ -4,6 +4,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import '../Login/Login.css'
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/KasdiLogo.png'
+import { Server } from '../../Data/API';
 
 function Signup() {
   const navigate = useNavigate()
@@ -19,7 +20,7 @@ function Signup() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setInputs(prev => ({ ...prev, loading: true }))
-    const response = await fetch("https://student-space-back-end.vercel.app/api/student/send-mail", {
+    const response = await fetch(`${Server}/api/student/send-mail`, {
       method: "POST",
       body: JSON.stringify({ matricule: inputs.matricule }),
       headers: {

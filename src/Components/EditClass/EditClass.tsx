@@ -3,6 +3,7 @@ import './EditClass.css'
 import ClipLoader from "react-spinners/ClipLoader";
 import { notify } from '../../Pages/HomePage/HomePage';
 import { AuthContext } from '../../Contexts/UserContext';
+import { Server } from '../../Data/API';
 
 function EditClass() {
   const { user } = useContext(AuthContext)
@@ -28,7 +29,7 @@ function EditClass() {
       return
     }
     setLoading(true)
-    await fetch("https://student-space-back-end.vercel.app/api/file", {
+    await fetch(`${Server}/api/file`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"

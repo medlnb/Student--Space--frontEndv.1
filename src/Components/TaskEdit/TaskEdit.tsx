@@ -7,6 +7,7 @@ import { TasksContext } from '../../Contexts/TaskContext';
 import { BiTrash } from "react-icons/bi"
 import ClipLoader from "react-spinners/ClipLoader";
 import { notify } from '../../Pages/HomePage/HomePage';
+import { Server } from '../../Data/API';
 
 function TaskEdit() {
 
@@ -17,7 +18,7 @@ function TaskEdit() {
     return
 
   const HandleDelete = async (id: string | undefined) => {
-    const response = await fetch(`https://student-space-back-end.vercel.app/api/task/${id}`, {
+    const response = await fetch(`${Server}/api/task/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json"
@@ -69,7 +70,7 @@ function TaskEdit() {
       }
     }
 
-    const response = await fetch("https://student-space-back-end.vercel.app/api/task", {
+    const response = await fetch(`${Server}/api/task`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"

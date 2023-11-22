@@ -1,0 +1,1 @@
+export const Server = "https://student-space-back-end.vercel.app"

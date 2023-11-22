@@ -4,6 +4,7 @@ import './Login.css'
 import logo from '../../assets/KasdiLogo.png'
 import { AuthContext } from '../../Contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { Server } from '../../Data/API';
 
 function Login() {
   const { handleUserChange } = useContext(AuthContext)
@@ -30,7 +31,7 @@ function Login() {
       return
     }
 
-    const response = await fetch("https://student-space-back-end.vercel.app/api/user/login", {
+    const response = await fetch(`${Server}/api/user/login`, {
       method: "POST",
       body: JSON.stringify({ email: inputs.mail, password: inputs.password }),
       headers: {

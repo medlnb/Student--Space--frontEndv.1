@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import SideScheduleElement from '../SideScheduleElement/SideScheduleElement';
 import './ScheduleEdit.css'
 import { ScheduleContext } from '../../Contexts/ScheduleContext';
+import { Server } from '../../Data/API';
 
 interface scheduleDayType {
   id: number,
@@ -51,7 +52,7 @@ function ScheduleEdit() {
       }
     }
     setScheduleData(updatedScheduleData);
-    await fetch("https://student-space-back-end.vercel.app/api/schedule", {
+    await fetch(`${Server}/api/schedule`, {
       method: "PATCH",
       body: JSON.stringify(ScheduleData),
       headers: {

@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-// import { User } from "../Models/Models";
 
 interface User {
   username: string | null,

@@ -5,6 +5,7 @@ import { notify } from '../../Pages/HomePage/HomePage';
 import { AuthContext } from '../../Contexts/UserContext';
 import { BiTrash } from 'react-icons/bi';
 import PropagateLoader from 'react-spinners/PropagateLoader';
+import { Server } from '../../Data/API';
 // import { io } from 'socket.io-client'
 
 interface AnnouncementType {
@@ -24,7 +25,7 @@ function AnnouncementEdit() {
   }])
   useEffect(() => {
     const getData = async () => {
-      const response = await fetch("https://student-space-back-end.vercel.app/api/Announcement")
+      const response = await fetch(`${Server}/api/Announcement`)
       const json = await response.json()
       setAnnous(json)
     }
@@ -48,7 +49,7 @@ function AnnouncementEdit() {
       return
     }
     setLoading(true)
-    await fetch("https://student-space-back-end.vercel.app/api/Announcement", {
+    await fetch(`${Server}/api/Announcement`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"
@@ -60,7 +61,7 @@ function AnnouncementEdit() {
 
   }
   const HandleDelete = async (id: string) => {
-    await fetch(`https://student-space-back-end.vercel.app/api/announcement/${id}`, {
+    await fetch(`${Server}/api/announcement/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json"

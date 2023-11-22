@@ -1,4 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
+import { Server } from "../Data/API";
 
 interface date {
   day: number;
@@ -46,7 +47,7 @@ export const TasksContextProvider = ({ children }: any) => {
 
 
   const fetchNotes = async () => {
-    const response = await fetch(`https://student-space-back-end.vercel.app/api/task`)
+    const response = await fetch(`${Server}/api/task`)
     const json: TaskType[] = await response.json();
     dispatch({
       type: "SETTASKS",

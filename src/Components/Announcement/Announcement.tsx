@@ -4,6 +4,7 @@ import AnnouncementElement from '../AnnouncementElement/AnnouncementElement'
 import PropagateLoader from 'react-spinners/PropagateLoader'
 import { AuthContext } from '../../Contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
+import { Server } from '../../Data/API'
 
 interface AnnouncementType {
   Publisher: string,
@@ -26,7 +27,7 @@ function Announcement() {
   ])
   useEffect(() => {
     const getData = async () => {
-      const response = await fetch("https://student-space-back-end.vercel.app/api/announcement")
+      const response = await fetch(`${Server}/api/announcement`)
       const json = await response.json()
       setAnnouncementsData(json)
     }
