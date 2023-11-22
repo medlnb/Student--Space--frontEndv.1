@@ -58,8 +58,6 @@ function SideScheduleElement({ scheduleDay, index, source, handleChange }: props
   moveStringToFirst(Modules, scheduleDay.module)
   moveStringToFirst(ClassroomList, scheduleDay.Classroom)
 
-
-
   const Classroomoptions = ClassroomList.map((element) => (
     <option
       key={nanoid()}

@@ -6,7 +6,7 @@ import { AuthContext } from "../../Contexts/UserContext"
 import { useNavigate } from "react-router-dom"
 
 function TaskPage() {
-  
+
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
   useEffect(() => {
@@ -37,16 +37,18 @@ function TaskPage() {
     <div className='sub--main--container'>
       <h1 className='sub--main--title'>Tasks</h1>
       <div className='tasks--container'>
-        {state[0]._id === "default_value" ?
-          <div className='loader--container'>
-            <PropagateLoader
-              color={"white"}
-              loading={true}
-              size={20}
-            />
-          </div>
-          :
-          Announcements
+        {(state.length === 0) ?
+          <p>U have no tasks relax.</p>
+          : (state[0]._id === "default_value") ?
+            <div className='loader--container'>
+              <PropagateLoader
+                color={"white"}
+                loading={true}
+                size={20}
+              />
+            </div>
+            :
+            Announcements
         }
       </div>
     </div>

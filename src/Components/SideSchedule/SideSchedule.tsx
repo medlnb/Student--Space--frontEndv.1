@@ -49,7 +49,8 @@ function SideSchedule() {
 
   return (
     <div className='sideschedule--container--big' onClick={() => {
-      setToggleSchedule(prev => !prev)
+      if (window.innerWidth <= 700)
+        setToggleSchedule(prev => !prev)
     }}>
       <h3 className='sideschedule--title'>Schedule</h3>
       <div className='sideschedule--container'>
