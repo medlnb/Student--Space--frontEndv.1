@@ -24,7 +24,7 @@ function AnnouncementEdit() {
   }])
   useEffect(() => {
     const getData = async () => {
-      const response = await fetch("https://student-space-backend.onrender.com/api/Announcement")
+      const response = await fetch("https://student-space-back-end.vercel.app/api/Announcement")
       const json = await response.json()
       setAnnous(json)
     }
@@ -48,7 +48,7 @@ function AnnouncementEdit() {
       return
     }
     setLoading(true)
-    await fetch("https://student-space-backend.onrender.com/api/Announcement", {
+    await fetch("https://student-space-back-end.vercel.app/api/Announcement", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"
@@ -60,7 +60,7 @@ function AnnouncementEdit() {
 
   }
   const HandleDelete = async (id: string) => {
-    await fetch(`https://student-space-backend.onrender.com/api/announcement/${id}`, {
+    await fetch(`https://student-space-back-end.vercel.app/api/announcement/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json"

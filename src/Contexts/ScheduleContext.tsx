@@ -9,7 +9,7 @@ export const ScheduleContextProvider = ({ children }: any) => {
 
   useEffect(() => {
     const fetchingSchedule = async () => {
-      const response = await fetch("https://student-space-backend.onrender.com/api/schedule")
+      const response = await fetch("https://student-space-back-end.vercel.app/api/schedule")
       const json = await response.json()
       setScheduleData(json)
     }

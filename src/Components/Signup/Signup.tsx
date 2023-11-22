@@ -19,7 +19,7 @@ function Signup() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setInputs(prev => ({ ...prev, loading: true }))
-    const response = await fetch("https://student-space-backend.onrender.com/api/student/send-mail", {
+    const response = await fetch("https://student-space-back-end.vercel.app/api/student/send-mail", {
       method: "POST",
       body: JSON.stringify({ matricule: inputs.matricule }),
       headers: {

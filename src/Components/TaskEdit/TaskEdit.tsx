@@ -17,7 +17,7 @@ function TaskEdit() {
     return
 
   const HandleDelete = async (id: string | undefined) => {
-    const response = await fetch(`https://student-space-backend.onrender.com/api/task/${id}`, {
+    const response = await fetch(`https://student-space-back-end.vercel.app/api/task/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json"
@@ -69,7 +69,7 @@ function TaskEdit() {
       }
     }
 
-    const response = await fetch("https://student-space-backend.onrender.com/api/task", {
+    const response = await fetch("https://student-space-back-end.vercel.app/api/task", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"

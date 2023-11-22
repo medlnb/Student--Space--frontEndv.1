@@ -30,7 +30,7 @@ function Login() {
       return
     }
 
-    const response = await fetch("https://student-space-backend.onrender.com/api/user/login", {
+    const response = await fetch("https://student-space-back-end.vercel.app/api/user/login", {
       method: "POST",
       body: JSON.stringify({ email: inputs.mail, password: inputs.password }),
       headers: {

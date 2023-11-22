@@ -26,7 +26,7 @@ function Announcement() {
   ])
   useEffect(() => {
     const getData = async () => {
-      const response = await fetch("https://student-space-backend.onrender.com/api/announcement")
+      const response = await fetch("https://student-space-back-end.vercel.app/api/announcement")
       const json = await response.json()
       setAnnouncementsData(json)
     }

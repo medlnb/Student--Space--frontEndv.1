@@ -28,7 +28,7 @@ function EditClass() {
       return
     }
     setLoading(true)
-    await fetch("https://student-space-backend.onrender.com/api/file", {
+    await fetch("https://student-space-back-end.vercel.app/api/file", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"

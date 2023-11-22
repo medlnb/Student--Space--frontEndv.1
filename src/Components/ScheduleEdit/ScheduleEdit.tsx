@@ -51,7 +51,7 @@ function ScheduleEdit() {
       }
     }
     setScheduleData(updatedScheduleData);
-    await fetch("https://student-space-backend.onrender.com/api/schedule", {
+    await fetch("https://student-space-back-end.vercel.app/api/schedule", {
       method: "PATCH",
       body: JSON.stringify(ScheduleData),
       headers: {
