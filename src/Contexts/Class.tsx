@@ -47,20 +47,26 @@ export const ClassesContextProvider = ({ children }: any) => {
     Teacher: ""
   }
   const [state, dispatch] = useReducer<React.Reducer<ClassType[][], any>>(TaskReducer, [[default_value]])
-
   const fetchNotes = async () => {
     let json = ["dsadsad", "asdsad"]
     let index = 0
     while (json.length !== 0) {
       const response = await fetch(`${Server}/api/file/${index}`)
-      // console.log(index)
       json = await response.json();
-      if (json.length === 0)
-        break 
+      if (json.length === 0) {
         dispatch({
-          type: `${index === 0 ? "SETCLASSES" : "ADDCLASSES"}`,
-          payload: json
+          type: "ADDCLASSES",
+          payload: [{
+            Module: "end",
+            Teacher: ""
+          }]
         })
+        break
+      }
+      dispatch({
+        type: `${index === 0 ? "SETCLASSES" : "ADDCLASSES"}`,
+        payload: json
+      })
       index++;
     }
 

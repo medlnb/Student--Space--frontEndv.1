@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './Classes.css'
 import { ClassesContext } from '../../Contexts/Class'
 import Class from '../Class/Class'
@@ -13,6 +13,7 @@ interface ClassType {
   Chapter?: string
 }
 function Classes() {
+  const [FetchingEnded, setFetchingEnded] = useState(false)
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
 
@@ -26,12 +27,18 @@ function Classes() {
   if (!state)
     return
 
-  if (state[0][0].Module == "default_value")
+  useEffect(() => {
+    if (state[state.length - 1][0].Module === "end")
+      setFetchingEnded(true)
+  }, [state])
+  const newState = state.filter(Module => Module[0].Module !== "end")
+
+  if (newState[0][0].Module == "default_value")
     loading = true
 
   const classesData: ClassType[] = []
 
-  state.map(element => {
+  newState.map(element => {
     classesData.push(element[0])
   })
 
@@ -57,6 +64,14 @@ function Classes() {
         :
         <div className='classes--container'>
           {classes}
+          {!FetchingEnded &&
+            <div className='class--container' style={{ padding: "0" }}>
+              <div >
+                <div className="animated-background">
+                </div>
+              </div>
+            </div>
+          }
         </div>
       }
     </div>
