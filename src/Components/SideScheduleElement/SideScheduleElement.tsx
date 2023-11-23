@@ -48,7 +48,7 @@ function SideScheduleElement({ scheduleDay, index, source, handleChange }: props
 
   const typeList = ["Lecture", "TP", "TD", "EL", ""]
 
-  const Modules = ["Image Numérique", "Programming for Data Science",
+  const Modules = ["Image Numérique","Statistics for Data Science" ,"Programming for Data Science",
     "Data exploration and visualization", "Mathematics for Machine Learning 1",
     "Anglais", ""]
 
