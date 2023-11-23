@@ -9,6 +9,7 @@ import { FaCheck } from "react-icons/fa6";
 
 function Login() {
   const [TeacherIndex, setTeacherIndex] = useState(0)
+
   const [selectTeacher, setSelectTeacher] = useState<any>({
     isShowed: false,
     Data: null
@@ -37,16 +38,6 @@ function Login() {
     e.preventDefault()
     setInputs(prev => ({ ...prev, loading: true }))
 
-    if (inputs.mail == "khra") {
-      handleUserChange(
-        {
-          username: "Teacher",
-          email: "null",
-          token: "noToken"
-        })
-      return
-    }
-
     const response = await fetch(`${Server}/api/user/login`, {
       method: "POST",
       body: JSON.stringify({ email: inputs.mail, password: inputs.password }),
@@ -54,7 +45,22 @@ function Login() {
         "Content-Type": "Application/json"
       }
     })
+
     const json = await response.json()
+    if (!response.ok) {
+      if (json.MailErr)
+        setInputs(prev => ({ ...prev, err: { ...prev.err, MailErr: json.MailErr } }))
+      else
+        setInputs(prev => ({ ...prev, err: { ...prev.err, MailErr: "" } }))
+
+      if (json.PwErr)
+        setInputs(prev => ({ ...prev, err: { ...prev.err, PwErr: json.PwErr } }))
+      
+      
+      setInputs(prev => ({ ...prev, loading: false }))
+      return
+    }
+
     if (json.username[1]) {
       setSelectTeacher({
         isShowed: true,
@@ -71,7 +77,6 @@ function Login() {
       setInputs(prev => ({ ...prev, loading: false }))
       navigate("/My classes")
     }
-
   }
 
   return (
