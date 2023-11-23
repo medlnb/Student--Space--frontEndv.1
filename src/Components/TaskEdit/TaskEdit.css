@@ -40,6 +40,7 @@
   gap: 0.5rem;
   background: #1f1e26;
   border: none;
+  width: 90%;
 }
 .taskedit--body--submit:hover {
   position: relative;

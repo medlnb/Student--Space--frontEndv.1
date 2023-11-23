@@ -4,6 +4,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { notify } from '../../Pages/HomePage/HomePage';
 import { AuthContext } from '../../Contexts/UserContext';
 import { Server } from '../../Data/API';
+import { FaGoogleDrive } from "react-icons/fa";
 
 function EditClass() {
   const { user } = useContext(AuthContext)
@@ -70,17 +71,22 @@ function EditClass() {
             value={inputs.DescriptionClass}
             onChange={e => setInputs(prev => ({ ...prev, DescriptionClass: e.target.value }))}
           />
-          <button
-            className={isloading ? 'taskedit--body--submit isSubmitting' : 'taskedit--body--submit'}>
-            Add
-            <ClipLoader
-              color={"white"}
-              loading={isloading}
-              size={15}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </button>
+          <div style={{display:"flex",justifyContent:"space-around",alignItems:"center"}}>
+            <button
+              className={isloading ? 'taskedit--body--submit isSubmitting' : 'taskedit--body--submit'}>
+              Add
+              <ClipLoader
+                color={"white"}
+                loading={isloading}
+                size={15}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            </button>
+            <a href="https://drive.google.com/drive" target="_blank">
+              <FaGoogleDrive />
+            </a>
+          </div>
         </form>
       </div>
     </div>
