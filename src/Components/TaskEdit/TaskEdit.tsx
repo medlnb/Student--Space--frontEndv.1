@@ -38,9 +38,11 @@ function TaskEdit() {
   ))
 
   const today = new Date()
-  const [inputs, setInputs] = useState < { taskTitle: string, Description:string, deadline: Dayjs | null, loading: boolean }>({
+  const [inputs, setInputs] = useState<{ taskTitle: string, Description: string, deadline: Dayjs | null, Link: string, LinkTitle:string, loading: boolean }>({
     taskTitle: "",
-    Description:"",
+    Description: "",
+    Link: "",
+    LinkTitle:"",
     deadline: dayjs(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}T00:00`),
     loading: false
   })
@@ -62,6 +64,7 @@ function TaskEdit() {
       className: user.username,
       taskTitle: inputs.taskTitle,
       Description: inputs.Description,
+      Link: inputs.LinkTitle+"###bakhso###"+inputs.Link,
       deadLine: {
         day: parseInt(inputs.deadline.format('DD')),
         month: parseInt(inputs.deadline.format('MM')),
@@ -79,7 +82,7 @@ function TaskEdit() {
     })
     const json = await response.json()
     setInputs(prev => ({
-      ...prev, loading: false, taskTitle: "", Description:""
+      ...prev, loading: false, taskTitle: "", Description: ""
     }))
     if (response.ok)
       dispatch({
@@ -106,7 +109,22 @@ function TaskEdit() {
             className='task--title--input'
             onChange={e => setInputs(prev => ({ ...prev, Description: e.target.value }))}
           />
-          
+          <div style={{display:"flex",justifyContent:"space-between",gap:".5rem"}}>
+            <input
+              placeholder='Relatived Link Title...'
+              value={inputs.LinkTitle}
+              className='task--title--input'
+              style={{width:"30%"}}
+              onChange={e => setInputs(prev => ({ ...prev, LinkTitle: e.target.value }))}
+            />
+            <input
+              placeholder='Link...'
+              value={inputs.Link}
+              style={{ flex:1 }}
+              className='task--title--input'
+              onChange={e => setInputs(prev => ({ ...prev, Link: e.target.value }))}
+            />
+          </div>
           <DateTimePicker
             className='DateTimePicker'
             slotProps={{
@@ -115,7 +133,7 @@ function TaskEdit() {
                   [`.${pickersLayoutClasses.contentWrapper}`]: {
                     background: "#19161f",
                   },
-                  
+
                   [`.${pickersLayoutClasses.actionBar}`]: {
                     background: "#19161f"
                   },

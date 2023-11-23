@@ -27,7 +27,8 @@ function TaskPage() {
       {element.Description &&
         <>
           <p>Description:</p>
-          <p className="Description--container">{element.Description}</p>
+        <p className="Description--container">{element.Description}</p>
+        <a href={element.Link.split("###bakhso###")[1]} target="_blank">{element.Link.split("###bakhso###")[0]}</a>
         </>
       }
       <p className="task--deadline">DeadLine: {element.deadLine?.day}/{element.deadLine?.month}/{element.deadLine?.year} {element.deadLine?.time}</p>

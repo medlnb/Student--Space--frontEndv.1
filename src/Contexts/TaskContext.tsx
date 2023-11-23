@@ -11,6 +11,7 @@ interface TaskType {
   _id?: string,
   className: string,
   taskTitle: string,
+  Link:string,
   Description:string,
   deadLine: date | null
 }
@@ -41,12 +42,12 @@ export const TasksContextProvider = ({ children }: any) => {
     className: "",
     taskTitle: "",
     Description: "",
+    Link:"",
     deadLine: null
   }
   const [state, dispatch] = useReducer<React.Reducer<TaskType[], any>>(TaskReducer, [default_value])
 
-
-  const fetchNotes = async () => {
+  const fetchTasks = async () => {
     const response = await fetch(`${Server}/api/task`)
     const json: TaskType[] = await response.json();
     dispatch({
@@ -56,7 +57,7 @@ export const TasksContextProvider = ({ children }: any) => {
   }
 
   useEffect(() => {
-    fetchNotes()
+    fetchTasks()
   }, [])
 
   return (
