@@ -6,7 +6,6 @@ import { AuthContext } from '../../Contexts/UserContext';
 import { BiTrash } from 'react-icons/bi';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { Server } from '../../Data/API';
-// import { io } from 'socket.io-client'
 
 interface AnnouncementType {
   _id: string,
@@ -17,6 +16,9 @@ interface AnnouncementType {
 
 
 function AnnouncementEdit() {
+  const { user } = useContext(AuthContext)
+  if (!user)
+    return
   const [annous, setAnnous] = useState([{
     _id: "####",
     Publisher: "####",
@@ -27,13 +29,12 @@ function AnnouncementEdit() {
     const getData = async () => {
       const response = await fetch(`${Server}/api/Announcement`)
       const json = await response.json()
-      setAnnous(json)
+      const annousses = json.filter((annou: AnnouncementType) => annou.Publisher ===user.username)
+      setAnnous(annousses)
     }
     getData()
   }, [])
-  const { user } = useContext(AuthContext)
-  if (!user)
-    return
+ 
 
   const Teacher = user.username
   const [isloading, setLoading] = useState(false)

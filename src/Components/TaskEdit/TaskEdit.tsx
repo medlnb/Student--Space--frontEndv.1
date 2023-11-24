@@ -13,10 +13,11 @@ function TaskEdit() {
 
   const { user } = useContext(AuthContext)
   const { state, dispatch } = useContext(TasksContext)
-
   if (!state || !dispatch)
     return
 
+
+  const newstate = state.filter((task: any) => task.className === user.username)
   const HandleDelete = async (id: string | undefined) => {
     const response = await fetch(`${Server}/api/task/${id}`, {
       method: "DELETE",
@@ -30,7 +31,7 @@ function TaskEdit() {
         payload: id
       })
   }
-  const TasksToDelete = state.map((task, index) => (
+  const TasksToDelete = newstate.map((task, index) => (
     <div className='tasktodelete' key={index} onClick={() => HandleDelete(task._id)}>
       <h4>{task.taskTitle}</h4>
       <BiTrash />
@@ -38,11 +39,11 @@ function TaskEdit() {
   ))
 
   const today = new Date()
-  const [inputs, setInputs] = useState<{ taskTitle: string, Description: string, deadline: Dayjs | null, Link: string, LinkTitle:string, loading: boolean }>({
+  const [inputs, setInputs] = useState<{ taskTitle: string, Description: string, deadline: Dayjs | null, Link: string, LinkTitle: string, loading: boolean }>({
     taskTitle: "",
     Description: "",
     Link: "",
-    LinkTitle:"",
+    LinkTitle: "",
     deadline: dayjs(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}T00:00`),
     loading: false
   })
@@ -64,7 +65,7 @@ function TaskEdit() {
       className: user.username,
       taskTitle: inputs.taskTitle,
       Description: inputs.Description,
-      Link: inputs.LinkTitle+"###bakhso###"+inputs.Link,
+      Link: inputs.LinkTitle + "###bakhso###" + inputs.Link,
       deadLine: {
         day: parseInt(inputs.deadline.format('DD')),
         month: parseInt(inputs.deadline.format('MM')),
@@ -109,18 +110,18 @@ function TaskEdit() {
             className='task--title--input'
             onChange={e => setInputs(prev => ({ ...prev, Description: e.target.value }))}
           />
-          <div style={{display:"flex",justifyContent:"space-between",gap:".5rem"}}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: ".5rem" }}>
             <input
               placeholder='Relatived Link Title...'
               value={inputs.LinkTitle}
               className='task--title--input'
-              style={{width:"30%"}}
+              style={{ width: "30%" }}
               onChange={e => setInputs(prev => ({ ...prev, LinkTitle: e.target.value }))}
             />
             <input
               placeholder='Link...'
               value={inputs.Link}
-              style={{ flex:1 }}
+              style={{ flex: 1 }}
               className='task--title--input'
               onChange={e => setInputs(prev => ({ ...prev, Link: e.target.value }))}
             />
@@ -159,10 +160,8 @@ function TaskEdit() {
             />
           </button>
         </div>
-
-
       </form>
-      {!(state.length == 0) &&
+      {newstate.length !== 0 &&
         <div className='taskedit--create'>
           <div className='taskedit--title'>
             <h3>Delete Tasks</h3>
