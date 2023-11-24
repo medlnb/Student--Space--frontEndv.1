@@ -2,6 +2,7 @@
   text-align: center;
 }
 .scheduleedit--container {
+  padding:0 0 2rem 0 ;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 }
