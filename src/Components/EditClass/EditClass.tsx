@@ -5,11 +5,21 @@ import { notify } from '../../Pages/HomePage/HomePage';
 import { AuthContext } from '../../Contexts/UserContext';
 import { Server } from '../../Data/API';
 import { FaGoogleDrive } from "react-icons/fa";
+import { ClassesContext } from '../../Contexts/Class';
 
 function EditClass() {
   const { user } = useContext(AuthContext)
   if (!user)
     return
+
+  const { state } = useContext(ClassesContext)
+  const chapters:string[] = ["Chapters"]
+  state?.map(modulee => {
+    modulee.map(file => {
+      if (file.Module === user.email && file.Chapter && !chapters.includes(file.Chapter))
+        chapters.push(file.Chapter)
+    })
+  })
 
   const SelectedModule = user.email
   const Teacher = user.username
@@ -17,7 +27,7 @@ function EditClass() {
   const [inputs, setInputs] = useState({
     Module: SelectedModule,
     Teacher,
-    Chapter: "",
+    Chapter: chapters[0],
     Link: "",
     DescriptionClass: "",
     title: ""
@@ -54,12 +64,23 @@ function EditClass() {
             value={inputs.title}
             onChange={e => setInputs(prev => ({ ...prev, title: e.target.value }))}
           />
-          <div>
+          <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
             <input
               placeholder='Chapter...'
               value={inputs.Chapter}
               onChange={e => setInputs(prev => ({ ...prev, Chapter: e.target.value }))}
             />
+            <select
+              style={{ background: "#1f1e26", border: "none", outline: "none", width: "5rem" }}
+              value={inputs.Chapter}
+              onChange={(e) => setInputs((prev) => ({ ...prev, Chapter: e.target.value }))}
+            >
+              {chapters.map((chapter) => (
+                <option key={chapter} value={chapter}>
+                  {chapter}
+                </option>
+              ))}
+            </select>
           </div>
           <input
             placeholder='Link...'
@@ -71,7 +92,7 @@ function EditClass() {
             value={inputs.DescriptionClass}
             onChange={e => setInputs(prev => ({ ...prev, DescriptionClass: e.target.value }))}
           />
-          <div style={{display:"flex",justifyContent:"space-around",alignItems:"center"}}>
+          <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
             <button
               className={isloading ? 'taskedit--body--submit isSubmitting' : 'taskedit--body--submit'}>
               Add

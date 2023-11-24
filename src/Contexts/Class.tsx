@@ -4,7 +4,8 @@ import { Server } from "../Data/API";
 interface ClassType {
   Module: string,
   Teacher: string,
-  description?: string
+  description?: string,
+  Chapter?:string
 }
 export const ClassesContext = createContext<{ state: ClassType[][] | null, dispatch: any | null }>({
   state: null,
