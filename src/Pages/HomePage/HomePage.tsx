@@ -10,6 +10,7 @@ import { ClassesContextProvider } from '../../Contexts/Class'
 import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../Contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
+import { AnnouncementsContextProvider } from '../../Contexts/AnnouncementContext'
 
 export const notify = (toastType: "success" | "info" | "warn" | "error", toastMsg: string) =>
   toast[toastType](`${toastMsg}`, {
@@ -31,22 +32,24 @@ function HomePage() {
       return navigate("/signup")
     }
   }, [])
-    return (
-      <div className='homepage--container'>
-        <ClassesContextProvider>
-          <TasksContextProvider>
-            <ScheduleContextProvider>
+  return (
+    <div className='homepage--container'>
+      <ClassesContextProvider>
+        <TasksContextProvider>
+          <ScheduleContextProvider>
+            <AnnouncementsContextProvider>
               <>
                 <NavBar />
                 <Main />
                 <SideBar />
                 <ToastContainer />
               </>
-            </ScheduleContextProvider>
-          </TasksContextProvider>
-        </ClassesContextProvider>
-      </div >
-    )
+            </AnnouncementsContextProvider>
+          </ScheduleContextProvider>
+        </TasksContextProvider>
+      </ClassesContextProvider>
+    </div >
+  )
 }
 
 export default HomePage

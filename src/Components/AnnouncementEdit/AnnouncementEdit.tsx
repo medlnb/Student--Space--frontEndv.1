@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import './AnnouncementEdit.css'
 import ClipLoader from "react-spinners/ClipLoader";
 import { notify } from '../../Pages/HomePage/HomePage';
@@ -6,6 +6,7 @@ import { AuthContext } from '../../Contexts/UserContext';
 import { BiTrash } from 'react-icons/bi';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { Server } from '../../Data/API';
+import { AnnouncementsContext } from '../../Contexts/AnnouncementContext';
 
 interface AnnouncementType {
   _id: string,
@@ -19,23 +20,10 @@ function AnnouncementEdit() {
   const { user } = useContext(AuthContext)
   if (!user)
     return
-  const [annous, setAnnous] = useState([{
-    _id: "####",
-    Publisher: "####",
-    Content: "####",
-    Date: new Date()
-  }])
-  useEffect(() => {
-    const getData = async () => {
-      const response = await fetch(`${Server}/api/Announcement`)
-      const json = await response.json()
-      const annousses = json.filter((annou: AnnouncementType) => annou.Publisher ===user.username)
-      setAnnous(annousses)
-      
-    }
-    getData()
-  }, [])
- 
+  const { state,dispatch } = useContext(AnnouncementsContext)
+  if (!state)
+    return
+
   const Teacher = user.username
   const [isloading, setLoading] = useState(false)
   const [inputs, setInputs] = useState({
@@ -50,15 +38,19 @@ function AnnouncementEdit() {
       return
     }
     setLoading(true)
-    await fetch(`${Server}/api/Announcement`, {
+    const response = await fetch(`${Server}/api/Announcement`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"
       }
       , body: JSON.stringify(inputs)
     })
+    const json = await response.json()
     setLoading(false)
-    window.location.reload();
+    dispatch({
+      type: "ADDANNOUNCEMENTS",
+      payload: json
+    })
 
   }
   const HandleDelete = async (id: string) => {
@@ -68,9 +60,12 @@ function AnnouncementEdit() {
         "Content-Type": "Application/json"
       }
     })
-    location.reload()
+    dispatch({
+      type: "REMOVEANNOUNCEMENT",
+      payload: id
+    })
   }
-  const TasksToDelete = annous.map((element: AnnouncementType, index: number) => (
+  const TasksToDelete = state.map((element: AnnouncementType, index: number) => (
     <div className='tasktodelete' key={index} onClick={() => HandleDelete(element._id)}>
       <h4>{element.Content}</h4>
       <BiTrash />
@@ -103,14 +98,14 @@ function AnnouncementEdit() {
           </button>
         </form>
       </div>
-      {!(annous.length === 0) && (annous[0]._id === "####") && 
+      {!(state.length === 0) && (state[0]._id === "####") &&
         <PropagateLoader
           color={"white"}
-        size={20}
-        className='loader--anouc'
+          size={20}
+          className='loader--anouc'
         />
       }
-      {!(annous.length === 0) && (annous[0]._id !== "####") &&
+      {!(state.length === 0) && (state[0]._id !== "####") &&
         <div className='taskedit--create'>
           <div className='taskedit--title'>
             <h3>Delete Anouccements</h3>
