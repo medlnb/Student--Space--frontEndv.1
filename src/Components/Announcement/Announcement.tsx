@@ -34,12 +34,15 @@ function Announcement() {
     getData()
   }, [])
 
+  
+
+
   const Announcements = AnnouncementsData.map((element, index) => (
     <AnnouncementElement
       key={index}
       Publisher={element.Publisher}
       Content={element.Content}
-      Date={element.Date}
+      date={element.Date}
     />
   )
   )

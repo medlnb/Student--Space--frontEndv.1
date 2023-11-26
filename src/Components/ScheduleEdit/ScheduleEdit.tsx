@@ -12,9 +12,9 @@ interface scheduleDayType {
 }
 
 function zip(array0: any[][], array1: any[]) {
-  const copyOfarray0 = JSON.parse(JSON.stringify(array0));
+  const copyOfarray0 = JSON.parse(JSON.stringify(array0))
   for (let i = 0; i < array1.length; i++) {
-    copyOfarray0[i].unshift(array1[i]);
+    copyOfarray0[i].unshift(array1[i])
   }
   return copyOfarray0
 }
@@ -27,7 +27,7 @@ function ScheduleEdit() {
     return
 
   const handleChange = async (event: any, id: number, option: "module" | "type" | "Classroom") => {
-    const updatedScheduleData = [...ScheduleData];
+    const updatedScheduleData = [...ScheduleData]
 
     for (let row = 0; row < updatedScheduleData.length; row++) {
       for (let col = 0; col < updatedScheduleData[row].length; col++) {
@@ -51,7 +51,7 @@ function ScheduleEdit() {
         }
       }
     }
-    setScheduleData(updatedScheduleData);
+    setScheduleData(updatedScheduleData)
     await fetch(`${Server}/api/schedule`, {
       method: "PATCH",
       body: JSON.stringify(ScheduleData),
@@ -59,8 +59,7 @@ function ScheduleEdit() {
         "Content-Type": "Application/json"
       }
     })
-
-  };
+  }
 
   const formedSchedule: (scheduleDayType | string)[][] = zip(ScheduleData, days)
   formedSchedule.unshift(classes)

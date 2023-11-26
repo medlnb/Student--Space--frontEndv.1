@@ -31,11 +31,11 @@ function AnnouncementEdit() {
       const json = await response.json()
       const annousses = json.filter((annou: AnnouncementType) => annou.Publisher ===user.username)
       setAnnous(annousses)
+      
     }
     getData()
   }, [])
  
-
   const Teacher = user.username
   const [isloading, setLoading] = useState(false)
   const [inputs, setInputs] = useState({
