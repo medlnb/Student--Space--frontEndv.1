@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import SideScheduleElement from '../SideScheduleElement/SideScheduleElement';
 import './ScheduleEdit.css'
 import { ScheduleContext } from '../../Contexts/ScheduleContext';
-// import { Server } from '../../Data/API';
+import { Server } from '../../Data/API';
 
 interface scheduleDayType {
   id: number,
@@ -55,7 +55,7 @@ function ScheduleEdit() {
     };
     
    
-    await fetch(`http://localhost:4000/api/newSchedule/1ermasterAi&DS@0`, {
+    await fetch(`${Server}/api/newSchedule/1ermasterAi&DS@0`, {
       method: "PATCH",
       body: JSON.stringify(newSchedule),
       headers: {

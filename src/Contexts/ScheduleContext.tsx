@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { Server } from "../Data/API";
 // import { Server } from "../Data/API";
 
 interface scheduleDayType {
@@ -14,7 +15,7 @@ export const ScheduleContextProvider = ({ children }: any) => {
   const [ScheduleData, setScheduleData] = useState<scheduleDayType[][]>([])
   useEffect(() => {
     const fetchingSchedule = async () => {
-      const response = await fetch(`http://localhost:4000/api/newSchedule/1ermasterAi&DS@0`)
+      const response = await fetch(`${Server}/api/newSchedule/1ermasterAi&DS@0`)
       const json = await response.json()
       const scheduledata: scheduleDayType[][] = [[], [], [], [], [], []];
 
