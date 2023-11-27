@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 interface scheduleDayType {
   module: string | "",
   Classroom: string | "",
-  type: "Lecture" | "TP" | "TD" | "EL" | "",
+  type: string
   id: number
 }
 
