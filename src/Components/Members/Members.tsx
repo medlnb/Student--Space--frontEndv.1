@@ -43,6 +43,15 @@ function Members() {
       accepte: false,
       decline: true
     })
+    const response = await fetch(`${Server}/api/request/reject/${_id}`, {
+      method: "POST"
+    })
+    setloading({
+      accepte: false,
+      decline: false
+    })
+    if (response.ok)
+      setRequests(prev => prev.filter(request => request._id !== _id))
   }
 
   return (
