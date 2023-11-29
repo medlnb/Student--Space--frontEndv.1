@@ -6,23 +6,41 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/KasdiLogo.png'
 import { Server } from '../../Data/API';
 
+const isValidEmail = (inputEmail:string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isValid = emailRegex.test(inputEmail);
+  return isValid
+}
+
 function Signup() {
   const navigate = useNavigate()
   const [inputs, setInputs] = useState({
     matricule: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
     loading: false,
-    msg: { err: "", mail: "" }
+    msg: { err: "", msg: "" }
   })
 
-  const HandleMatriculeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputs(prev => ({ ...prev, matricule: e.target.value }))
-  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!isValidEmail(inputs.email))
+      return setInputs(prev => ({ ...prev, msg: { ...prev.msg, err: "Please Entre Valid Email" } }))
+    
     setInputs(prev => ({ ...prev, loading: true }))
-    const response = await fetch(`${Server}/api/student/send-mail`, {
+    const response = await fetch(`${Server}/api/request`, {
       method: "POST",
-      body: JSON.stringify({ matricule: inputs.matricule }),
+      body: JSON.stringify({
+        matricule: inputs.matricule,
+        mail: inputs.email,
+        firstname: inputs.firstName,
+        lastname: inputs.lastName,
+        password: inputs.password,
+        Speciality:"1ermasterAi&DS"
+      }),
       headers: {
         "Content-Type": "Application/json"
       }
@@ -47,15 +65,60 @@ function Signup() {
             <input
               className="inputs"
               value={inputs.matricule}
-              onChange={HandleMatriculeChange}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                if (/^\d+$/.test(e.target.value) || e.target.value === "")
+                  setInputs(prev => ({ ...prev, matricule: e.target.value }))
+              }}
             />
-            <p
-              style={inputs.msg.err ? { color: "#FF5733" } : { color: "white" }}
-              className='error--msg'>
-              {inputs.msg.err && inputs.msg.err}
-              {inputs.msg.mail && `Please verify ur mail (${inputs.msg.mail})`}
-            </p>
+
           </div>
+          <h4>First Name</h4>
+          <div className='inputs_container'>
+            <input
+              className="inputs"
+              value={inputs.firstName}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setInputs(prev => ({ ...prev, firstName: e.target.value }))
+              }}
+            />
+          </div>
+          <h4>Last Name</h4>
+          <div className='inputs_container'>
+            <input
+              className="inputs"
+              value={inputs.lastName}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setInputs(prev => ({ ...prev, lastName: e.target.value }))
+              }}
+            />
+          </div>
+          <h4>Email</h4>
+          <div className='inputs_container'>
+            <input
+              className="inputs"
+              value={inputs.email}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setInputs(prev => ({ ...prev, email: e.target.value }))
+              }}
+            />
+          </div>
+          <h4>Password</h4>
+          <div className='inputs_container'>
+            <input
+              className="inputs"
+              type="password"
+              value={inputs.password}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setInputs(prev => ({ ...prev, password: e.target.value }))
+              }}
+            />
+          </div>
+          <p
+            style={inputs.msg.err ? { color: "#FF5733" } : { color: "white" }}
+            className='error--msg'>
+            {inputs.msg.err && inputs.msg.err}
+            {inputs.msg.msg && `${inputs.msg.msg}`}
+          </p>
           <button
             type="submit"
             disabled={inputs.loading}

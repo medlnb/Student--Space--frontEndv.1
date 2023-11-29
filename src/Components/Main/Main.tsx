@@ -8,6 +8,7 @@ import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../Contexts/UserContext'
 import Announcement from '../Announcement/Announcement'
 import TaskPage from '../TaskPage/TaskPage'
+import Admin from '../Admin/Admin'
 
 
 function Redirect() {
@@ -26,10 +27,6 @@ function Main() {
   if (!user.email)
     return
 
-  let isTeacher = false
-  if (!user.email.includes(".com")) {
-    isTeacher = true
-  }
   return (
     <div className='main--container'>
       <UserBar />
@@ -38,7 +35,8 @@ function Main() {
         <Route path="My classes" element={<Classes />} />
         <Route path="Announcement" element={<Announcement />} />
         <Route path="Task" element={<TaskPage />} />
-        <Route path="Edit/*" element={isTeacher ? <Edit /> : ""} />
+        <Route path="Edit/*" element={(!user.email.includes(".com")) ? <Edit /> : ""} />
+        <Route path="Admin/*" element={(user.username === "Dr. Aiadi Oussama" ) ? <Admin /> : ""} />
         <Route path=":selected" element={<Module />} />
       </Routes>
     </div>

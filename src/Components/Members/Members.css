@@ -1,0 +1,46 @@
+.members--body {
+  padding: 3rem 1.5rem;
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.members--request {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: .5rem;
+}
+.istop--members--request {
+  border-top: 1px solid #3d3b4a;
+}
+.members--request--buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.members--request--button {
+  margin: 0.5rem 0;
+  width: 3rem;
+  background: none;
+  border: none;
+  position: relative;
+}
+.members--request--button::after {
+  content: "";
+  width: 0;
+  height: 1px;
+  background: white;
+  position: absolute;
+  bottom: -.2rem;
+  left: 0;
+  transition: width 0.3s;
+}
+
+.request--loading::after{
+  width: 50%;
+}
+.members--request--button:hover::after {
+  width: 100%;
+}

@@ -1,7 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import { Server } from "../Data/API";
-// import { Server } from "../Data/API";
-
 interface scheduleDayType {
   id: number,
   module: string,

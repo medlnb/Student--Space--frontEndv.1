@@ -8,6 +8,7 @@ import { AuthContext } from '../../Contexts/UserContext';
 import { useContext, useEffect, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai'
 import { FaTasks } from "react-icons/fa";
+import { RiAdminLine } from "react-icons/ri";
 
 
 function NavBar() {
@@ -28,21 +29,21 @@ function NavBar() {
 
   const navigate = useNavigate()
   const { user } = useContext(AuthContext)
-  if (!user.email)
+  if (!user.email )
     return
 
-  let isTeacher = false
-  if (!user.email.includes(".com")) {
-    isTeacher = true
-  }
   const navNames = [
     { title: 'My classes', icon: <MdOutlineClass className="icon" /> },
     { title: 'Announcement', icon: <TfiAnnouncement className="icon" /> },
-    { title: 'Task', icon: < FaTasks className="icon" /> }
-
+    { title: 'Task', icon: < FaTasks className="icon" /> },
   ]
-  if (isTeacher)
+  
+  if ((!user.email.includes(".com")))
     navNames.push({ title: 'Edit', icon: <FiEdit className="icon" /> })
+  
+  if (user.email === "Image Numérique")
+    navNames.push({ title: 'Admin', icon: <RiAdminLine className="icon" /> })
+  
   const { pathname } = useLocation()
   const allpath = pathname.substring(1).replace("%20", " ")
   var selectedNav = allpath.split("/")[0]

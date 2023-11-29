@@ -3,19 +3,20 @@ import './EditNavBar.css'
 
 interface props {
   PageSelected: string,
-  NavOptions: string[]
+  NavOptions: string[],
+  source: "Edit" | "Admin"
 }
 
-function EditNavBar({ PageSelected, NavOptions }: props) {
+function EditNavBar({ PageSelected, NavOptions, source }: props) {
   const navigate = useNavigate()
   const NavEelemnts = NavOptions.map((element, index) => (
     <div
       className={PageSelected == element ? "EditNavBarEelemnt SelectedPage" : "EditNavBarEelemnt"}
       key={index}
       onClick={() => {
-        if (element === "Classes")
-          return navigate(`/Edit`)
-        navigate(`/Edit/${element}`)
+        if (element === "Classes" || element === "Schedule")
+          return navigate(`/${source}`)
+        navigate(`/${source}/${element}`)
       }}
     >
       <h3>{element}</h3>
