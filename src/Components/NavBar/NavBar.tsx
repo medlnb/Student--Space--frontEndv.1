@@ -38,7 +38,7 @@ function NavBar() {
     { title: 'Task', icon: < FaTasks className="icon" /> },
   ]
   
-  if ((!user.email.includes(".com")))
+  if (user.isTeacher)
     navNames.push({ title: 'Edit', icon: <FiEdit className="icon" /> })
   
   if (user.email === "Image Numérique")

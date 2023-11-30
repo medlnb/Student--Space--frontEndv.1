@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Server } from '../../Data/API'
 import './Members.css'
 import PropagateLoader from 'react-spinners/PropagateLoader';
+// import AddTeacher from '../AddTeacher/AddTeacher';
 
 interface RequestType {
   _id: string,
@@ -25,8 +26,6 @@ function Members() {
       Speciality: "string",
     }
   ]);
-
-
 
   useEffect(() => {
     fetch(`${Server}/api/request`)
@@ -59,14 +58,14 @@ function Members() {
 
   return (
     <div className='editclass--container'>
-      <div className='taskedit--create'>
+      {/* <div className='taskedit--create'>
         <div className='taskedit--title'>
           <h3>Manage Teachers</h3>
         </div>
-        <div className='members--body'>
-          kaak
+        <div className='taskedit--body editclass--body'>
+          <AddTeacher />
         </div>
-      </div>
+      </div> */}
       <div className='taskedit--create'>
         <div className='taskedit--title'>
           <h3>Manage Requests</h3>

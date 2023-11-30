@@ -24,8 +24,13 @@ function Redirect() {
 
 function Main() {
   const { user } = useContext(AuthContext)
-  if (!user.email)
+
+  const navigate = useNavigate()
+
+  if (!user.email) {
+    navigate("/signup")
     return
+  }
 
   return (
     <div className='main--container'>
@@ -35,8 +40,8 @@ function Main() {
         <Route path="My classes" element={<Classes />} />
         <Route path="Announcement" element={<Announcement />} />
         <Route path="Task" element={<TaskPage />} />
-        <Route path="Edit/*" element={(!user.email.includes(".com")) ? <Edit /> : ""} />
-        <Route path="Admin/*" element={(user.username === "Dr. Aiadi Oussama" ) ? <Admin /> : ""} />
+        <Route path="Edit/*" element={(user.isTeacher) ? <Edit /> : ""} />
+        <Route path="Admin/*" element={(user.username === "Dr. Aiadi Oussama") ? <Admin /> : ""} />
         <Route path=":selected" element={<Module />} />
       </Routes>
     </div>

@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 interface User {
   username: string | null,
   email: string | null,
-  isTeacher?:boolean
+  isTeacher?:string | null
 }
 
 interface UserContext_type {
@@ -11,10 +11,12 @@ interface UserContext_type {
   handleUserChange: any
 }
 
-const _default: User = {
+let _default: User = {
   username: localStorage.getItem("username"),
   email: localStorage.getItem("email")
 }
+if (localStorage.getItem("isTeacher"))
+  _default = { ..._default, isTeacher: localStorage.getItem("isTeacher") }
 
 export const AuthContext = createContext<UserContext_type>({
   user: _default,
@@ -30,10 +32,11 @@ export const AuthContextProvider = ({ children }: any) => {
       localStorage.setItem("email", "" + user.email)
       if (user.isTeacher)
         localStorage.setItem("isTeacher", "" + user.isTeacher)
-        
     } else {
+      location.reload()
       localStorage.clear()
     }
+    console.log(user)
     setUser(user)
   }
   return (

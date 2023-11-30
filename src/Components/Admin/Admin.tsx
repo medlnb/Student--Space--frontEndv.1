@@ -18,7 +18,7 @@ function Admin() {
           <Routes>
             <Route path="" element={<ScheduleEdit />} />
             <Route path="Members" element={<Members />} />
-            <Route path="Promo" element={<ScheduleEdit />} />
+            <Route path="Promo" element={"Working on it."} />
           </Routes>
         </div>
         <EditNavBar

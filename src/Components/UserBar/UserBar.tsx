@@ -4,10 +4,13 @@ import { AuthContext } from '../../Contexts/UserContext'
 import { FaUserGraduate } from "react-icons/fa"
 
 function UserBar() {
-  const { user } = useContext(AuthContext)
+  const { user, handleUserChange } = useContext(AuthContext)
   return (
-    <div className='userbar--container'>
-      <FaUserGraduate />
+    <div className='userbar--container' onClick={() => handleUserChange({
+      username:  null,
+      email: null
+    })}>
+      <FaUserGraduate  />
       {`Hi, ${user.username}`}
     </div>
   )
