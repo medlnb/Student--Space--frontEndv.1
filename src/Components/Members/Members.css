@@ -20,7 +20,7 @@
   align-items: center;
 }
 
-.members--request--button {
+.members--request--button,.request--loading {
   margin: 0.5rem 0;
   width: 3rem;
   background: none;
@@ -39,6 +39,15 @@
 }
 
 .request--loading::after{
+  content: "";
+  height: 1px;
+  background: white;
+  position: absolute;
+  bottom: -.2rem;
+  left: 0;
+  width: 50%;
+}
+.request--loading:hover::after {
   width: 50%;
 }
 .members--request--button:hover::after {

@@ -9,11 +9,11 @@ import { FaCheck } from "react-icons/fa6";
 
 function Login() {
   const [TeacherIndex, setTeacherIndex] = useState(0)
-
   const [selectTeacher, setSelectTeacher] = useState<any>({
     isShowed: false,
     Data: null
   })
+
   const { handleUserChange } = useContext(AuthContext)
   const navigate = useNavigate()
   const [inputs, setInputs] = useState({
@@ -28,7 +28,7 @@ function Login() {
       {
         username: User.username,
         email: User.email,
-        token: User.token
+        isTeacher: User.isTeacher
       }
     )
     setInputs(prev => ({ ...prev, loading: false }))
@@ -37,8 +37,9 @@ function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setInputs(prev => ({ ...prev, loading: true }))
+    
 
-    const response = await fetch(`${Server}/api/user/login`, {
+    const response = await fetch(`${Server } /api/user / login`, {
       method: "POST",
       body: JSON.stringify({ email: inputs.mail, password: inputs.password }),
       headers: {
@@ -56,7 +57,6 @@ function Login() {
       if (json.PwErr)
         setInputs(prev => ({ ...prev, err: { ...prev.err, PwErr: json.PwErr } }))
       
-      
       setInputs(prev => ({ ...prev, loading: false }))
       return
     }
@@ -70,8 +70,7 @@ function Login() {
       handleUserChange(
         {
           username: json.username,
-          email: json.email,
-          token: json.token
+          email: json.email
         }
       )
       setInputs(prev => ({ ...prev, loading: false }))
