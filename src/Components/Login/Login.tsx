@@ -39,7 +39,7 @@ function Login() {
     setInputs(prev => ({ ...prev, loading: true }))
     
 
-    const response = await fetch(`${Server } /api/user / login`, {
+    const response = await fetch(`${Server}/api/user/login`, {
       method: "POST",
       body: JSON.stringify({ email: inputs.mail, password: inputs.password }),
       headers: {
@@ -60,8 +60,7 @@ function Login() {
       setInputs(prev => ({ ...prev, loading: false }))
       return
     }
-
-    if (json.username[1]) {
+    if (typeof (json.username) === "object") {
       setSelectTeacher({
         isShowed: true,
         Data: json
@@ -70,7 +69,8 @@ function Login() {
       handleUserChange(
         {
           username: json.username,
-          email: json.email
+          email: json.email,
+          isTeacher: json.isTeacher
         }
       )
       setInputs(prev => ({ ...prev, loading: false }))
