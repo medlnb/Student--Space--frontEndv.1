@@ -16,15 +16,17 @@ function TaskEdit() {
   if (!state || !dispatch)
     return
 
-
+  const [isloadingDel, setIsloadingDel] = useState(-1)
   const newstate = state.filter((task: any) => task.className === user.username)
-  const HandleDelete = async (id: string | undefined) => {
+  const HandleDelete = async (id: string | undefined, index: number) => {
+    setIsloadingDel(index)
     const response = await fetch(`${Server}/api/task/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json"
       }
     })
+    setIsloadingDel(-1)
     if (response.ok)
       dispatch({
         type: "REMOVETASK",
@@ -32,9 +34,14 @@ function TaskEdit() {
       })
   }
   const TasksToDelete = newstate.map((task, index) => (
-    <div className='tasktodelete' key={index} onClick={() => HandleDelete(task._id)}>
+    <div className='tasktodelete' key={index} onClick={() => HandleDelete(task._id,index)}>
       <h4>{task.taskTitle}</h4>
-      <BiTrash />
+      {isloadingDel === index ?
+        <ClipLoader
+          color={"white"}
+          size={15}
+        /> :
+        <BiTrash />}
     </div>
   ))
 

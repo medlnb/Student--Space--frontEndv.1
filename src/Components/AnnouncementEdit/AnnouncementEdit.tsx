@@ -26,6 +26,7 @@ function AnnouncementEdit() {
 
   const Teacher = user.username
   const [isloading, setLoading] = useState(false)
+  const [isloadingDel, setIsloadingDel] = useState(-1)
   const [inputs, setInputs] = useState({
     Publisher: Teacher,
     Content: ""
@@ -53,22 +54,31 @@ function AnnouncementEdit() {
     })
 
   }
-  const HandleDelete = async (id: string) => {
-    await fetch(`${Server}/api/announcement/${id}`, {
+  const HandleDelete = async (id: string, index: number) => {
+    setIsloadingDel(index)
+    const response = await fetch(`${Server}/api/announcement/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json"
       }
     })
+    setIsloadingDel(-1)
+    if (response.ok)
     dispatch({
       type: "REMOVEANNOUNCEMENT",
       payload: id
     })
   }
   const TasksToDelete = state.map((element: AnnouncementType, index: number) => (
-    <div className='tasktodelete' key={index} onClick={() => HandleDelete(element._id)}>
+    <div className='tasktodelete' key={index} onClick={() => HandleDelete(element._id,index)}>
       <h4>{element.Content}</h4>
-      <BiTrash />
+      {isloadingDel === index ?
+        <ClipLoader
+          color={"white"}
+          size={15}
+        /> :
+        <BiTrash />}
+      
     </div>
   ))
 
