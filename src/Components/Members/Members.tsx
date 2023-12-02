@@ -29,8 +29,14 @@ function Members() {
 
   useEffect(() => {
     fetch(`${Server}/api/request`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok)
+          throw new Error("Error while fetching")
+        return res.json()
+      })
       .then(data => setRequests(data))
+      .catch(err => { console.log(err) })
+    
   }, [])
 
 
@@ -73,7 +79,7 @@ function Members() {
         <div className='members--body'>
           {Requests.length === 0 && "No New Requests"}
           {Requests.length === 1 && Requests[0]._id === "Default_Value"
-            ? 
+            ?
             <div className='loader--container'>
               <PropagateLoader
                 color={"white"}

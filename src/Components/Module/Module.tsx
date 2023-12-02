@@ -3,6 +3,8 @@ import './Module.css'
 import { ClassesContext } from '../../Contexts/Class'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../Contexts/UserContext'
+import { IoMdDownload } from "react-icons/io";
+import { MdDownloadDone } from "react-icons/md";
 
 interface ClassType {
   Module: string,
@@ -11,6 +13,9 @@ interface ClassType {
   Chapter?: string
 }
 
+const HandleDownload = (file:string) => {
+  localStorage.setItem( file, "downloaded");
+}
 function Module() {
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
@@ -54,9 +59,29 @@ function Module() {
   const filtredgroupedData = groupedData.filter(chapter => (chapter[0].Chapter))
 
   const Chapters = filtredgroupedData.map((mdl, index) => {
-    const inChapter = mdl.map((file: any, index: number) => (
-      <a key={file.Link + file.title + index} href={file.Link} target="_blank">{file.title}</a>
-    ))
+    const inChapter = mdl.map((file: any, index: number) => {
+      let download = null
+      
+      if (file.Link.includes("drive.google.com")) {
+        download = file.Link
+        download = download.split("/")[5]
+        download = "https://drive.google.com/uc?export=download&id=" + download
+      }
+      return (
+        <div key={file.Link + file.title + index} className='cours'>
+          <a  href={file.Link} target="_blank">{file.title}</a>
+          {download && (localStorage.getItem(file.Module + file.title) !== "downloaded")?
+            <a
+              href={download}
+              onClick={() => HandleDownload(file.Module + file.title)}
+              style={{ display: "grid", placeItems: "center" }}>
+              <IoMdDownload />
+            </a> :
+            download && (localStorage.getItem(file.Module + file.title) === "downloaded") ? <MdDownloadDone />
+              : <></>}
+        </div>
+      )
+    })
     return (
       <div className='taskedit--create' key={index}>
         <div className='taskedit--title'>

@@ -6,3 +6,12 @@
 .module--container::-webkit-scrollbar{
   display: none;
 }
+
+.cours{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cours >*{
+  cursor: pointer;
+}
