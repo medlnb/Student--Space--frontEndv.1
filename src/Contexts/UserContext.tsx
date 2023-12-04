@@ -13,7 +13,7 @@ interface UserContext_type {
 
 let _default: User = {
   username: localStorage.getItem("username"),
-  email: localStorage.getItem("email")
+  email: localStorage.getItem("email")?.split("$$")[0] || null
 }
 if (localStorage.getItem("isTeacher"))
   _default = { ..._default, isTeacher: localStorage.getItem("isTeacher") }
@@ -29,15 +29,18 @@ export const AuthContextProvider = ({ children }: any) => {
   const handleUserChange = (user: User) => {
     if (user.username) {        
       localStorage.setItem("username", "" + user.username)
-      localStorage.setItem("email", "" + user.email)
+      localStorage.setItem("email", ""+user.email)
       if (user.isTeacher)
         localStorage.setItem("isTeacher", "" + user.isTeacher)
     } else {
       location.reload()
-      localStorage.clear()
+      // localStorage.clear()
+      localStorage.removeItem("username")
+      localStorage.removeItem("email")
+      localStorage.removeItem("isTeacher")
     }
-    console.log(user)
-    setUser(user)
+    // console.log(user)
+    setUser({ ...user, email: user.email?.split("$$")[0] || null})
   }
   return (
     <AuthContext.Provider value={{ user, handleUserChange }}>

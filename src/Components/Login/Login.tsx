@@ -5,15 +5,8 @@ import logo from '../../assets/KasdiLogo.png'
 import { AuthContext } from '../../Contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { Server } from '../../Data/API';
-import { FaCheck } from "react-icons/fa6";
 
 function Login() {
-  const [TeacherIndex, setTeacherIndex] = useState(0)
-  const [selectTeacher, setSelectTeacher] = useState<any>({
-    isShowed: false,
-    Data: null
-  })
-
   const { handleUserChange } = useContext(AuthContext)
   const navigate = useNavigate()
   const [inputs, setInputs] = useState({
@@ -23,21 +16,11 @@ function Login() {
     err: { MailErr: "", PwErr: "" }
   })
 
-  const submitTeacher = (User: any) => {
-    handleUserChange(
-      {
-        username: User.username,
-        email: User.email,
-        isTeacher: User.isTeacher
-      }
-    )
-    setInputs(prev => ({ ...prev, loading: false }))
-    navigate("/My classes")
-  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setInputs(prev => ({ ...prev, loading: true }))
-    
+
 
     const response = await fetch(`${Server}/api/user/login`, {
       method: "POST",
@@ -56,26 +39,17 @@ function Login() {
 
       if (json.PwErr)
         setInputs(prev => ({ ...prev, err: { ...prev.err, PwErr: json.PwErr } }))
-      
+
       setInputs(prev => ({ ...prev, loading: false }))
       return
     }
-    if (typeof (json.username) === "object") {
-      setSelectTeacher({
-        isShowed: true,
-        Data: json
+    handleUserChange({
+        username: json.username,
+        email: json.email,
+        isTeacher: json.isTeacher
       })
-    } else {
-      handleUserChange(
-        {
-          username: json.username,
-          email: json.email,
-          isTeacher: json.isTeacher
-        }
-      )
-      setInputs(prev => ({ ...prev, loading: false }))
-      navigate("/My classes")
-    }
+    setInputs(prev => ({ ...prev, loading: false }))
+    navigate("/My classes")
   }
 
   return (
@@ -84,30 +58,6 @@ function Login() {
         <img src={logo} className='welcomePage--logo' />
       </div>
       <div className="welcomePage--right">
-        {selectTeacher.isShowed &&
-          <div className="teacher--select--container">
-            <h2>Identify ur Self</h2>
-            <div>
-              {selectTeacher.Data.username
-                .map((teacher: string, index: number) => (
-                  <div
-                    key={index}
-                    className='teacher'
-                    onClick={() =>
-                      setTeacherIndex(index)
-                    }
-                  >
-                    <p>{teacher}</p>
-                    {TeacherIndex === index && <FaCheck />}
-                  </div>
-                ))}
-            </div>
-            <button
-              className='login'
-              onClick={() => submitTeacher({ ...selectTeacher.Data, username: selectTeacher.Data.username[TeacherIndex] })}
-            >Submit</button>
-          </div>
-        }
         <form className='form_conatiner' onSubmit={handleSubmit}>
           <h2>Login</h2>
           <h3>Please enter your details</h3>
