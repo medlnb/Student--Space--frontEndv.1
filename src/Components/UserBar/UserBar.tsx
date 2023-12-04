@@ -35,13 +35,13 @@ function UserBar() {
         email: null
       })} />
       {`Hi, ${user.username}`}
-          <select
-            onChange={HandleChange}
-            style={{ background: "none", border: "none", outline: "none" }}>
-            {localStorage.getItem("email")?.split("$$").map(mdl => (
-              <option className="inside--option" key={mdl} value={mdl}>{mdl}</option>
-            ))}
-          </select>       
+      <select
+        onChange={HandleChange}
+        style={{ background: "none", border: "none", outline: "none" }}>
+        {localStorage.getItem("email")?.split("$$").map(mdl => (
+          <option className="inside--option" key={mdl} value={mdl}>{mdl}</option>
+        ))}
+      </select>
     </div>
   )
 }

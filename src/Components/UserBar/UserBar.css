@@ -6,6 +6,11 @@
   color: white;
   position: relative;
 }
-.inside--option{
+.inside--option {
   background: #19161f;
+}
+@media (max-width: 700px) {
+  .userbar--container select {
+    width: 6rem;
+  }
 }
