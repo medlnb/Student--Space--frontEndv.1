@@ -4,7 +4,6 @@ import { AuthContext } from '../../Contexts/UserContext'
 import { FaUserGraduate } from "react-icons/fa"
 
 function moveStringToFront(array: string[], targetString: string) {
-  console.log(array)
   const index = array.indexOf(targetString);
   if (index !== -1) {
     array.splice(index, 1);

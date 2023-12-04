@@ -39,7 +39,6 @@ export const AuthContextProvider = ({ children }: any) => {
       localStorage.removeItem("email")
       localStorage.removeItem("isTeacher")
     }
-    // console.log(user)
     setUser({ ...user, email: user.email?.split("$$")[0] || null})
   }
   return (
