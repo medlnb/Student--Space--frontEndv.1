@@ -9,6 +9,8 @@ import { useContext, useEffect, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai'
 import { FaTasks } from "react-icons/fa";
 import { RiAdminLine } from "react-icons/ri";
+import { BsChevronDoubleDown } from "react-icons/bs";
+
 
 
 function NavBar() {
@@ -68,13 +70,18 @@ function NavBar() {
     <div className='navbar--container'>
       <div className='navbar--top'>
         <h2 className='navbar--logo'>Student's Space</h2>
-        <AiOutlineMenu
-          className='phoneNav'
-          onClick={() => setToggleNavBar(prev => !prev)} />
+        {ToggleNavBar ?
+          <BsChevronDoubleDown
+            className='phoneNav'
+            onClick={() => setToggleNavBar(prev => !prev)} /> :
+          <AiOutlineMenu
+            className='phoneNav'
+            onClick={() => setToggleNavBar(prev => !prev)} />
+        }
       </div>
 
       <div
-        className={ToggleNavBar || windowWidth > 700 ? "navig" : "navig hide" }
+        className={ToggleNavBar || windowWidth > 700 ? "navig" : "navig hide"}
       >
         <div className='thenavigbar'>
           {NavElements}
