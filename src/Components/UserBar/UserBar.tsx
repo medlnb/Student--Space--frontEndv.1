@@ -1,8 +1,8 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import './UserBar.css'
 import { AuthContext } from '../../Contexts/UserContext'
 import { FaUserGraduate } from "react-icons/fa"
-
+import { AiOutlineLogout } from "react-icons/ai";
 function moveStringToFront(array: string[], targetString: string) {
   const index = array.indexOf(targetString);
   if (index !== -1) {
@@ -21,26 +21,40 @@ function moveStringToFront(array: string[], targetString: string) {
 
 function UserBar() {
   const { user, handleUserChange } = useContext(AuthContext)
+  const [showUserInfo, setShowUserInfo] = useState(false)
   const HandleChange = (e: any) => {
     const email = e.target.value
-
     handleUserChange({ ...user, email: moveStringToFront(("" + localStorage.getItem("email")).split("$$"), email) })
   }
-  console.log(user)
   return (
     <div className='userbar--container'>
-      <FaUserGraduate onClick={() => handleUserChange({
-        username: null,
-        email: null
-      })} />
+      <div className="logout--icon">
+        <FaUserGraduate onClick={() => setShowUserInfo(prev => !prev)}/>
+        {showUserInfo &&
+          <div className='logout'>
+            <div className='up--arrow'></div>
+            <div
+              onClick={() => handleUserChange({
+                username: null,
+                email: null
+              })}
+              className='logout--sign'>
+              <AiOutlineLogout Color="black" />
+              Logout
+            </div>
+            
+          </div>
+        }
+      </div>
       {`Hi, ${user.username}`}
-      <select
-        onChange={HandleChange}
-        style={{ background: "none", border: "none", outline: "none" }}>
-        {localStorage.getItem("email")?.split("$$").map(mdl => (
-          <option className="inside--option" key={mdl} value={mdl}>{mdl}</option>
-        ))}
-      </select>
+      {localStorage.getItem("email")?.split("$$").length !== 1 &&
+        < select
+          onChange={HandleChange}
+          style={{ background: "none", border: "none", outline: "none" }}>
+          {localStorage.getItem("email")?.split("$$").map(mdl => (
+            <option className="inside--option" key={mdl} value={mdl}>{mdl}</option>
+          ))}
+        </select>}
     </div>
   )
 }
