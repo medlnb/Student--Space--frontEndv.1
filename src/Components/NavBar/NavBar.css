@@ -47,4 +47,7 @@
     text-align: center;
     display: block;
   }
+  .feedback-msg {
+  text-align: center;
+}
 }
