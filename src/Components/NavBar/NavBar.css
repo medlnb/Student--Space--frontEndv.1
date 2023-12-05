@@ -27,7 +27,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
-.hide{
+.hide {
   display: none;
 }
 @media (max-width: 700px) {
@@ -48,6 +48,16 @@
     display: block;
   }
   .feedback-msg {
-  text-align: center;
-}
+    text-align: center;
+  }
+  .navig {
+    height: auto;
+    position: absolute;
+    z-index: 1;
+    background: #0f0d13;
+    right: 0.5rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    box-shadow: 0px 0px 10px black;
+  }
 }

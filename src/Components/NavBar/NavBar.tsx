@@ -74,10 +74,9 @@ function NavBar() {
       </div>
 
       <div
-        // style={ToggleNavBar || windowWidth > 700 ? { display: "block" } : { display: "none" }}
         className={ToggleNavBar || windowWidth > 700 ? "navig" : "navig hide" }
       >
-        <div>
+        <div className='thenavigbar'>
           {NavElements}
         </div>
         <div>
