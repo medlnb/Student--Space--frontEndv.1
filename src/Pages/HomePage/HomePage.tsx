@@ -28,6 +28,11 @@ function HomePage() {
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
   useEffect(() => {
+    if (localStorage.getItem("token")) {
+      localStorage.clear()
+      location.reload()
+      return
+    }
     if (!user.username) {
       return navigate("/signup")
     }
