@@ -53,3 +53,16 @@
 .members--request--button:hover::after {
   width: 100%;
 }
+
+@media (max-width:700px){
+  .members--request--buttons {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  .members--request{
+    flex-direction: column;
+    gap: .5rem;
+  }
+  
+}
