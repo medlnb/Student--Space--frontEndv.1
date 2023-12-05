@@ -16,6 +16,20 @@
 .phoneNav {
   display: none;
 }
+.feedback-msg {
+  font-size: 0.8rem;
+  color: #9a8fc5;
+  white-space: wrap;
+}
+.navig {
+  height: calc(100% - 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hide{
+  display: none;
+}
 @media (max-width: 700px) {
   .navbar--top {
     display: flex;

@@ -29,7 +29,7 @@ function NavBar() {
 
   const navigate = useNavigate()
   const { user } = useContext(AuthContext)
-  if (!user.email )
+  if (!user.email)
     return
 
   const navNames = [
@@ -37,13 +37,13 @@ function NavBar() {
     { title: 'Announcement', icon: <TfiAnnouncement className="icon" /> },
     { title: 'Task', icon: < FaTasks className="icon" /> },
   ]
-  
+
   if (user.isTeacher)
     navNames.push({ title: 'Edit', icon: <FiEdit className="icon" /> })
-  
+
   if (user.email === "Image Numérique")
     navNames.push({ title: 'Admin', icon: <RiAdminLine className="icon" /> })
-  
+
   const { pathname } = useLocation()
   const allpath = pathname.substring(1).replace("%20", " ")
   var selectedNav = allpath.split("/")[0]
@@ -74,10 +74,16 @@ function NavBar() {
       </div>
 
       <div
-        style={ToggleNavBar || windowWidth > 700 ? { display: "block" } : { display: "none" }}
-        className="navig"
+        // style={ToggleNavBar || windowWidth > 700 ? { display: "block" } : { display: "none" }}
+        className={ToggleNavBar || windowWidth > 700 ? "navig" : "navig hide" }
       >
-        {NavElements}
+        <div>
+          {NavElements}
+        </div>
+        <div>
+          <p className='feedback-msg'>Please Send ur feedbacks here :</p>
+          <p className='feedback-msg'>lanabi.mohamed@univ-ouargla.dz</p>
+        </div>
       </div>
 
     </div>
