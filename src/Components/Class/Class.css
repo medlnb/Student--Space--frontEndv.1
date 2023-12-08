@@ -39,13 +39,16 @@
   animation-iteration-count: infinite;
   animation-name: placeHolderShimmer;
   animation-timing-function: linear;
+  background-color: #19161f;
   background: linear-gradient(to right, #19161f 8%, #25222e 18%, #19161f 33%);
   background-size: 800px 104px;
   height: 9rem;
   position: relative;
 }
 .dark--sub--main--container .animated-background {
+  background-color: #eaf1f7;
   background: linear-gradient(to right, #eaf1f7 8%, #f4f5f9 18%, #eaf1f7 33%);
+
 }
 
 @keyframes placeHolderShimmer {
