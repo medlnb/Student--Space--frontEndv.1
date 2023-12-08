@@ -49,7 +49,7 @@ function Classes() {
       {loading ?
         <div className='loader--container'>
           <PropagateLoader
-            color={"white"}
+            color={`${DarkMode ? "white" : "black"}`}
             loading={true}
             size={20}
           />

@@ -3,6 +3,7 @@ import Task from '../Task/Task'
 import PropagateLoader from "react-spinners/PropagateLoader";
 import './OngoingTasks.css'
 import { TasksContext } from '../../Contexts/TaskContext';
+import { DarkModeContext } from '../../Contexts/Theme';
 
 interface date {
   day: number;
@@ -18,6 +19,7 @@ interface TaskType {
 }
 
 function OngoingTasks() {
+  const {DarkMode} = useContext(DarkModeContext)
   const { state } = useContext(TasksContext)
   if (!state)
     return
@@ -60,7 +62,7 @@ function OngoingTasks() {
         style={{ display: `${isloading ? "" : "none"}` }}
         className='loader--container'>
         <PropagateLoader
-          color={"white"}
+          color={`${DarkMode ? "white" : "black"}`}
           loading={isloading}
           size={20}
         />

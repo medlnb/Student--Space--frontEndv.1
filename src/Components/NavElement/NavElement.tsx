@@ -10,12 +10,16 @@ interface props {
 }
 
 function NavElement({ title, icon, isSelected, HandleClick }: props) {
-  const {DarkMode} = useContext(DarkModeContext)
+  const { DarkMode } = useContext(DarkModeContext)
+  let SelectedColor = "#ff5f5f"
+  if (!DarkMode)
+    SelectedColor = "#003892"
   return (
     <div
       className={isSelected ? 'navelement--container selected' : "navelement--container "}
+      style={{ color: isSelected ? `${SelectedColor}` : 'inherit' }}
       onClick={() => HandleClick(title)}>
-      <div className={`icon--holder ${!DarkMode && "DarkMode--nav--icon" }`}>
+      <div className={`icon--holder ${!DarkMode && "DarkMode--nav--icon"}`}>
         {icon}
       </div>
       {title}

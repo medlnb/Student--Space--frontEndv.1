@@ -19,6 +19,5 @@ body::-webkit-scrollbar {
     height: auto;
     min-height: 100vh;
     flex-direction: column;
-    /* width: 100%; */
   }
 }

@@ -33,7 +33,7 @@ function TaskPage() {
           : (state[0]._id === "default_value") ?
             <div className='loader--container'>
               <PropagateLoader
-                color={"white"}
+                color={`${DarkMode ? "white" : "black"}`}
                 loading={true}
                 size={20}
               />

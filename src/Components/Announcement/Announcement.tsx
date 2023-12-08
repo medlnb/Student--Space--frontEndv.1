@@ -26,7 +26,7 @@ function Announcement() {
           <p>Nothing New.</p>
           : (state[0].Publisher === "####") ?
             <PropagateLoader
-              color={"white"}
+              color={`${DarkMode ? "white" : "black"}`}
               loading={true}
               size={20}
             />
