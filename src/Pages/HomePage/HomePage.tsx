@@ -11,6 +11,7 @@ import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../Contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
 import { AnnouncementsContextProvider } from '../../Contexts/AnnouncementContext'
+import { DarkModeContext } from '../../Contexts/Theme'
 
 export const notify = (toastType: "success" | "info" | "warn" | "error", toastMsg: string) =>
   toast[toastType](`${toastMsg}`, {
@@ -26,6 +27,7 @@ export const notify = (toastType: "success" | "info" | "warn" | "error", toastMs
 
 function HomePage() {
   const { user } = useContext(AuthContext)
+  const { DarkMode } = useContext(DarkModeContext)
   const navigate = useNavigate()
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -38,17 +40,18 @@ function HomePage() {
     }
   }, [])
   return (
-    <div className='homepage--container'>
+    
+    <div className={`homepage--container ${!DarkMode && "dark--homepage--container"}`}>
       <ClassesContextProvider>
         <TasksContextProvider>
           <ScheduleContextProvider>
             <AnnouncementsContextProvider>
-              <>
-                <NavBar />
-                <Main />
-                <SideBar />
-                <ToastContainer />
-              </>
+                <>
+                  <NavBar />
+                  <Main />
+                  <SideBar />
+                  <ToastContainer />
+                </>
             </AnnouncementsContextProvider>
           </ScheduleContextProvider>
         </TasksContextProvider>

@@ -3,8 +3,10 @@ import './Announcement.css'
 import AnnouncementElement from '../AnnouncementElement/AnnouncementElement'
 import PropagateLoader from 'react-spinners/PropagateLoader'
 import { AnnouncementsContext } from '../../Contexts/AnnouncementContext'
+import { DarkModeContext } from '../../Contexts/Theme'
 
 function Announcement() {
+  const {DarkMode} = useContext(DarkModeContext)
   const { state } = useContext(AnnouncementsContext)
   if (!state)
     return
@@ -17,7 +19,7 @@ function Announcement() {
     />
   ))
   return (
-    <div className='sub--main--container'>
+    <div className={`sub--main--container ${!DarkMode && "dark--sub--main--container"}`}>
       <h1 className='sub--main--title'>Announcement</h1>
       <div className='flex--it'>
         {state.length === 0 ?

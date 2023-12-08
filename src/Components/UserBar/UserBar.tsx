@@ -3,6 +3,7 @@ import './UserBar.css'
 import { AuthContext } from '../../Contexts/UserContext'
 import { FaUserGraduate } from "react-icons/fa"
 import { AiOutlineLogout } from "react-icons/ai";
+import { DarkModeContext } from '../../Contexts/Theme';
 function moveStringToFront(array: string[], targetString: string) {
   const index = array.indexOf(targetString);
   if (index !== -1) {
@@ -20,6 +21,7 @@ function moveStringToFront(array: string[], targetString: string) {
 }
 
 function UserBar() {
+  const {DarkMode} = useContext(DarkModeContext)
   const { user, handleUserChange } = useContext(AuthContext)
   const [showUserInfo, setShowUserInfo] = useState(false)
   const HandleChange = (e: any) => {
@@ -39,7 +41,7 @@ function UserBar() {
                 email: null
               })}
               className='logout--sign'>
-              <AiOutlineLogout Color="black" />
+              <AiOutlineLogout fill={DarkMode?"Black":"white"} />
               Logout
             </div>
             

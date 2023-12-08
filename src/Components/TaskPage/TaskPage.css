@@ -1,7 +1,10 @@
 .Task--container {
-  border: 1px solid white;
+  border: 1px solid var(--text-color);
   padding: .5rem;
   border-radius: .5rem;
+}
+.dark--homepage--container .Task--container {
+  border: 1px solid var(--text-light-color);
 }
 .Task--container > *{
   padding: .3rem;

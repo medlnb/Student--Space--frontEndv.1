@@ -3,15 +3,18 @@ import './Admin.css'
 import ScheduleEdit from '../ScheduleEdit/ScheduleEdit'
 import EditNavBar from '../EditNavBar/EditNavBar'
 import Members from '../Members/Members'
+import { useContext } from 'react'
+import { DarkModeContext } from '../../Contexts/Theme'
 
 function Admin() {
+  const {DarkMode} = useContext(DarkModeContext)
   const NavOptions = ["Schedule", "Members", "Promo"]
   const { pathname } = useLocation()
   const allpath = pathname.substring(1).replace("%20", " ")
   const PageSelected = allpath.split("/")[1] || "Schedule"
 
   return (
-    <div className='sub--main--container'>
+    <div className={`sub--main--container ${!DarkMode && "dark--sub--main--container"}`}>
       <h1 className='sub--main--title'>{PageSelected}</h1>
       <div className='edit--container'>
         <div className='edit--page'>

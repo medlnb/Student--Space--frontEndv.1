@@ -1,5 +1,5 @@
 .sub--main--container {
-  background: #1f1e26;
+  background: var(--secondary-dark-color);
   border-radius: 0.8rem;
   flex: 1;
   overflow-y: hidden;
@@ -7,6 +7,13 @@
   flex-direction: column;
   position: relative;
 }
+.dark--sub--main--container{
+  background: var(--secondary-light-color);
+}
+.dark--sub--main--container *{
+color: var(--text-light-color);
+}
+
 .sub--main--title {
   padding: 0.5rem;
   text-align: center;

@@ -8,9 +8,10 @@ import { BiTrash } from "react-icons/bi"
 import ClipLoader from "react-spinners/ClipLoader";
 import { notify } from '../../Pages/HomePage/HomePage';
 import { Server } from '../../Data/API';
+import { DarkModeContext } from '../../Contexts/Theme';
 
 function TaskEdit() {
-
+  const { DarkMode } = useContext(DarkModeContext)
   const { user } = useContext(AuthContext)
   const { state, dispatch } = useContext(TasksContext)
   if (!state || !dispatch)
@@ -34,11 +35,11 @@ function TaskEdit() {
       })
   }
   const TasksToDelete = newstate.map((task, index) => (
-    <div className='tasktodelete' key={index} onClick={() => HandleDelete(task._id,index)}>
+    <div className='tasktodelete' key={index} onClick={() => HandleDelete(task._id, index)}>
       <h4>{task.taskTitle}</h4>
       {isloadingDel === index ?
         <ClipLoader
-          color={"white"}
+          color={`${DarkMode ? "white" : "black"}`}
           size={15}
         /> :
         <BiTrash />}
@@ -159,7 +160,7 @@ function TaskEdit() {
             className={inputs.loading ? 'taskedit--body--submit isSubmitting' : 'taskedit--body--submit'}>
             Add
             <ClipLoader
-              color={"white"}
+              color={`${DarkMode ? "white" : "black"}`}
               loading={inputs.loading}
               size={15}
               aria-label="Loading Spinner"

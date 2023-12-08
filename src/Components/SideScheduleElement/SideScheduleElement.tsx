@@ -85,8 +85,6 @@ function SideScheduleElement({ scheduleDay, index, source, handleChange }: props
   else if (index == 6)
     classname = "last"
 
-
-
   if (source == "EditSchedule") {
     return (
       <div className='EditSchedule--class'>

@@ -1,8 +1,11 @@
 .ongointasks--container {
   margin-top: 1rem;
-  background: #1f1e26;
+  background: var(--secondary-dark-color);
   padding: 0.5rem 0.5rem 0.8rem 0;
   border-radius: 0.8rem;
+}
+.dark--homepage--container .ongointasks--container {
+  background: var(--secondary-light-color);
 }
 .ongointasks--container h4 {
   color: #939395;

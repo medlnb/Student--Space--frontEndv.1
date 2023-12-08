@@ -3,6 +3,7 @@ import './Classes.css'
 import { ClassesContext } from '../../Contexts/Class'
 import Class from '../Class/Class'
 import PropagateLoader from 'react-spinners/PropagateLoader'
+import { DarkModeContext } from '../../Contexts/Theme'
 
 interface ClassType {
   Module: string,
@@ -11,6 +12,7 @@ interface ClassType {
   Chapter?: string
 }
 function Classes() {
+  const {DarkMode} = useContext(DarkModeContext)
   const [FetchingEnded, setFetchingEnded] = useState(false)
   const { state } = useContext(ClassesContext)
   let loading = false
@@ -41,7 +43,8 @@ function Classes() {
     />
   )
   return (
-    <div className='sub--main--container'>
+    
+    <div className={`sub--main--container ${!DarkMode && "dark--sub--main--container"}`}>
       <h1 className='sub--main--title'>Classes</h1>
       {loading ?
         <div className='loader--container'>

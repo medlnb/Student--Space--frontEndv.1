@@ -1,10 +1,13 @@
 .editnavbar--container {
   display: flex;
   justify-content: space-around;
-  background: #19161f;
+  background: var(--primary-dark-color);
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+.dark--sub--main--container .editnavbar--container {
+  background: var(--primary-light-color);
 }
 .EditNavBarEelemnt {
   cursor: pointer;
@@ -14,5 +17,8 @@
   border-radius: 0 0 .6rem .6rem;
 }
 .SelectedPage {
-  background: #1f1e26;
+  background: var(--secondary-dark-color);
+}
+.dark--sub--main--container .SelectedPage {
+  background: var(--secondary-light-color);
 }

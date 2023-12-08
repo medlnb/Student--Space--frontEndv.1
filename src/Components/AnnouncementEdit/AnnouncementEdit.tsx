@@ -7,6 +7,7 @@ import { BiTrash } from 'react-icons/bi';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { Server } from '../../Data/API';
 import { AnnouncementsContext } from '../../Contexts/AnnouncementContext';
+import { DarkModeContext } from '../../Contexts/Theme';
 
 interface AnnouncementType {
   _id: string,
@@ -17,6 +18,7 @@ interface AnnouncementType {
 
 
 function AnnouncementEdit() {
+  const {DarkMode} = useContext(DarkModeContext)
   const { user } = useContext(AuthContext)
   if (!user)
     return
@@ -74,7 +76,7 @@ function AnnouncementEdit() {
       <h4>{element.Content}</h4>
       {isloadingDel === index ?
         <ClipLoader
-          color={"white"}
+          color={`${DarkMode ? "white" : "black"}`}
           size={15}
         /> :
         <BiTrash />}
@@ -92,6 +94,7 @@ function AnnouncementEdit() {
         <form className='taskedit--body editclass--body' onSubmit={HandleSubmit}>
           <input
             placeholder="Content..."
+            className='task--title--input'
             value={inputs.Content}
             onChange={e => setInputs(prev => ({ ...prev, Content: e.target.value }))}
           />
@@ -99,7 +102,7 @@ function AnnouncementEdit() {
             className={isloading ? 'taskedit--body--submit isSubmitting' : 'taskedit--body--submit'}>
             Add
             <ClipLoader
-              color={"white"}
+              color={`${DarkMode ? "white" : "black"}`}
               loading={isloading}
               size={15}
               aria-label="Loading Spinner"
@@ -110,7 +113,7 @@ function AnnouncementEdit() {
       </div>
       {!(state.length === 0) && (state[0]._id === "####") &&
         <PropagateLoader
-          color={"white"}
+        color={`${DarkMode ? "white" : "black"}`}
           size={20}
           className='loader--anouc'
         />

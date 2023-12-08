@@ -27,6 +27,7 @@
   border: none;
   position: relative;
 }
+
 .members--request--button::after {
   content: "";
   width: 0;
@@ -37,7 +38,10 @@
   left: 0;
   transition: width 0.3s;
 }
+.dark--sub--main--container .members--request--button::after {
+  background: black;
 
+}
 .request--loading::after{
   content: "";
   height: 1px;
@@ -46,6 +50,9 @@
   bottom: -.2rem;
   left: 0;
   width: 50%;
+}
+.dark--sub--main--container .request--loading::after{ 
+  background: black;
 }
 .request--loading:hover::after {
   width: 50%;

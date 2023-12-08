@@ -10,12 +10,14 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { FaTasks } from "react-icons/fa";
 import { RiAdminLine } from "react-icons/ri";
 import { BsChevronDoubleDown } from "react-icons/bs";
+import { DarkModeContext } from '../../Contexts/Theme';
 
 
 
 function NavBar() {
   const [ToggleNavBar, setToggleNavBar] = useState(false)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const { DarkMode, setDarkMode } = useContext(DarkModeContext)
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth)
@@ -67,7 +69,7 @@ function NavBar() {
       isSelected={element.title == selectedNav} />
   ))
   return (
-    <div className='navbar--container'>
+    <div className={`navbar--container ${!DarkMode && "dark--navbar--container"}`}>
       <div className='navbar--top'>
         <h2 className='navbar--logo'>Student's Space</h2>
         {ToggleNavBar ?
@@ -85,6 +87,15 @@ function NavBar() {
       >
         <div className='thenavigbar'>
           {NavElements}
+          <div className='darkmode--switch'>
+            <label className="ui-switch">
+              <input type="checkbox" checked={DarkMode} onClick={() => setDarkMode(prev => !prev)} onChange={() => { }} />
+              <div className="slider">
+                <div className="circle"></div>
+              </div>
+            </label>
+          </div>
+
         </div>
         <div>
           <p className='feedback-msg'>Please Send ur feedbacks here :</p>

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../Contexts/UserContext'
 import { IoMdDownload } from "react-icons/io";
 import { MdDownloadDone } from "react-icons/md";
+import { DarkModeContext } from '../../Contexts/Theme'
 
 interface ClassType {
   Module: string,
@@ -17,6 +18,7 @@ const HandleDownload = (file:string) => {
   localStorage.setItem( file, "downloaded");
 }
 function Module() {
+  const {DarkMode} = useContext(DarkModeContext)
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
   useEffect(() => {
@@ -95,7 +97,7 @@ function Module() {
   })
 
   return (
-    <div className='sub--main--container'>
+    <div className={`sub--main--container ${!DarkMode && "dark--sub--main--container"}`}>
       <h1 className='sub--main--title'>{selected.substring(1)}</h1>
       <div className='module--container'>
         {Chapters}

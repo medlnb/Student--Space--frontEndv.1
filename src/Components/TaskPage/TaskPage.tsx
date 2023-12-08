@@ -2,14 +2,14 @@ import { useContext } from "react"
 import { TasksContext } from "../../Contexts/TaskContext"
 import './TaskPage.css'
 import PropagateLoader from "react-spinners/PropagateLoader"
+import { DarkModeContext } from "../../Contexts/Theme"
 function TaskPage() {
-
-
+  const { DarkMode } = useContext(DarkModeContext)
   const { state } = useContext(TasksContext)
   if (!state)
     return
 
-  const Announcements = state.map((element, index) => (
+  const Tasks = state.map((element, index) => (
     <div
       className="Task--container"
       key={index}>
@@ -25,7 +25,7 @@ function TaskPage() {
     </div>
   ))
   return (
-    <div className='sub--main--container'>
+    <div className={`sub--main--container ${!DarkMode && "dark--sub--main--container"}`}>
       <h1 className='sub--main--title'>Tasks</h1>
       <div className='tasks--container'>
         {(state.length === 0) ?
@@ -39,7 +39,7 @@ function TaskPage() {
               />
             </div>
             :
-            Announcements
+            Tasks
         }
       </div>
     </div>

@@ -11,7 +11,6 @@
   color: #ff5f5f;
 }
 .selected .icon {
-  background: #302c3a;
   position: relative;
   aspect-ratio: 1/1;
 }
@@ -23,9 +22,11 @@
   width: 2rem;
   border-radius: 0 50% 50% 0;
 }
-
 .selected .icon--holder {
-  background: #302c3a;
+  background: var(--primary-dark-color);
+}
+.selected .DarkMode--nav--icon {
+  background: #87CEEB;  
 }
 @media (max-width: 700px) {
   .navelement--container {

@@ -1,4 +1,6 @@
+import { useContext } from 'react'
 import './NavElement.css'
+import { DarkModeContext } from '../../Contexts/Theme'
 
 interface props {
   title: string,
@@ -8,11 +10,12 @@ interface props {
 }
 
 function NavElement({ title, icon, isSelected, HandleClick }: props) {
+  const {DarkMode} = useContext(DarkModeContext)
   return (
     <div
       className={isSelected ? 'navelement--container selected' : "navelement--container "}
       onClick={() => HandleClick(title)}>
-      <div className='icon--holder'>
+      <div className={`icon--holder ${!DarkMode && "DarkMode--nav--icon" }`}>
         {icon}
       </div>
       {title}

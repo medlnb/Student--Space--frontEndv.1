@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Server } from '../../Data/API'
 import './Members.css'
 import PropagateLoader from 'react-spinners/PropagateLoader';
+import { DarkModeContext } from '../../Contexts/Theme';
 
 interface RequestType {
   _id: string,
@@ -12,6 +13,7 @@ interface RequestType {
   Speciality: string,
 }
 function Members() {
+  const {DarkMode} = useContext(DarkModeContext)
   const [loadingAccept, setLoadingAccept] = useState<string | null>(
     null);
   const [loadingDecline, setLoadingDecline] = useState<string | null>(null);
@@ -73,7 +75,7 @@ function Members() {
             ?
             <div className='loader--container'>
               <PropagateLoader
-                color={"white"}
+                color={`${DarkMode ? "white" : "black"}`}
                 loading={true}
                 size={20}
               />
