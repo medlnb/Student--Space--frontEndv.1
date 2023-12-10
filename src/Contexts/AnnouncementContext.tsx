@@ -5,7 +5,8 @@ interface AnnouncementType {
   _id: string,
   Publisher: string,
   Content: string,
-  Date: Date
+  Date: Date,
+  speciality:string
 }
 
 export const AnnouncementsContext = createContext<{ state: AnnouncementType[] | null, dispatch: any | null }>({
@@ -34,6 +35,7 @@ export const AnnouncementsContextProvider = ({ children }: any) => {
     _id: "####",
     Publisher: "####",
     Content: "####",
+    speciality:"####",
     Date: new Date()
   }
   const [state, dispatch] = useReducer<React.Reducer<AnnouncementType[], any>>(TaskReducer, [default_value])

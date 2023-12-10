@@ -46,7 +46,7 @@ function AnnouncementEdit() {
       headers: {
         "Content-Type": "Application/json"
       }
-      , body: JSON.stringify(inputs)
+      , body: JSON.stringify({ ...inputs, speciality:user.speciality })
     })
     const json = await response.json()
     setLoading(false)

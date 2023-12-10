@@ -13,7 +13,8 @@ interface TaskType {
   taskTitle: string,
   Link:string,
   Description:string,
-  deadLine: date | null
+  deadLine: date | null,
+  speciality:string
 }
 
 export const TasksContext = createContext<{ state: TaskType[] | null, dispatch: any | null }>({
@@ -42,7 +43,8 @@ export const TasksContextProvider = ({ children }: any) => {
     className: "",
     taskTitle: "",
     Description: "",
-    Link:"",
+    Link: "",
+    speciality:"",
     deadLine: null
   }
   const [state, dispatch] = useReducer<React.Reducer<TaskType[], any>>(TaskReducer, [default_value])

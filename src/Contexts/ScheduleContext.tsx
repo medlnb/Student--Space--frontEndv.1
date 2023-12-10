@@ -1,5 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Server } from "../Data/API";
+import { AuthContext } from "./UserContext";
 interface scheduleDayType {
   id: number,
   module: string,
@@ -9,11 +10,14 @@ interface scheduleDayType {
 export const ScheduleContext = createContext<{ ScheduleData: scheduleDayType[][] , setScheduleData: React.Dispatch<React.SetStateAction<scheduleDayType[][]>> }>({ ScheduleData: [], setScheduleData: () => {} })
 
 export const ScheduleContextProvider = ({ children }: any) => {
-
+  const { user } = useContext(AuthContext)
+  
   const [ScheduleData, setScheduleData] = useState<scheduleDayType[][]>([])
   useEffect(() => {
     const fetchingSchedule = async () => {
-      const response = await fetch(`${Server}/api/newSchedule/MASTER@1@Artificial Intelligence & Data Science!!!0`)
+      if (!user.speciality)
+        return 
+      const response = await fetch(`${Server}/api/newSchedule/${user.speciality[0]}!!!0`)
       const json = await response.json()
       const scheduledata: scheduleDayType[][] = [[], [], [], [], [], []];
 

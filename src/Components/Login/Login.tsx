@@ -44,10 +44,11 @@ function Login() {
       return
     }
     handleUserChange({
-        username: json.username,
-        email: json.email,
-        isTeacher: json.isTeacher
-      })
+      username: json.username,
+      email: json.email,
+      speciality: json.speciality,
+      isTeacher: json.isTeacher
+    })
     setInputs(prev => ({ ...prev, loading: false }))
     navigate("/My classes")
   }
