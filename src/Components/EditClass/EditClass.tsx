@@ -13,7 +13,8 @@ function EditClass() {
   const { user } = useContext(AuthContext)
   if (!user)
     return
-
+  if (!user.speciality)
+    return
   const { state } = useContext(ClassesContext)
   const chapters:string[] = ["Chapters"]
   state?.map(modulee => {
@@ -31,6 +32,7 @@ function EditClass() {
     Teacher,
     Chapter: chapters[0],
     Link: "",
+    speciality:user.speciality[0],
     DescriptionClass: "",
     title: ""
   })

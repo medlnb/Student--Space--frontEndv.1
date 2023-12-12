@@ -59,7 +59,7 @@ function TaskEdit() {
 
   const HandleSubmit = async (e: any) => {
     e.preventDefault()
-    if (!inputs.deadline)
+    if (!inputs.deadline || !user.speciality)
       return
 
     if (inputs.taskTitle == "")
@@ -74,7 +74,7 @@ function TaskEdit() {
       taskTitle: inputs.taskTitle,
       Description: inputs.Description,
       Link: inputs.LinkTitle + "###bakhso###" + inputs.Link,
-      speciality:user.speciality,
+      speciality:user.speciality[0],
       deadLine: {
         day: parseInt(inputs.deadline.format('DD')),
         month: parseInt(inputs.deadline.format('MM')),

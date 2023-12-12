@@ -23,7 +23,7 @@ function AnnouncementEdit() {
   if (!user)
     return
   const { state,dispatch } = useContext(AnnouncementsContext)
-  if (!state)
+  if (!state )
     return
 
   const Teacher = user.username
@@ -35,6 +35,8 @@ function AnnouncementEdit() {
   })
 
   const HandleSubmit = async (e: any) => {
+    if (!user.speciality)
+      return 
     e.preventDefault()
     if (inputs.Content == "") {
       notify("error", "Content must be filled")
@@ -46,7 +48,7 @@ function AnnouncementEdit() {
       headers: {
         "Content-Type": "Application/json"
       }
-      , body: JSON.stringify({ ...inputs, speciality:user.speciality })
+      , body: JSON.stringify({ ...inputs, speciality:user.speciality[0] })
     })
     const json = await response.json()
     setLoading(false)
