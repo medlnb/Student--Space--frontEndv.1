@@ -13,6 +13,7 @@ export const ScheduleContextProvider = ({ children }: any) => {
   const { user } = useContext(AuthContext)
   
   const [ScheduleData, setScheduleData] = useState<scheduleDayType[][]>([])
+  console.log(ScheduleData)
   useEffect(() => {
     const fetchingSchedule = async () => {
       if (!user.speciality)
