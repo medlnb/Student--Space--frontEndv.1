@@ -11,7 +11,7 @@ export const ScheduleContext = createContext<{ ScheduleData: scheduleDayType[][]
 
 export const ScheduleContextProvider = ({ children }: any) => {
   const { user } = useContext(AuthContext)
-  
+  console.log(user)
   const [ScheduleData, setScheduleData] = useState<scheduleDayType[][]>([])
   console.log(ScheduleData)
   useEffect(() => {
