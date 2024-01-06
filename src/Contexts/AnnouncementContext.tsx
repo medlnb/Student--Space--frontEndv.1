@@ -1,12 +1,13 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { Server } from "../Data/API";
+import { AuthContext } from "./UserContext";
 
 interface AnnouncementType {
   _id: string,
   Publisher: string,
   Content: string,
   Date: Date,
-  speciality:string
+  speciality: string
 }
 
 export const AnnouncementsContext = createContext<{ state: AnnouncementType[] | null, dispatch: any | null }>({
@@ -35,13 +36,17 @@ export const AnnouncementsContextProvider = ({ children }: any) => {
     _id: "####",
     Publisher: "####",
     Content: "####",
-    speciality:"####",
+    speciality: "####",
     Date: new Date()
   }
   const [state, dispatch] = useReducer<React.Reducer<AnnouncementType[], any>>(TaskReducer, [default_value])
+  const { user } = useContext(AuthContext)
 
   const fetchTasks = async () => {
-    const response = await fetch(`${Server}/api/Announcement`)
+    if (!user.speciality)
+      return  
+  
+    const response = await fetch(`${Server}/api/announcement/${user.speciality[0].name}`)
     const json: AnnouncementType[] = await response.json();
     dispatch({
       type: "SETANNOUNCEMENTS",

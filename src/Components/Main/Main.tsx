@@ -10,7 +10,6 @@ import Announcement from '../Announcement/Announcement'
 import TaskPage from '../TaskPage/TaskPage'
 import Admin from '../Admin/Admin'
 
-
 function Redirect() {
   const navigate = useNavigate()
   useEffect(() => {
@@ -21,12 +20,9 @@ function Redirect() {
     </>
   )
 }
-
 function Main() {
   const { user } = useContext(AuthContext)
-
   const navigate = useNavigate()
-
   if (!user.email) {
     navigate("/signup")
     return
@@ -40,8 +36,9 @@ function Main() {
         <Route path="My classes" element={<Classes />} />
         <Route path="Announcement" element={<Announcement />} />
         <Route path="Task" element={<TaskPage />} />
-        <Route path="Edit/*" element={(user.isTeacher) ? <Edit /> : ""} />
-        <Route path="Admin/*" element={(user.username === "Dr. Aiadi Oussama") ? <Admin /> : ""} />
+        <Route path="Edit/*" element={(user.Module) ? <Edit /> : ""} />
+        {/* checking if the user is admin */}
+        <Route path="Admin/*" element={(user.speciality && user.speciality[0].Admin) && <Admin /> } />
         <Route path=":selected" element={<Module />} />
       </Routes>
     </div>

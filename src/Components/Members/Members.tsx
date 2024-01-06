@@ -10,7 +10,7 @@ interface RequestType {
   mail: string,
   firstname: string,
   lastname: string,
-  Speciality: string,
+  Speciality: { name: String, Year: String },
 }
 function Members() {
   const {DarkMode} = useContext(DarkModeContext)
@@ -24,7 +24,7 @@ function Members() {
       mail: "string",
       firstname: "string",
       lastname: "string",
-      Speciality: "string",
+      Speciality: {name:"",Year:""},
     }
   ]);
 
@@ -87,7 +87,7 @@ function Members() {
                 className={`members--request ${index !== 0 && "istop--members--request"}`}
               >
                 <div className='members--request--info'>
-                  <h4>{`${request.lastname} ${request.firstname} ( ${request.Speciality} )`}</h4>
+                  <h4>{`${request.lastname} ${request.firstname} ( ${request.Speciality.name} ~ ${request.Speciality.Year} )`}</h4>
                   <p>{request.mail}</p>
                   <p>{request.matricule}</p>
                 </div>

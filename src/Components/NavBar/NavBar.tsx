@@ -29,8 +29,6 @@ function NavBar() {
     }
   }, [])
 
-
-
   const navigate = useNavigate()
   const { user } = useContext(AuthContext)
   if (!user.email)
@@ -41,13 +39,11 @@ function NavBar() {
     { title: 'Announcement', icon: <TfiAnnouncement className="icon" /> },
     { title: 'Task', icon: < FaTasks className="icon" /> },
   ]
-
-  if (user.isTeacher)
+  if (user.Module)
     navNames.push({ title: 'Edit', icon: <FiEdit className="icon" /> })
-
-  if (user.email === "Image Numérique")
-    navNames.push({ title: 'Admin', icon: <RiAdminLine className="icon" /> })
-
+  if (user.speciality && user.speciality[0].Admin )
+      navNames.push({ title: 'Admin', icon: <RiAdminLine className="icon" /> })
+    
   const { pathname } = useLocation()
   const allpath = pathname.substring(1).replace("%20", " ")
   var selectedNav = allpath.split("/")[0]

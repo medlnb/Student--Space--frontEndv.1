@@ -3,6 +3,7 @@ import SideScheduleElement from '../SideScheduleElement/SideScheduleElement';
 import './ScheduleEdit.css'
 import { ScheduleContext } from '../../Contexts/ScheduleContext';
 import { Server } from '../../Data/API';
+import { AuthContext } from '../../Contexts/UserContext';
 
 interface scheduleDayType {
   id: number,
@@ -20,15 +21,16 @@ function zip(array0: any[][], array1: any[]) {
 }
 
 function ScheduleEdit() {
+  const { user } = useContext(AuthContext)
   const days = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
   const classes = ['', "8.00", "9.40", "11.20", "13.10", "14.50", "16.30"]
-  const { ScheduleData, setScheduleData } = useContext(ScheduleContext) 
+  const { ScheduleData, setScheduleData } = useContext(ScheduleContext)
   if (ScheduleData.length === 0)
     return
 
   const handleChange = async (event: any, id: number, option: "module" | "type" | "Classroom") => {
     // Update ScheduleData
-    
+
     const updatedScheduleData = ScheduleData.map(row =>
       row.map(item => {
         if (item.id === id) {
@@ -43,19 +45,20 @@ function ScheduleEdit() {
     // Set the updated ScheduleData
     setScheduleData(updatedScheduleData)
 
-
-
+    if (!user.speciality || !user.speciality[0])
+      return
     const table = updatedScheduleData.flat()
     const newSchedule = {
-      Class: "1ermasterAi&DS",
+      Class: user.speciality[0].name,
       Group: "0",
+      Year: user.speciality[0].Year,
       modules: table.map(day => day.module),
       Classrooms: table.map(day => day.Classroom),
       types: table.map(day => day.type),
     };
-    
-   
-    await fetch(`${Server}/api/newSchedule/1ermasterAi&DS@0`, {
+
+
+    await fetch(`${Server}/api/newSchedule/AI & DS~~~0~~~Master 1`, {
       method: "PATCH",
       body: JSON.stringify(newSchedule),
       headers: {

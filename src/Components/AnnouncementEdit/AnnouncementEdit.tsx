@@ -26,6 +26,8 @@ function AnnouncementEdit() {
   if (!state )
     return
 
+  const filtredState = state.filter(annou => annou.Publisher === user.username)
+
   const Teacher = user.username
   const [isloading, setLoading] = useState(false)
   const [isloadingDel, setIsloadingDel] = useState(-1)
@@ -48,7 +50,7 @@ function AnnouncementEdit() {
       headers: {
         "Content-Type": "Application/json"
       }
-      , body: JSON.stringify({ ...inputs, speciality:user.speciality[0] })
+      , body: JSON.stringify({ ...inputs, speciality:user.speciality[0].name })
     })
     const json = await response.json()
     setLoading(false)
@@ -73,7 +75,7 @@ function AnnouncementEdit() {
       payload: id
     })
   }
-  const TasksToDelete = state.map((element: AnnouncementType, index: number) => (
+  const TasksToDelete = filtredState.map((element: AnnouncementType, index: number) => (
     <div className='tasktodelete' key={index} onClick={() => HandleDelete(element._id,index)}>
       <h4>{element.Content}</h4>
       {isloadingDel === index ?
@@ -113,14 +115,14 @@ function AnnouncementEdit() {
           </button>
         </form>
       </div>
-      {!(state.length === 0) && (state[0]._id === "####") &&
+      {!(filtredState.length === 0) && (filtredState[0]._id === "####") &&
         <PropagateLoader
         color={`${DarkMode ? "white" : "black"}`}
           size={20}
           className='loader--anouc'
         />
       }
-      {!(state.length === 0) && (state[0]._id !== "####") &&
+      {!(filtredState.length === 0) && (filtredState[0]._id !== "####") &&
         <div className='taskedit--create'>
           <div className='taskedit--title'>
             <h3>Delete Anouccements</h3>

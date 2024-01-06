@@ -7,16 +7,46 @@ interface scheduleDayType {
   Classroom: string,
   type: string
 }
-export const ScheduleContext = createContext<{ ScheduleData: scheduleDayType[][] , setScheduleData: React.Dispatch<React.SetStateAction<scheduleDayType[][]>> }>({ ScheduleData: [], setScheduleData: () => {} })
+export const ScheduleContext = createContext<{
+  ScheduleData: scheduleDayType[][],
+  setScheduleData: React.Dispatch<React.SetStateAction<scheduleDayType[][]>>
+}>
+  ({
+    ScheduleData: [],
+    setScheduleData: () => { }
+  })
 
 export const ScheduleContextProvider = ({ children }: any) => {
   const { user } = useContext(AuthContext)
-  const [ScheduleData, setScheduleData] = useState<scheduleDayType[][]>([])
+  const day = {
+    id: 1000000000,
+    module: " ",
+    Classroom: " ",
+    type: " "
+  }
+  const [ScheduleData, setScheduleData] = useState<scheduleDayType[][]>(
+    [[day, day, day, day, day, day],
+      [day, day, day, day, day, day],
+      [day, day, day, day, day, day],
+      [day, day, day, day, day, day],
+      [day, day, day, day, day, day],
+      [day, day, day, day, day, day]]
+  )
   useEffect(() => {
     const fetchingSchedule = async () => {
       if (!user.speciality)
-        return 
-      const response = await fetch(`${Server}/api/newSchedule/${user.speciality[0]}!!!0`)
+        return
+      const response = await fetch(`${Server}/api/newSchedule/get`, {
+        method: "POST",
+        body: JSON.stringify({
+          Class: user.speciality[0].name,
+          Group: 0,
+          Year: user.speciality[0].Year
+        }),
+        headers: {
+          "Content-Type": "Application/json"
+        }
+      })
       const json = await response.json()
       const scheduledata: scheduleDayType[][] = [[], [], [], [], [], []];
 
@@ -27,22 +57,16 @@ export const ScheduleContextProvider = ({ children }: any) => {
           type: json.types[index],
           module: json.modules[index],
         };
-
         const arrayIndex = Math.floor(index / 6)
         scheduledata[arrayIndex].push(day)
       }
-
       setScheduleData(scheduledata)
-
     }
     fetchingSchedule()
-
   }, [])
-
   return (
     <ScheduleContext.Provider value={{ ScheduleData, setScheduleData }}>
       {children}
     </ScheduleContext.Provider>
   )
-
 }

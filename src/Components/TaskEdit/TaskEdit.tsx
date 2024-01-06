@@ -74,7 +74,7 @@ function TaskEdit() {
       taskTitle: inputs.taskTitle,
       Description: inputs.Description,
       Link: inputs.LinkTitle + "###bakhso###" + inputs.Link,
-      speciality:user.speciality[0],
+      speciality:user.speciality[0].name,
       deadLine: {
         day: parseInt(inputs.deadline.format('DD')),
         month: parseInt(inputs.deadline.format('MM')),

@@ -21,17 +21,18 @@ function moveStringToFront(array: string[], targetString: string) {
 }
 
 function UserBar() {
-  const {DarkMode} = useContext(DarkModeContext)
+  const { DarkMode } = useContext(DarkModeContext)
   const { user, handleUserChange } = useContext(AuthContext)
   const [showUserInfo, setShowUserInfo] = useState(false)
   const HandleChange = (e: any) => {
     const email = e.target.value
     handleUserChange({ ...user, email: moveStringToFront(("" + localStorage.getItem("email")).split("$$"), email) })
   }
+
   return (
     <div className='userbar--container'>
       <div className="logout--icon">
-        <FaUserGraduate onClick={() => setShowUserInfo(prev => !prev)}/>
+        <FaUserGraduate onClick={() => setShowUserInfo(prev => !prev)} />
         {showUserInfo &&
           <div className='logout'>
             <div className='up--arrow'></div>
@@ -41,12 +42,20 @@ function UserBar() {
                 email: null
               })}
               className='logout--sign'>
-              <AiOutlineLogout fill={DarkMode?"Black":"white"} />
+              <AiOutlineLogout fill={DarkMode ? "Black" : "white"} />
               Logout
             </div>
-            
+            {Object.entries(user).map(element =>
+            (<p>
+              {`${element[0]} :
+                ${(element[0] === "speciality") ?
+                element[1][0].name :
+                  element[1]}`}
+            </p>)
+            )}
           </div>
         }
+
       </div>
       {`Hi, ${user.username}`}
       {localStorage.getItem("email")?.split("$$").length !== 1 &&

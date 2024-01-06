@@ -13,9 +13,8 @@ function Edit() {
   const { pathname } = useLocation()
   const allpath = pathname.substring(1).replace("%20", " ")
   const PageSelected = allpath.split("/")[1] || "Classes"
-  
   return (
-    <div className={`sub--main--container ${!DarkMode && "dark--sub--main--container"}`}>
+    <div className={`sub--main--container ${!DarkMode && "dark--sub--main--container"}`}>   
       <h1 className='sub--main--title'>{PageSelected}</h1>
       <div className='edit--container'>
         <div className='edit--page'>

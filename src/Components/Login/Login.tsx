@@ -47,7 +47,7 @@ function Login() {
       username: json.username,
       email: json.email,
       speciality: json.speciality,
-      isTeacher: json.isTeacher
+      Module: json.Module
     })
     setInputs(prev => ({ ...prev, loading: false }))
     navigate("/My classes")
@@ -59,16 +59,20 @@ function Login() {
         <img src={logo} className='welcomePage--logo' />
       </div>
       <div className="welcomePage--right">
+        <div
+          onClick={() => navigate("/promotionrequest")}
+          className="promotionLink">
+          Promotion Request
+        </div>
         <form className='form_conatiner' onSubmit={handleSubmit}>
           <h2>Login</h2>
           <h3>Please enter your details</h3>
-          <h4>Email</h4>
           <div className='inputs_container'>
             <input
-              className="inputs"
+              placeholder='Email...'
+              className='task--title--input'
               value={inputs.mail}
               onChange={e => setInputs(prev => ({ ...prev, mail: e.target.value }))}
-
             />
             {inputs.err.MailErr && <p
               className='error--msg'>
@@ -76,10 +80,10 @@ function Login() {
             </p>}
 
           </div>
-          <h4>Password</h4>
           <div className='inputs_container'>
             <input
-              className="inputs"
+              placeholder='Password...'
+              className='task--title--input'
               type="password"
               value={inputs.password}
               onChange={(e) => {

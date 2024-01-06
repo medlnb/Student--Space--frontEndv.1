@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import { DarkModeContextProvider } from './Contexts/Theme';
+import PromotionRequest from './Components/PromotionRequest/PromotionRequest';
 
 function App() {
 
@@ -13,14 +14,15 @@ function App() {
     <div>
       <BrowserRouter>
         <DarkModeContextProvider>
-        <Routes>
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/*' element={
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <HomePage />
-            </LocalizationProvider>
-          } />
+          <Routes>
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/promotionrequest' element={<PromotionRequest />} />
+            <Route path='/*' element={
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <HomePage />
+              </LocalizationProvider>
+            } />
           </Routes>
         </DarkModeContextProvider>
       </BrowserRouter>

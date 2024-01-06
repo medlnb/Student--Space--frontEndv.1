@@ -1,11 +1,12 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { Server } from "../Data/API";
+import { AuthContext } from "./UserContext";
 
 interface ClassType {
   Module: string,
   Teacher: string,
   description?: string,
-  Chapter?:string
+  Chapter?: string
 }
 export const ClassesContext = createContext<{ state: ClassType[][] | null, dispatch: any | null }>({
   state: null,
@@ -48,11 +49,24 @@ export const ClassesContextProvider = ({ children }: any) => {
     Teacher: ""
   }
   const [state, dispatch] = useReducer<React.Reducer<ClassType[][], any>>(TaskReducer, [[default_value]])
+  const {user} = useContext(AuthContext)
   const fetchNotes = async () => {
+    if (!user.speciality || !user.speciality[0])
+      return 
     let json = ["dsadsad", "asdsad"]
     let index = 0
     while (json.length !== 0) {
-      const response = await fetch(`${Server}/api/file/${index}`)
+      const response = await fetch(`${Server}/api/file`, {
+        method: "POST",
+        body: JSON.stringify({
+          speciality: user.speciality[0].name,
+          p: index,
+          Year: user.speciality[0].Year
+        }),
+        headers: {
+          "Content-Type": "Application/json"
+        }
+      })
       json = await response.json();
       if (json.length === 0) {
         dispatch({

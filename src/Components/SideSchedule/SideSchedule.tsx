@@ -27,8 +27,6 @@ function SideSchedule() {
   const days = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
   const classes = ['', "8.00", "9.40", "11.20", "13.10", "14.50", "16.30"]
   const { ScheduleData } = useContext(ScheduleContext)
-  if (ScheduleData.length == 0)
-    return
 
   const formedSchedule: (scheduleDayType | string)[][] = zip(ScheduleData, days)
   formedSchedule.unshift(classes)

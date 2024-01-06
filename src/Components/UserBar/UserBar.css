@@ -13,6 +13,8 @@
 .logout{
  position: absolute; 
  z-index: 1;
+ background: black;
+ white-space: nowrap;
 }
 .logout--sign {
   color: black;

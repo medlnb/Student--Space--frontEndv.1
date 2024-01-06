@@ -19,24 +19,23 @@ function EditClass() {
   const chapters:string[] = ["Chapters"]
   state?.map(modulee => {
     modulee.map(file => {
-      if (file.Module === user.email && file.Chapter && !chapters.includes(file.Chapter))
+      if (file.Module === user.Module && file.Chapter && !chapters.includes(file.Chapter))
         chapters.push(file.Chapter)
     })
   })
 
   const SelectedModule = user.email
-  const Teacher = user.username
   const [isloading, setLoading] = useState(false)
   const [inputs, setInputs] = useState({
     Module: SelectedModule,
-    Teacher,
+    Teacher: user.username,
     Chapter: chapters[0],
     Link: "",
-    speciality:user.speciality[0],
+    speciality: user.speciality[0].name,
     DescriptionClass: "",
     title: ""
   })
-
+  // console.log(inputs)
   const HandleSubmit = async (e: any) => {
     e.preventDefault()
     if (inputs.Chapter == "" || inputs.Link == "" || inputs.title == "") {
