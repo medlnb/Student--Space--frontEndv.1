@@ -45,12 +45,12 @@ function AnnouncementEdit() {
       return
     }
     setLoading(true)
-    const response = await fetch(`${Server}/api/Announcement`, {
+    const response = await fetch(`${Server}/api/Announcement/create`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"
       }
-      , body: JSON.stringify({ ...inputs, speciality:user.speciality[0].name })
+      , body: JSON.stringify({ ...inputs, speciality: user.speciality[0].name, Year: user.speciality[0].Year})
     })
     const json = await response.json()
     setLoading(false)
@@ -87,7 +87,6 @@ function AnnouncementEdit() {
       
     </div>
   ))
-
 
   return (
     <div className='editclass--container'>

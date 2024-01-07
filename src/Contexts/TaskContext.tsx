@@ -1,5 +1,6 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { Server } from "../Data/API";
+import { AuthContext } from "./UserContext";
 
 interface date {
   day: number;
@@ -11,10 +12,10 @@ interface TaskType {
   _id?: string,
   className: string,
   taskTitle: string,
-  Link:string,
-  Description:string,
+  Link: string,
+  Description: string,
   deadLine: date | null,
-  speciality:string
+  speciality: string
 }
 
 export const TasksContext = createContext<{ state: TaskType[] | null, dispatch: any | null }>({
@@ -44,13 +45,22 @@ export const TasksContextProvider = ({ children }: any) => {
     taskTitle: "",
     Description: "",
     Link: "",
-    speciality:"",
+    speciality: "",
     deadLine: null
   }
   const [state, dispatch] = useReducer<React.Reducer<TaskType[], any>>(TaskReducer, [default_value])
-
+  const { user } = useContext(AuthContext)
   const fetchTasks = async () => {
-    const response = await fetch(`${Server}/api/task`)
+    const response = await fetch(`${Server}/api/task`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json"
+      },
+      body: JSON.stringify({
+        speciality: user.speciality[0].name,
+        Year: user.speciality[0].Year
+      })
+    })
     const json: TaskType[] = await response.json();
     dispatch({
       type: "SETTASKS",

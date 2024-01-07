@@ -20,7 +20,6 @@ function PromotionRequest() {
     loading: false,
     err: ""
   })
-  // Admin
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setInputs(prev => ({ ...prev, loading: true }))
@@ -41,22 +40,13 @@ function PromotionRequest() {
     })
     const json = await response.json()
     if (!response.ok) {
-      // if (json.MailErr)
-      //   setInputs(prev => ({ ...prev, err: { ...prev.err, MailErr: json.MailErr } }))
-      // else
-      //   setInputs(prev => ({ ...prev, err: { ...prev.err, MailErr: "" } }))
-
-      // if (json.PwErr)
-      //   setInputs(prev => ({ ...prev, err: { ...prev.err, PwErr: json.PwErr } }))
-
       setInputs(prev => ({ ...prev, loading: false }))
       return
     }
     handleUserChange({
       username: json.username,
       email: json.email,
-      speciality: json.speciality,
-      Module: json.Module
+      speciality: json.speciality
     })
     setInputs(prev => ({ ...prev, loading: false }))
     navigate("/My classes")

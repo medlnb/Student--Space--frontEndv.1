@@ -35,23 +35,25 @@ function HomePage() {
       location.reload()
       return
     }
-    if (!user.username) {
-      return navigate("/signup")
-    }
-  }, [])
-  return (
     
+    if (!user.username) {
+      return navigate("signup")
+    }
+    
+  }, [navigate])
+  
+  return (
     <div className={`homepage--container ${!DarkMode && "dark--homepage--container"}`}>
       <ClassesContextProvider>
         <TasksContextProvider>
           <ScheduleContextProvider>
             <AnnouncementsContextProvider>
-                <>
-                  <NavBar />
-                  <Main />
-                  <SideBar />
-                  <ToastContainer />
-                </>
+              <>
+                <NavBar />
+                <Main />
+                {/* {!user.speciality[0].Module && <SideBar />} */}
+                <ToastContainer />
+              </>
             </AnnouncementsContextProvider>
           </ScheduleContextProvider>
         </TasksContextProvider>

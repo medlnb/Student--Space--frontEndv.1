@@ -15,6 +15,7 @@ const isValidEmail = (inputEmail: string) => {
 
 function Signup() {
   const [Options, setOptions] = useState([])
+  const [isTeacher, setisTeacher] = useState(false)
   useEffect(() => {
     const fetchOptions = async () => {
       const response = await fetch(`${Server}/api/user/specs`)
@@ -79,6 +80,7 @@ function Signup() {
         <form className='form_conatiner' onSubmit={handleSubmit}>
           <h2>Sign up</h2>
           <h3>Please enter your details</h3>
+          <input type='boxchoice'/>
           <input
             placeholder='Matricule...'
             className='task--title--input'

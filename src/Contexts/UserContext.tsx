@@ -1,10 +1,10 @@
 import { createContext, useState } from "react";
 
 interface User {
-  username: string | null,
-  email: string | null,
-  Module?: string | null,
-  speciality: { name: string, Admin: boolean, Year: string | boolean }[] | null
+  username: string,
+  email: string,
+  Module?: string,
+  speciality: { name: string, Admin: boolean, Year: string, Module?: string }[]
 }
 
 interface UserContext_type {
@@ -12,21 +12,32 @@ interface UserContext_type {
   handleUserChange: any
 }
 
-// Converting the Speciality variable:
-const specs: { name: string, Admin: boolean, Year: string | boolean }[] = []
-localStorage.getItem("speciality")?.split("####").map(element => {
-  if (element != "")
-    specs.push({ name: element.split("$$")[0], Admin: (element.split("$$")[1] === "true"), Year: element.split("$$")[2] })
-})
+const specs: { name: string, Admin: boolean, Year: string, Module?: string }[] = [];
+const specialityString = localStorage.getItem("speciality");
+if (specialityString) {
+  specialityString.split("####").forEach(element => {
+    if (element !== "") {
+      const spec: { name: string, Admin: boolean, Year: string, Module?: string } = {
+        name: element.split("$$")[0],
+        Admin: element.split("$$")[1] === "true",
+        Year: element.split("$$")[2],
+      };
 
-let _default: User = {
-  username: localStorage.getItem("username"),
-  email: localStorage.getItem("email") || null,
-  speciality: specs || null,
+      if (element.split("$$")[3] !== undefined && element.split("$$")[3] !== "undefined") {
+        spec.Module = element.split("$$")[3];
+      }
+
+      specs.push(spec);
+    }
+  });
 }
 
-if (localStorage.getItem("Module"))
-  _default = { ..._default, Module: localStorage.getItem("Module") }
+
+let _default: User = {
+  username: localStorage.getItem("username") || "",
+  email: localStorage.getItem("email") || "",
+  speciality: specs,
+}
 
 export const AuthContext = createContext<UserContext_type>({
   user: _default,
@@ -35,21 +46,29 @@ export const AuthContext = createContext<UserContext_type>({
 
 export const AuthContextProvider = ({ children }: any) => {
 
+  // State for holding the current user and a function to change it
   const [user, setUser] = useState<User>(_default)
+
+  // Function to update the state when a change occurs in the user's data
   const handleUserChange = (user: User) => {
+
+    // to log in by adding the user infomation to the local storage
     if (user.username) {
-      localStorage.setItem("username", "" + user.username)
-      localStorage.setItem("email", "" + user.email)
+      localStorage.setItem("username", user.username)
+
+      localStorage.setItem("email", user.email)
+
       let specialities = ''
-      // { name: string, Admin: string }
-      user.speciality?.map((spec: any) => {
-        specialities += spec.name + "$$" + spec.Admin + "$$" + spec.Year + "####";
+      user.speciality?.map((spec: { name: string, Admin: boolean, Year: string, Module?: string }) => {
+        specialities += spec.name + "$$" + spec.Admin + "$$" + spec.Year + "$$" + spec.Module + "####";
       })
       localStorage.setItem("speciality", "" + specialities)
+
       if (user.Module)
         localStorage.setItem("Module", "" + user.Module)
-    } else {
-      location.reload()
+    }
+    // to log out by deleting the user infomation from the local storage
+    else {
       localStorage.removeItem("username")
       localStorage.removeItem("email")
       localStorage.removeItem("isTeacher")

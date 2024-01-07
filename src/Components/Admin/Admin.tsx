@@ -5,10 +5,11 @@ import EditNavBar from '../EditNavBar/EditNavBar'
 import Members from '../Members/Members'
 import { useContext } from 'react'
 import { DarkModeContext } from '../../Contexts/Theme'
+import TeachersManager from '../TeachersManager/TeachersManager'
 
 function Admin() {
   const {DarkMode} = useContext(DarkModeContext)
-  const NavOptions = ["Schedule", "Members", "Promo"]
+  const NavOptions = ["Schedule", "Members", "Promo","Teachers"]
   const { pathname } = useLocation()
   const allpath = pathname.substring(1).replace("%20", " ")
   const PageSelected = allpath.split("/")[1] || "Schedule"
@@ -21,6 +22,7 @@ function Admin() {
           <Routes>
             <Route path="" element={<ScheduleEdit />} />
             <Route path="Members" element={<Members />} />
+            <Route path="Teachers" element={<TeachersManager />} />
             <Route path="Promo" element={<p style={{ padding:"2.5rem 1rem"}}>Working on it.</p>} />
           </Routes>
         </div>

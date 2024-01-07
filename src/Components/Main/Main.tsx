@@ -36,9 +36,9 @@ function Main() {
         <Route path="My classes" element={<Classes />} />
         <Route path="Announcement" element={<Announcement />} />
         <Route path="Task" element={<TaskPage />} />
-        <Route path="Edit/*" element={(user.Module) ? <Edit /> : ""} />
+        <Route path="Edit/*" element={user.speciality[0].Module ? <Edit /> : ""} />
         {/* checking if the user is admin */}
-        <Route path="Admin/*" element={(user.speciality && user.speciality[0].Admin) && <Admin /> } />
+        <Route path="Admin/*" element={user.speciality[0].Admin && <Admin /> } />
         <Route path=":selected" element={<Module />} />
       </Routes>
     </div>

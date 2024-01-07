@@ -59,7 +59,7 @@ function TaskEdit() {
 
   const HandleSubmit = async (e: any) => {
     e.preventDefault()
-    if (!inputs.deadline || !user.speciality)
+    if (!inputs.deadline)
       return
 
     if (inputs.taskTitle == "")
@@ -74,7 +74,8 @@ function TaskEdit() {
       taskTitle: inputs.taskTitle,
       Description: inputs.Description,
       Link: inputs.LinkTitle + "###bakhso###" + inputs.Link,
-      speciality:user.speciality[0].name,
+      speciality: user.speciality[0].name,
+      Year: user.speciality[0].Year,
       deadLine: {
         day: parseInt(inputs.deadline.format('DD')),
         month: parseInt(inputs.deadline.format('MM')),
@@ -83,7 +84,7 @@ function TaskEdit() {
       }
     }
 
-    const response = await fetch(`${Server}/api/task`, {
+    const response = await fetch(`${Server}/api/task/create`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"

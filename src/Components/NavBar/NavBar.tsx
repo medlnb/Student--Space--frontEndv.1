@@ -39,7 +39,7 @@ function NavBar() {
     { title: 'Announcement', icon: <TfiAnnouncement className="icon" /> },
     { title: 'Task', icon: < FaTasks className="icon" /> },
   ]
-  if (user.Module)
+  if (user.speciality[0].Module)
     navNames.push({ title: 'Edit', icon: <FiEdit className="icon" /> })
   if (user.speciality && user.speciality[0].Admin )
       navNames.push({ title: 'Admin', icon: <RiAdminLine className="icon" /> })

@@ -45,11 +45,12 @@ function UserBar() {
               <AiOutlineLogout fill={DarkMode ? "Black" : "white"} />
               Logout
             </div>
-            {Object.entries(user).map(element =>
-            (<p>
+            {Object.entries(user).map((element,index) =>
+            (<p key={index}>
               {`${element[0]} :
                 ${(element[0] === "speciality") ?
-                element[1][0].name :
+                element[1][0].name + " / " + element[1][0].Module
+                    :
                   element[1]}`}
             </p>)
             )}

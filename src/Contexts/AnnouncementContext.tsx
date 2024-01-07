@@ -43,10 +43,13 @@ export const AnnouncementsContextProvider = ({ children }: any) => {
   const { user } = useContext(AuthContext)
 
   const fetchTasks = async () => {
-    if (!user.speciality)
-      return  
-  
-    const response = await fetch(`${Server}/api/announcement/${user.speciality[0].name}`)
+    const response = await fetch(`${Server}/api/announcement`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ speciality: user.speciality[0].name, Year: user.speciality[0].Year} )
+    })
     const json: AnnouncementType[] = await response.json();
     dispatch({
       type: "SETANNOUNCEMENTS",

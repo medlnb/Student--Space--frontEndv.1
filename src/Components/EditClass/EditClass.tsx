@@ -11,27 +11,23 @@ import { DarkModeContext } from '../../Contexts/Theme';
 function EditClass() {
   const {DarkMode}= useContext(DarkModeContext)
   const { user } = useContext(AuthContext)
-  if (!user)
-    return
-  if (!user.speciality)
-    return
   const { state } = useContext(ClassesContext)
   const chapters:string[] = ["Chapters"]
   state?.map(modulee => {
     modulee.map(file => {
-      if (file.Module === user.Module && file.Chapter && !chapters.includes(file.Chapter))
+      if (file.Module === user.speciality[0].Module && file.Chapter && !chapters.includes(file.Chapter))
         chapters.push(file.Chapter)
     })
   })
 
-  const SelectedModule = user.email
   const [isloading, setLoading] = useState(false)
   const [inputs, setInputs] = useState({
-    Module: SelectedModule,
+    Module: user.speciality[0].Module,
     Teacher: user.username,
     Chapter: chapters[0],
     Link: "",
     speciality: user.speciality[0].name,
+    Year: user.speciality[0].Year,
     DescriptionClass: "",
     title: ""
   })
@@ -43,15 +39,16 @@ function EditClass() {
       return
     }
     setLoading(true)
-    await fetch(`${Server}/api/file`, {
+    await fetch(`${Server}/api/file/create`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json"
       }
       , body: JSON.stringify(inputs)
     })
+
     setLoading(false)
-    window.location.reload();
+    // window.location.reload();
 
   }
 

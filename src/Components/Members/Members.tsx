@@ -13,7 +13,7 @@ interface RequestType {
   Speciality: { name: String, Year: String },
 }
 function Members() {
-  const {DarkMode} = useContext(DarkModeContext)
+  const { DarkMode } = useContext(DarkModeContext)
   const [loadingAccept, setLoadingAccept] = useState<string | null>(
     null);
   const [loadingDecline, setLoadingDecline] = useState<string | null>(null);
@@ -24,7 +24,7 @@ function Members() {
       mail: "string",
       firstname: "string",
       lastname: "string",
-      Speciality: {name:"",Year:""},
+      Speciality: { name: "", Year: "" },
     }
   ]);
 
@@ -37,7 +37,7 @@ function Members() {
       })
       .then(data => setRequests(data))
       .catch(err => { console.log(err) })
-    
+
   }, [])
 
 
