@@ -8,6 +8,9 @@
   box-shadow: 0px 0px 5px #524966;
   cursor: pointer;
 }
+.dark--homepage--container .class--container{
+  background: var(--primary-light-color);
+}
 
 .class--container:hover {
   box-shadow: 0px 0px 5px #8b79b2;

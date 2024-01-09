@@ -44,7 +44,7 @@ function Classes() {
   )
   return (
     
-    <div className={`sub--main--container ${!DarkMode && "dark--sub--main--container"}`}>
+    <div className="sub--main--container">
       <h1 className='sub--main--title'>Classes</h1>
       {loading ?
         <div className='loader--container'>

@@ -6,7 +6,7 @@
   white-space: nowrap;
   box-shadow: 1px 0px 10px #423a52;
 }
-.dark--navbar--container {
+.dark--homepage--container .navbar--container {
   background: var(--third-light-color); 
 }
 

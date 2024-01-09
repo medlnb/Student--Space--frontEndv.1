@@ -19,7 +19,7 @@ function NavElement({ title, icon, isSelected, HandleClick }: props) {
       className={isSelected ? 'navelement--container selected' : "navelement--container "}
       style={{ color: isSelected ? `${SelectedColor}` : 'inherit' }}
       onClick={() => HandleClick(title)}>
-      <div className={`icon--holder ${!DarkMode && "DarkMode--nav--icon"}`}>
+      <div className="icon--holder ">
         {icon}
       </div>
       {title}

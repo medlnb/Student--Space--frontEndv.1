@@ -42,16 +42,14 @@ function App() {
         <Routes>
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
-
+          <Route path='/promotionrequest' element={<PromotionRequest />} />
           {/* Wrap routes that require authentication */}
           <Route element={<AuthenticatedRoute />}>
-            <Route path='/promotionrequest' element={<PromotionRequest />} />
             <Route path='/' element={<HomePage />}>
               <Route index element={<Navigate to="/My classes" replace />} />
               <Route path="My classes" element={<Classes />} />
               <Route path="Announcement" element={<Announcement />} />
               <Route path="Task" element={<TaskPage />} />
-
               {/* Prof specific routes */}
               {
                 <Route path="Edit/" element={<Edit />}>
@@ -60,7 +58,6 @@ function App() {
                   <Route path="Annou" element={<AnnouncementEdit />} />
                 </Route>
               }
-
               {/* Admin specific routes */}
               <Route element={<AdminRoute />}>
                 <Route path="Admin/" element={<Admin />}>
@@ -70,9 +67,21 @@ function App() {
                   <Route path="Promo" element={<p style={{ padding: "2.5rem 1rem" }}>Working on it.</p>} />
                 </Route>
               </Route>
+              <Route path="Module/:selected" element={<Module />} />
+              <Route path="*" element={
+                <div className="sub--main--container ">
+                  <div className='center--it'>
+                    <div>
+                      <h1>Page not found</h1>
+                      <p>this is the world's edge</p>
+                      <p style={{ fontSize: ".8rem" }}>go back man</p>
+                    </div>
+                  </div>
 
-              <Route path=":selected" element={<Module />} />
+                </div>
+              } />
             </Route>
+
           </Route>
 
         </Routes>

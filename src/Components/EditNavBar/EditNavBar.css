@@ -6,7 +6,7 @@
   bottom: 0;
   width: 100%;
 }
-.dark--sub--main--container .editnavbar--container {
+.dark--homepage--container .editnavbar--container {
   background: var(--primary-light-color);
 }
 .EditNavBarEelemnt {
@@ -19,6 +19,6 @@
 .SelectedPage {
   background: var(--secondary-dark-color);
 }
-.dark--sub--main--container .SelectedPage {
+.dark--homepage--container .SelectedPage {
   background: var(--secondary-light-color);
 }

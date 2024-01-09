@@ -31,8 +31,6 @@ function NavBar() {
 
   const navigate = useNavigate()
   const { user } = useContext(AuthContext)
-  if (!user.email)
-    return
 
   const navNames = [
     { title: 'My classes', icon: <MdOutlineClass className="icon" /> },
@@ -47,7 +45,7 @@ function NavBar() {
   const { pathname } = useLocation()
   const allpath = pathname.substring(1).replace("%20", " ")
   var selectedNav = allpath.split("/")[0]
-  if (selectedNav[0] === ":") {
+  if (selectedNav === "Module") {
     selectedNav = "My classes"
   }
 
@@ -65,7 +63,7 @@ function NavBar() {
       isSelected={element.title == selectedNav} />
   ))
   return (
-    <div className={`navbar--container ${!DarkMode && "dark--navbar--container"}`}>
+    <div className={`navbar--container `}>
       <div className='navbar--top'>
         <h2 className='navbar--logo'>Student's Space</h2>
         {ToggleNavBar ?

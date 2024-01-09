@@ -18,10 +18,13 @@
   width: 2rem;
   border-radius: 0 50% 50% 0;
 }
+
+
 .selected .icon--holder {
   background: var(--primary-dark-color);
 }
-.selected .DarkMode--nav--icon {
+
+.dark--homepage--container .selected .icon--holder {
   background: #87CEEB;  
 }
 @media (max-width: 700px) {

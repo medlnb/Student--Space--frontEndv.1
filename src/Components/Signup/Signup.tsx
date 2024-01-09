@@ -16,6 +16,7 @@ const isValidEmail = (inputEmail: string) => {
 function Signup() {
   const [Options, setOptions] = useState([])
   const [isTeacher, setisTeacher] = useState(false)
+
   useEffect(() => {
     const fetchOptions = async () => {
       const response = await fetch(`${Server}/api/user/specs`)
@@ -46,24 +47,43 @@ function Signup() {
       return setInputs(prev => ({ ...prev, msg: { ...prev.msg, err: "Please Entre Valid Email" } }))
 
     setInputs(prev => ({ ...prev, loading: true }))
-    const response = await fetch(`${Server}/api/request`, {
-      method: "POST",
-      body: JSON.stringify({
-        matricule: inputs.matricule,
-        mail: inputs.email,
-        firstname: inputs.firstName,
-        lastname: inputs.lastName,
-        password: inputs.password,
-        Speciality: inputs.Speciality
-      }),
-      headers: {
-        "Content-Type": "Application/json"
-      }
-    })
-    const json = await response.json()
-    setInputs(prev => (
-      { ...prev, loading: false, msg: json }
-    ))
+
+    if (!isTeacher) {
+      const response = await fetch(`${Server}/api/request`, {
+        method: "POST",
+        body: JSON.stringify({
+          matricule: inputs.matricule,
+          mail: inputs.email,
+          firstname: inputs.firstName,
+          lastname: inputs.lastName,
+          password: inputs.password,
+          Speciality: inputs.Speciality
+        }),
+        headers: {
+          "Content-Type": "Application/json"
+        }
+      })
+      const json = await response.json()
+      setInputs(prev => (
+        { ...prev, loading: false, msg: json }
+      ))
+    } else {
+      const response = await fetch(`${Server}/api/user/teacher`, {
+        method: "POST",
+        body: JSON.stringify({
+          mail: inputs.email,
+          username: inputs.lastName + " " +inputs.firstName,
+          password: inputs.password
+        }),
+        headers: {
+          "Content-Type": "Application/json"
+        }
+      })
+      const json = await response.json()
+      setInputs(prev => (
+        { ...prev, loading: false, msg: json }
+      ))
+    }
   }
 
   return (
@@ -80,16 +100,35 @@ function Signup() {
         <form className='form_conatiner' onSubmit={handleSubmit}>
           <h2>Sign up</h2>
           <h3>Please enter your details</h3>
-          <input type='boxchoice'/>
-          <input
-            placeholder='Matricule...'
-            className='task--title--input'
-            value={inputs.matricule}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              if (/^\d+$/.test(e.target.value) || e.target.value === "")
-                setInputs(prev => ({ ...prev, matricule: e.target.value }))
-            }}
-          />
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <label>
+              <input
+                type="radio"
+                checked={!isTeacher}
+                onChange={() => setisTeacher(false)}
+              />
+              Student
+            </label>
+            <label>
+              <input
+                type="radio"
+                checked={isTeacher}
+                onChange={() => setisTeacher(true)}
+              />
+              Professor
+            </label>
+          </div>
+          {!isTeacher &&
+            <input
+              placeholder='Matricule...'
+              className='task--title--input'
+              value={inputs.matricule}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                if (/^\d+$/.test(e.target.value) || e.target.value === "")
+                  setInputs(prev => ({ ...prev, matricule: e.target.value }))
+              }}
+            />
+          }
           <input
             placeholder='First Name...'
             className='task--title--input'
@@ -124,40 +163,41 @@ function Signup() {
               setInputs(prev => ({ ...prev, password: e.target.value }))
             }}
           />
-          <Select
-            defaultValue={{ value: 'Speciality', label: 'Speciality' }}
-            options={Options}
-            styles={{
-              control: (baseStyles) => ({
-                ...baseStyles,
-                background: "#19161f",
+          {!isTeacher &&
+            <Select
+              defaultValue={{ value: 'Speciality', label: 'Speciality' }}
+              options={Options}
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  background: "#19161f",
 
-              }),
-            }}
-            theme={(theme) => ({
-              ...theme,
-              borderRadius: 0,
-              colors: {
-                ...theme.colors,
-                primary: "white",
-                primary25: '#383246',
-                neutral0: "#25212e"
-              },
-            })}
-            onChange={value => {
-              if (value) {
-                setInputs(prev => (
-                  {
-                    ...prev,
-                    Speciality: {
-                      name: value.value.split(" ~ ")[0],
-                      Year: value.value.split(" ~ ")[1]
-                    }
-                  }))
+                }),
+              }}
+              theme={(theme) => ({
+                ...theme,
+                borderRadius: 0,
+                colors: {
+                  ...theme.colors,
+                  primary: "white",
+                  primary25: '#383246',
+                  neutral0: "#25212e"
+                },
+              })}
+              onChange={value => {
+                if (value) {
+                  setInputs(prev => (
+                    {
+                      ...prev,
+                      Speciality: {
+                        name: value.value.split(" ~ ")[0],
+                        Year: value.value.split(" ~ ")[1]
+                      }
+                    }))
+                }
               }
-            }
-            }
-          />
+              }
+            />}
           <p
             style={inputs.msg.err ? { color: "#FF5733" } : { color: "white" }}
             className='error--msg'>

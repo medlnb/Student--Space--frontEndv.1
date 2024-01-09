@@ -25,7 +25,7 @@ function TaskPage() {
     </div>
   ))
   return (
-    <div className={`sub--main--container ${!DarkMode && "dark--sub--main--container"}`}>
+    <div className="sub--main--container ">
       <h1 className='sub--main--title'>Tasks</h1>
       <div className='tasks--container'>
         {(state.length === 0) ?

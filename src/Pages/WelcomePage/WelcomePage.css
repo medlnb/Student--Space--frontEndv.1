@@ -4,9 +4,6 @@
   flex-direction: row;
   height: 100vh;
 }
-.welcomePage--container input {
-  color: black;
-}
 
 .welcomePage--left {
   height: 100%;
