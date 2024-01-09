@@ -1,10 +1,10 @@
 import './App.css'
 import HomePage from './Pages/HomePage/HomePage'
-import { BrowserRouter,  Route, Routes, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate, Outlet } from 'react-router-dom'
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import PromotionRequest from './Components/PromotionRequest/PromotionRequest';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import Classes from './Components/Classes/Classes';
 import Announcement from './Components/Announcement/Announcement';
 import TaskPage from './Components/TaskPage/TaskPage';
@@ -19,53 +19,66 @@ import ScheduleEdit from './Components/ScheduleEdit/ScheduleEdit';
 import Members from './Components/Members/Members';
 import TeachersManager from './Components/TeachersManager/TeachersManager';
 
-function Redirect() {
-  const navigate = useNavigate()
-  useEffect(() => {
-    navigate("My classes")
-  }, [])
-  return (
-    <>
-    </>
-  )
-}
+const AuthenticatedRoute: React.FC = () => {
+  const { user } = useContext(AuthContext);
+  if (!user.username) {
+    return <Navigate to="/login" replace />
+  }
+  return <Outlet />
+};
+
+const AdminRoute: React.FC = () => {
+  const { user } = useContext(AuthContext);
+  if (!user.speciality[0].Admin) {
+    return <Navigate to="/" replace />;
+  }
+  return <Outlet />;
+};
+
 function App() {
-  const { user } = useContext(AuthContext)
   return (
     <div>
       <BrowserRouter>
         <Routes>
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/promotionrequest' element={<PromotionRequest />} />
-          {user.username &&
-            <Route path='/' element={<HomePage />} >
-              <Route index element={<Redirect />} />
+
+          {/* Wrap routes that require authentication */}
+          <Route element={<AuthenticatedRoute />}>
+            <Route path='/promotionrequest' element={<PromotionRequest />} />
+            <Route path='/' element={<HomePage />}>
+              <Route index element={<Navigate to="/My classes" replace />} />
               <Route path="My classes" element={<Classes />} />
               <Route path="Announcement" element={<Announcement />} />
               <Route path="Task" element={<TaskPage />} />
-              {user.speciality[0].Module &&
-                <Route path="Edit/" element={<Edit />} >
+
+              {/* Prof specific routes */}
+              {
+                <Route path="Edit/" element={<Edit />}>
                   <Route path="" element={<EditClass />} />
                   <Route path="Tasks" element={<TaskEdit />} />
                   <Route path="Annou" element={<AnnouncementEdit />} />
                 </Route>
               }
-              {/* checking if the user is admin */}
-              {user.speciality[0].Admin &&
-                <Route path="Admin/" element={<Admin />} >
+
+              {/* Admin specific routes */}
+              <Route element={<AdminRoute />}>
+                <Route path="Admin/" element={<Admin />}>
                   <Route path="" element={<ScheduleEdit />} />
                   <Route path="Members" element={<Members />} />
                   <Route path="Teachers" element={<TeachersManager />} />
                   <Route path="Promo" element={<p style={{ padding: "2.5rem 1rem" }}>Working on it.</p>} />
                 </Route>
-              }
+              </Route>
+
               <Route path=":selected" element={<Module />} />
             </Route>
-          }
+          </Route>
+
         </Routes>
       </BrowserRouter>
     </div>
-  )
+  );
+
 }
 export default App;
