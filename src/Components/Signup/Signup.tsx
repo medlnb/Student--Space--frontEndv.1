@@ -67,11 +67,13 @@ function Signup() {
       setInputs(prev => (
         { ...prev, loading: false, msg: json }
       ))
+
     } else {
+
       const response = await fetch(`${Server}/api/user/teacher`, {
         method: "POST",
         body: JSON.stringify({
-          mail: inputs.email,
+          email: inputs.email,
           username: inputs.lastName + " " +inputs.firstName,
           password: inputs.password
         }),

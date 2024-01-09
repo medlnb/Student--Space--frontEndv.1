@@ -3,3 +3,6 @@
   place-items: center;
   height: 100%;
 }
+.everything--black *{
+  color: var(--text-color);
+}

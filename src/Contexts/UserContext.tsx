@@ -71,12 +71,11 @@ export const AuthContextProvider = ({ children }: any) => {
     else {
       localStorage.removeItem("username")
       localStorage.removeItem("email")
-      localStorage.removeItem("isTeacher")
-      localStorage.removeItem("Module")
       localStorage.removeItem("speciality")
     }
     setUser({ ...user, email: user.email, })
   }
+  // console.log(user)
   return (
     <AuthContext.Provider value={{ user, handleUserChange }}>
       {children}

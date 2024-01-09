@@ -14,7 +14,6 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Ubuntu", sans-serif;
-  color: var(--text-color);
 }
 
 .flex--it{

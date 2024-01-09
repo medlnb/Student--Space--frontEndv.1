@@ -1,5 +1,5 @@
 import './App.css'
-import HomePage from './Pages/HomePage/HomePage'
+import HomePage, { notify } from './Pages/HomePage/HomePage'
 import { BrowserRouter, Route, Routes, Navigate, Outlet } from 'react-router-dom'
 import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
@@ -21,11 +21,16 @@ import TeachersManager from './Components/TeachersManager/TeachersManager';
 
 const AuthenticatedRoute: React.FC = () => {
   const { user } = useContext(AuthContext);
+  // console.log(user.speciality)
+  if (user.speciality.length === 0) {
+    notify("error", " Hi {user.username}, \n it seems like you are not included in any promotion, \n so there is no specialty assigned to you yet. \n Please provide your email to your school's administrator to Add you in.")
+    return <Navigate to="/login" replace />
+  }
   if (!user.username) {
     return <Navigate to="/login" replace />
   }
   return <Outlet />
-};
+}
 
 const AdminRoute: React.FC = () => {
   const { user } = useContext(AuthContext);
@@ -33,11 +38,11 @@ const AdminRoute: React.FC = () => {
     return <Navigate to="/" replace />;
   }
   return <Outlet />;
-};
+}
 
 function App() {
   return (
-    <div>
+    <div  className='everything--black'>
       <BrowserRouter>
         <Routes>
           <Route path='/signup' element={<Signup />} />
@@ -74,20 +79,16 @@ function App() {
                     <div>
                       <h1>Page not found</h1>
                       <p>this is the world's edge</p>
-                      <p style={{ fontSize: ".8rem" }}>go back man</p>
+                      <a style={{ fontSize: ".8rem" }}>go back man</a>
                     </div>
                   </div>
-
                 </div>
               } />
             </Route>
-
           </Route>
-
         </Routes>
       </BrowserRouter>
     </div>
   );
-
 }
 export default App;
