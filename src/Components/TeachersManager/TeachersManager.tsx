@@ -5,6 +5,7 @@ import { Server } from '../../Data/API'
 import { AuthContext } from '../../Contexts/UserContext'
 import PropagateLoader from 'react-spinners/PropagateLoader'
 import { DarkModeContext } from '../../Contexts/Theme'
+import DropDown from '../DropDown/DropDown'
 
 function TeachersManager() {
   const { DarkMode } = useContext(DarkModeContext)
@@ -13,7 +14,7 @@ function TeachersManager() {
     username: "Default",
     Module: "Default",
     email: "Default",
-    password: "Default"
+    speciality: []
   }])
 
   useEffect(() => {
@@ -51,8 +52,15 @@ function TeachersManager() {
               username: string,
               Module: string,
               email: string,
-              password: string
+              speciality: {
+                Module: string,
+                Year: string,
+                name: string
+              }[]
             }, index: number) => {
+              const specs = teacher.speciality.filter(spec =>
+                (spec.name === user.speciality[0].name && spec.Year === user.speciality[0].Year))
+              const list = specs.map(spec=>spec.Module)
               return (
                 <div
                   key={index}
@@ -66,7 +74,7 @@ function TeachersManager() {
                   <div className='members--body--member--module'>
                     <h4>{teacher.Module}</h4>
                   </div>
-                  <Password pw={teacher.password} />
+                  <DropDown list={list} />
                 </div>
               )
             })}
@@ -75,17 +83,4 @@ function TeachersManager() {
     </>
   )
 }
-
 export default TeachersManager
-
-function Password({ pw }: { pw: string }) {
-  const [showpassword, setShowpassword] = useState(false)
-  return (
-    <div className='members--body--member--module'>
-      <h4
-        onClick={() => setShowpassword(prev => !prev)}
-        style={{ cursor: "pointer" }}
-      >{showpassword ? pw : "*".repeat(pw.length)}</h4>
-    </div>
-  )
-}

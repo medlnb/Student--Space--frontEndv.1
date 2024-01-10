@@ -2,7 +2,6 @@ import './HomePage.css'
 import './Main.css'
 import { ScheduleContextProvider } from '../../Contexts/ScheduleContext'
 import { TasksContextProvider } from '../../Contexts/TaskContext'
-import 'react-toastify/dist/ReactToastify.css';
 import { ClassesContextProvider } from '../../Contexts/Class'
 import { useContext } from 'react'
 import { AuthContext } from '../../Contexts/UserContext'

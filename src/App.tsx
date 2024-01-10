@@ -21,12 +21,11 @@ import TeachersManager from './Components/TeachersManager/TeachersManager';
 
 const AuthenticatedRoute: React.FC = () => {
   const { user } = useContext(AuthContext);
-  // console.log(user.speciality)
-  if (user.speciality.length === 0) {
-    notify("error", " Hi {user.username}, \n it seems like you are not included in any promotion, \n so there is no specialty assigned to you yet. \n Please provide your email to your school's administrator to Add you in.")
+  if (!user.username) {
     return <Navigate to="/login" replace />
   }
-  if (!user.username) {
+  if (user.speciality.length === 0) {
+    notify("error", " Hi {user.username}, \n it seems like you are not included in any promotion, \n so there is no specialty assigned to you yet. \n Please provide your email to your school's administrator to Add you in.")
     return <Navigate to="/login" replace />
   }
   return <Outlet />

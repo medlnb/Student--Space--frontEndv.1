@@ -13,7 +13,7 @@ function moveStringToFront(array: string[], targetString: string) {
   let newarray = ""
   array.map((mdl, index) => {
     if (index !== 0)
-      newarray = newarray + "$$" + mdl
+      newarray = newarray + "####" + mdl
     else
       newarray = newarray + mdl
   })
@@ -23,10 +23,14 @@ function moveStringToFront(array: string[], targetString: string) {
 function UserBar() {
   const { DarkMode } = useContext(DarkModeContext)
   const { user, handleUserChange } = useContext(AuthContext)
+  const specs = ("" + localStorage.getItem("speciality")).split("####")
+  // console.log(user.speciality[0])
   const [showUserInfo, setShowUserInfo] = useState(false)
   const HandleChange = (e: any) => {
-    const email = e.target.value
-    handleUserChange({ ...user, email: moveStringToFront(("" + localStorage.getItem("email")).split("$$"), email) })
+    const speciality = e.target.value
+    const specialityArray = moveStringToFront(specs, speciality)
+    localStorage.setItem("speciality", specialityArray)
+    location.reload()
   }
 
   return (
@@ -45,12 +49,12 @@ function UserBar() {
               <AiOutlineLogout fill={DarkMode ? "Black" : "white"} />
               Logout
             </div>
-            {Object.entries(user).map((element,index) =>
+            {Object.entries(user).map((element, index) =>
             (<p key={index}>
               {`${element[0]} :
                 ${(element[0] === "speciality") ?
-                element[1][0].name + " / " + element[1][0].Module
-                    :
+                  element[1][0].name + " / " + element[1][0].Module
+                  :
                   element[1]}`}
             </p>)
             )}
@@ -59,13 +63,15 @@ function UserBar() {
 
       </div>
       {`Hi, ${user.username}`}
-      {localStorage.getItem("email")?.split("$$").length !== 1 &&
+      {specs.length !== 2 &&
         < select
           onChange={HandleChange}
           style={{ background: "none", border: "none", outline: "none" }}>
-          {localStorage.getItem("email")?.split("$$").map(mdl => (
-            <option className="inside--option" key={mdl} value={mdl}>{mdl}</option>
-          ))}
+          {specs.map(mdl => {
+            if (mdl != "")
+              return <option className="inside--option" key={mdl} value={mdl}>{mdl}</option>
+          }
+          )}
         </select>}
     </div>
   )

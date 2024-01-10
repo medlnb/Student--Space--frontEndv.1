@@ -5,7 +5,7 @@ import { TfiAnnouncement } from 'react-icons/tfi';
 import { FiEdit } from 'react-icons/fi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/UserContext';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai'
 import { FaTasks } from "react-icons/fa";
 import { RiAdminLine } from "react-icons/ri";
@@ -16,19 +16,28 @@ import { DarkModeContext } from '../../Contexts/Theme';
 
 function NavBar() {
   const [ToggleNavBar, setToggleNavBar] = useState(false)
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const { DarkMode, setDarkMode } = useContext(DarkModeContext)
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth)
     }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setToggleNavBar(false)
+      }
+    };
+
     window.addEventListener('resize', handleResize)
+    document.addEventListener('mousedown', handleClickOutside)
 
     return () => {
       window.removeEventListener('resize', handleResize)
+      document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [])
-
+  }, [dropdownRef]); 
   const navigate = useNavigate()
   const { user } = useContext(AuthContext)
 
@@ -63,7 +72,7 @@ function NavBar() {
       isSelected={element.title == selectedNav} />
   ))
   return (
-    <div className={`navbar--container `}>
+    <div className={`navbar--container `} ref={dropdownRef}>
       <div className='navbar--top'>
         <h2 className='navbar--logo'>Student's Space</h2>
         {ToggleNavBar ?

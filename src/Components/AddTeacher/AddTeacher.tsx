@@ -2,29 +2,39 @@ import { useContext, useState } from 'react'
 import './AddTeacher.css'
 import { AuthContext } from '../../Contexts/UserContext'
 import { Server } from '../../Data/API'
+import { notify } from '../../Pages/HomePage/HomePage'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 function AddTeacher() {
   const { user } = useContext(AuthContext)
   const [inputs, setInputs] = useState({
-    username: "",
     email: "",
-    password: "",
     Module: "",
-    speciality: {
-      name: user.speciality[0].name,
-      Year: user.speciality[0].Year
-    }
+    loading: false
   })
 
-  const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    fetch(`${Server}/api/user/teacher`, {
-      method: "POST",
+    setInputs(prev => ({...prev,loading:true}))
+    const response = await fetch(`${Server}/api/user/teacher`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(inputs)
+      body: JSON.stringify({
+        email: inputs.email,
+        speciality: {
+          name: user.speciality[0].name,
+          Year: user.speciality[0].Year,
+          Module: inputs.Module
+        }
+      })
     })
+    setInputs(prev => ({ ...prev,email:"",Module:"", loading: false}))
+    if (response.ok)
+      notify("success", "Teacher was added successfully")
+    else
+      notify("error", "Error Adding Teacher")
   }
   return (
     <form className='taskedit--create' onSubmit={HandleSubmit}>
@@ -32,18 +42,6 @@ function AddTeacher() {
         <h3>Add Teachers </h3>
       </div>
       <div className='members--body'>
-        <div style={{ display: "flex", alignItems: "center" }}
-          className='task--title--input'
-        >
-          Dr.
-          <input
-            placeholder='Username'
-            className='task--title--input'
-            style={{border:"none"}}
-            value={inputs.username}
-            onChange={(e) => setInputs(prev => ({ ...prev, username: e.target.value }))}
-          />
-        </div>
         <input
           placeholder='Email'
           className='task--title--input'
@@ -56,23 +54,20 @@ function AddTeacher() {
           value={inputs.Module}
           onChange={(e) => setInputs(prev => ({ ...prev, Module: e.target.value }))}
         />
-        <input
-          placeholder='Password'
-          className='task--title--input'
-          value={inputs.password}
-          onChange={(e) => setInputs(prev => ({ ...prev, password: e.target.value }))}
-        />
-        <button
-          className={false ? 'taskedit--body--submit isSubmitting' : 'taskedit--body--submit'}>
-          Add
-          {/* <ClipLoader
-            color={`${DarkMode ? "white" : "black"}`}
-            loading={isloading}
-            size={15}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          /> */}
-        </button>
+        <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+          <button
+            className={inputs.loading ? 'taskedit--body--submit isSubmitting' : 'taskedit--body--submit'}>
+            Add
+            <ClipLoader
+              color="yellow"
+              loading={inputs.loading}
+              size={15}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </button>
+          
+        </div>
       </div>
     </form>
   )
