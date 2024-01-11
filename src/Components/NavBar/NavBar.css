@@ -131,7 +131,7 @@
     width: 100%;
     background: #19161f;
   }
-  .dark--navbar--container {
+  .dark--homepage--container .navbar--container {
     background: #eaf1f7;
   }
   .phoneNav {
@@ -151,7 +151,7 @@
     border-radius: .5rem;
     box-shadow: 0px 0px 10px black;
   }
-  .dark--navbar--container .navig {
+  .dark--homepage--container .navig {
     background: #eaf1f7;
   }
   .darkmode--switch{

@@ -11,6 +11,9 @@
   width: 40%;
   text-align: center;
 }
+.welcomePage--left p {
+  color: #19161f;
+}
 .welcomePage--right {
   height: 100%;
   width: 60%;

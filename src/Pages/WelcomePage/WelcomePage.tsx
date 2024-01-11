@@ -7,12 +7,13 @@ function WelcomePage() {
     <div className="welcomePage--container">
       <div className="welcomePage--left">
         <img src={logo} className="welcomePage--logo" />
+        <p>asdsad</p>
       </div>
       <div className="welcomePage--right">
         <Outlet />
       </div>
     </div>
-  );
+  )
 }
 
-export default WelcomePage;
+export default WelcomePage
