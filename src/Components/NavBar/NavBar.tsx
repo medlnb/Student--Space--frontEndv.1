@@ -12,8 +12,6 @@ import { RiAdminLine } from "react-icons/ri";
 import { BsChevronDoubleDown } from "react-icons/bs";
 import { DarkModeContext } from '../../Contexts/Theme';
 
-
-
 function NavBar() {
   const [ToggleNavBar, setToggleNavBar] = useState(false)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)

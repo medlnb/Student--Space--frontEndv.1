@@ -7,12 +7,18 @@
 
 .welcomePage--left {
   height: 100%;
-  background-color: white;
+  background: #24202e;
   width: 40%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .welcomePage--left p {
-  color: #19161f;
+  text-align: start;
+  padding: 0.5rem;
+  color: white;
+  width: 80%;
 }
 .welcomePage--right {
   height: 100%;
@@ -61,21 +67,17 @@
 
 .welcomePage--logo {
   width: 20rem;
-  max-width: 100%;
+  max-width: 50%;
   margin: 5rem 0;
 }
 @media (max-width: 700px) {
   .welcomePage--container {
-    background: #545454;
     flex-direction: column;
   }
   .welcomePage--right,
   .welcomePage--left {
     width: 100%;
     background: #19161f;
-  }
-  .welcomePage--left {
-    height: 8rem;
   }
   .welcomePage--logo {
     width: 5rem;
