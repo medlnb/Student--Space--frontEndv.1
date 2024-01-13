@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext,  useEffect, useState } from "react";
 import { Server } from "../Data/API";
-import { AuthContext } from "./UserContext";
 interface scheduleDayType {
   id: number,
   module: string,
@@ -17,7 +16,6 @@ export const ScheduleContext = createContext<{
   })
 
 export const ScheduleContextProvider = ({ children }: any) => {
-  const { user } = useContext(AuthContext)
   const day = {
     id: 1000000000,
     module: " ",
@@ -34,17 +32,10 @@ export const ScheduleContextProvider = ({ children }: any) => {
   )
   useEffect(() => {
     const fetchingSchedule = async () => {
-      if (!user.speciality)
-        return
-      const response = await fetch(`${Server}/api/newSchedule/get`, {
-        method: "POST",
-        body: JSON.stringify({
-          Class: user.speciality[0].name,
-          Group: 0,
-          Year: user.speciality[0].Year
-        }),
+      const response = await fetch(`${Server}/api/newSchedule`, {
         headers: {
-          "Content-Type": "Application/json"
+          "Content-Type": "Application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
       })
       const json = await response.json()

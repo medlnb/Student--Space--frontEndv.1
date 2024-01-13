@@ -23,15 +23,11 @@ function EditClass() {
   const [isloading, setLoading] = useState(false)
   const [inputs, setInputs] = useState({
     Module: user.speciality[0].Module,
-    Teacher: user.username,
     Chapter: chapters[0],
     Link: "",
-    speciality: user.speciality[0].name,
-    Year: user.speciality[0].Year,
     DescriptionClass: "",
     title: ""
   })
-  // console.log(inputs)
   const HandleSubmit = async (e: any) => {
     e.preventDefault()
     if (inputs.Chapter == "" || inputs.Link == "" || inputs.title == "") {
@@ -42,7 +38,8 @@ function EditClass() {
     await fetch(`${Server}/api/file/create`, {
       method: "POST",
       headers: {
-        "Content-Type": "Application/json"
+        "Content-Type": "Application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
       , body: JSON.stringify(inputs)
     })

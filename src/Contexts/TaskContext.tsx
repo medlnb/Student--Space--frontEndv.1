@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { Server } from "../Data/API";
-import { AuthContext } from "./UserContext";
 
 interface date {
   day: number;
@@ -49,17 +48,12 @@ export const TasksContextProvider = ({ children }: any) => {
     deadLine: null
   }
   const [state, dispatch] = useReducer<React.Reducer<TaskType[], any>>(TaskReducer, [default_value])
-  const { user } = useContext(AuthContext)
   const fetchTasks = async () => {
     const response = await fetch(`${Server}/api/task`, {
-      method: "POST",
       headers: {
-        "Content-Type": "Application/json"
-      },
-      body: JSON.stringify({
-        speciality: user.speciality[0].name,
-        Year: user.speciality[0].Year
-      })
+        "Content-Type": "Application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
     })
     const json: TaskType[] = await response.json();
     dispatch({

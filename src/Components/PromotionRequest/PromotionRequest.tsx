@@ -47,6 +47,7 @@ function PromotionRequest() {
       username: json.username,
       email: json.email,
       speciality: json.speciality,
+      token: json.token,
     });
     setInputs((prev) => ({ ...prev, loading: false }));
     navigate("/My classes");
