@@ -28,7 +28,7 @@ function Members() {
   ]);
 
   useEffect(() => {
-    fetch(`${Server}/api/request`, {
+    fetch(`${Server}/api/request/${localStorage.getItem("specIndex")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

@@ -41,7 +41,7 @@ export const AnnouncementsContextProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer<React.Reducer<AnnouncementType[], any>>(TaskReducer, [default_value])
 
   const fetchTasks = async () => {
-    const response = await fetch(`${Server}/api/announcement`, {
+    const response = await fetch(`${Server}/api/announcement/${localStorage.getItem("specIndex")}`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`

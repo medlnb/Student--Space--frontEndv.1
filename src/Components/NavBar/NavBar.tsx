@@ -46,7 +46,7 @@ function NavBar() {
   ]
   if (user.speciality[0].Module)
     navNames.push({ title: 'Edit', icon: <FiEdit className="icon" /> })
-  if (user.speciality && user.speciality[0].Admin )
+  if (user.speciality && user.speciality[user.specIndex].Admin )
       navNames.push({ title: 'Admin', icon: <RiAdminLine className="icon" /> })
     
   const { pathname } = useLocation()

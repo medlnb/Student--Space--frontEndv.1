@@ -52,7 +52,8 @@ function Login() {
       email: json.email,
       speciality: json.speciality,
       Module: json.Module,
-      token: json.token
+      token: json.token,
+      specIndex: 0,
     })
     setInputs((prev) => ({ ...prev, loading: false }));
     navigate("/My classes");

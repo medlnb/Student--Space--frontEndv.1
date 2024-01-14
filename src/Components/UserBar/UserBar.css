@@ -13,7 +13,7 @@
 .logout{
  position: absolute; 
  z-index: 1;
- background: black;
+ /* background: black; */
  white-space: nowrap;
 }
 .logout--sign {
@@ -37,7 +37,6 @@
 }
 .dark--homepage--container .inside--option {
   background: var(--primary-light-color);
-
 }
 .up--arrow {
   position: relative;

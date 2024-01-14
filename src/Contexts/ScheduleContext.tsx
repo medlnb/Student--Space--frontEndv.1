@@ -32,7 +32,7 @@ export const ScheduleContextProvider = ({ children }: any) => {
   )
   useEffect(() => {
     const fetchingSchedule = async () => {
-      const response = await fetch(`${Server}/api/newSchedule`, {
+      const response = await fetch(`${Server}/api/newSchedule/${localStorage.getItem("specIndex")}`, {
         headers: {
           "Content-Type": "Application/json",
           "Authorization": `Bearer ${localStorage.getItem("token")}`

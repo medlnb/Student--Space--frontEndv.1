@@ -49,7 +49,7 @@ export const TasksContextProvider = ({ children }: any) => {
   }
   const [state, dispatch] = useReducer<React.Reducer<TaskType[], any>>(TaskReducer, [default_value])
   const fetchTasks = async () => {
-    const response = await fetch(`${Server}/api/task`, {
+    const response = await fetch(`${Server}/api/task/${localStorage.getItem("specIndex")}`, {
       headers: {
         "Content-Type": "Application/json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`

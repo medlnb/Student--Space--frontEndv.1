@@ -19,11 +19,9 @@
   border-radius: 0 50% 50% 0;
 }
 
-
 .selected .icon--holder {
   background: var(--primary-dark-color);
 }
-
 .dark--homepage--container .selected .icon--holder {
   background: #87CEEB;  
 }
@@ -36,5 +34,8 @@
   }
   .selected .icon {
     background: none;
+  }
+  .dark--homepage--container .selected .icon--holder {
+    background: none;  
   }
 }

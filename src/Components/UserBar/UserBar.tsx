@@ -4,29 +4,22 @@ import { AuthContext } from "../../Contexts/UserContext";
 import { FaUserGraduate } from "react-icons/fa";
 import { AiOutlineLogout } from "react-icons/ai";
 import { DarkModeContext } from "../../Contexts/Theme";
-function moveStringToFront(array: string[], targetString: string) {
-  const index = array.indexOf(targetString);
-  if (index !== -1) {
-    array.splice(index, 1);
-    array.unshift(targetString);
-  }
-  let newarray = "";
-  array.map((mdl, index) => {
-    if (index !== 0) newarray = newarray + "####" + mdl;
-    else newarray = newarray + mdl;
-  });
-  return newarray;
-}
 
 function UserBar() {
   const { DarkMode } = useContext(DarkModeContext);
   const { user, handleUserChange } = useContext(AuthContext);
   const specs = ("" + localStorage.getItem("speciality")).split("####");
   const [showUserInfo, setShowUserInfo] = useState(false);
+
   const HandleChange = (e: any) => {
-    const speciality = e.target.value;
-    const specialityArray = moveStringToFront(specs, speciality);
-    localStorage.setItem("speciality", specialityArray);
+    const specIndex = e.target.value;
+    handleUserChange({
+      username: user.username,
+      email: user.email,
+      speciality: user.speciality,
+      token: user.token,
+      specIndex: specIndex,
+    });
     location.reload();
   };
 
@@ -36,7 +29,7 @@ function UserBar() {
         <FaUserGraduate onClick={() => setShowUserInfo((prev) => !prev)} />
         {showUserInfo && (
           <div className="logout">
-            <div className="up--arrow"></div>
+            <div className="up--arrow" />
             <div
               onClick={() =>
                 handleUserChange({
@@ -49,16 +42,6 @@ function UserBar() {
               <AiOutlineLogout fill={DarkMode ? "Black" : "white"} />
               Logout
             </div>
-            {/* {Object.entries(user).map((element, index) => (
-              <p key={index}>
-                {`${element[0]} :
-                ${
-                  element[0] === "speciality"
-                    ? element[1][0].name + " / " + element[1][0].Module
-                    : element[1]
-                }`}
-              </p>
-            ))} */}
           </div>
         )}
       </div>
@@ -68,15 +51,21 @@ function UserBar() {
           onChange={HandleChange}
           style={{ background: "none", border: "none", outline: "none" }}
         >
-          {specs.map((mdl) => {
-            if (mdl != "")
+          <option className="inside--option" value={user.specIndex}>
+            {`${specs[user.specIndex].split("$$")[0]} ~ ${
+              specs[user.specIndex].split("$$")[2]
+            } ~ ${specs[user.specIndex].split("$$")[3]}`}
+          </option>
+          {specs.map((mdl, index) => {
+            if (mdl !== "" && mdl != specs[user.specIndex]) {
               return (
-                <option className="inside--option" key={mdl} value={mdl}>
+                <option className="inside--option" key={mdl} value={index}>
                   {`${mdl.split("$$")[0]} ~ ${mdl.split("$$")[2]} ~ ${
                     mdl.split("$$")[3]
                   }`}
                 </option>
               );
+            }
           })}
         </select>
       )}

@@ -49,9 +49,9 @@ function Signup({ isTeacher }: { isTeacher: boolean }) {
       }));
 
     setInputs((prev) => ({ ...prev, loading: true }));
-
+    let response;
     if (!isTeacher) {
-      const response = await fetch(`${Server}/api/request`, {
+      response = await fetch(`${Server}/api/request`, {
         method: "POST",
         body: JSON.stringify({
           matricule: inputs.matricule,
@@ -65,10 +65,8 @@ function Signup({ isTeacher }: { isTeacher: boolean }) {
           "Content-Type": "Application/json",
         },
       });
-      const json = await response.json();
-      setInputs((prev) => ({ ...prev, loading: false, msg: json }));
     } else {
-      const response = await fetch(`${Server}/api/user/teacher`, {
+      response = await fetch(`${Server}/api/user/teacher`, {
         method: "POST",
         body: JSON.stringify({
           email: inputs.email,
@@ -79,16 +77,21 @@ function Signup({ isTeacher }: { isTeacher: boolean }) {
           "Content-Type": "Application/json",
         },
       });
-      const json = await response.json();
-      setInputs((prev) => ({ ...prev, loading: false, msg: json }));
     }
+    const json = await response.json();
+    setInputs((prev) => ({ ...prev, loading: false, msg: json }));
   };
 
   return (
     <>
       <form className="form_conatiner" onSubmit={handleSubmit}>
         <IoChevronBackSharp
-          style={{ fontSize: "1.5rem", position: "relative", left: "-0.4rem" ,cursor:"pointer"}}
+          style={{
+            fontSize: "1.5rem",
+            position: "relative",
+            left: "-0.4rem",
+            cursor: "pointer",
+          }}
           onClick={() => navigate("/welcome")}
         />
         <h2>Sign up</h2>

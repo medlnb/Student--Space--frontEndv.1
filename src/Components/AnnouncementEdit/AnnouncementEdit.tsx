@@ -38,7 +38,7 @@ function AnnouncementEdit() {
     }
     setLoading(true);
     const response = await fetch(
-      `${Server}/api/Announcement/create`,
+      `${Server}/api/Announcement/create/${user.specIndex}`,
       {
         method: "POST",
         headers: {

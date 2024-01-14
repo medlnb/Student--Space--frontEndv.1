@@ -22,7 +22,6 @@ function EditClass() {
 
   const [isloading, setLoading] = useState(false)
   const [inputs, setInputs] = useState({
-    Module: user.speciality[0].Module,
     Chapter: chapters[0],
     Link: "",
     DescriptionClass: "",
@@ -41,12 +40,10 @@ function EditClass() {
         "Content-Type": "Application/json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
-      , body: JSON.stringify(inputs)
+      , body: JSON.stringify({...inputs,specIndex:user.specIndex})
     })
-
     setLoading(false)
-    // window.location.reload();
-
+    window.location.reload();
   }
 
   return (

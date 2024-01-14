@@ -6,6 +6,7 @@ interface User {
   Module?: string;
   token: string;
   speciality: { name: string; Admin: boolean; Year: string; Module?: string }[];
+  specIndex: number;
 }
 
 interface UserContext_type {
@@ -36,7 +37,6 @@ if (specialityString) {
       ) {
         spec.Module = element.split("$$")[3];
       }
-
       specs.push(spec);
     }
   });
@@ -47,7 +47,7 @@ let _default: User = {
   email: localStorage.getItem("email") || "",
   token: localStorage.getItem("token") || "",
   speciality: specs,
-  
+  specIndex: parseInt(localStorage.getItem("specIndex") + "") || 0,
 };
 
 export const AuthContext = createContext<UserContext_type>({
@@ -60,13 +60,14 @@ export const AuthContextProvider = ({ children }: any) => {
   const [user, setUser] = useState<User>(_default);
 
   // Function to update the state when a change occurs in the user's data
-  
+
   const handleUserChange = (user: User) => {
     // to log in by adding the user infomation to the local storage
     if (user.username) {
       localStorage.setItem("username", user.username);
       localStorage.setItem("email", user.email);
       localStorage.setItem("token", user.token);
+      localStorage.setItem("specIndex", "" + user.specIndex);
 
       let specialities = "";
       user.speciality?.map(
@@ -96,11 +97,12 @@ export const AuthContextProvider = ({ children }: any) => {
       localStorage.removeItem("username");
       localStorage.removeItem("email");
       localStorage.removeItem("speciality");
+      localStorage.removeItem("specIndex");
       localStorage.removeItem("token");
     }
     setUser({ ...user, email: user.email });
   };
-  // console.log(user)
+  // console.log(user);
   return (
     <AuthContext.Provider value={{ user, handleUserChange }}>
       {children}

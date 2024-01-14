@@ -44,7 +44,7 @@ const AuthenticatedRoute: React.FC = () => {
 
 const AdminRoute: React.FC = () => {
   const { user } = useContext(AuthContext);
-  if (!user.speciality[0].Admin) {
+  if (!user.speciality[user.specIndex].Admin) {
     return <Navigate to="/" replace />;
   }
   return <Outlet />;

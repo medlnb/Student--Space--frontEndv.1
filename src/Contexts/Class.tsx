@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer } from "react";
 import { Server } from "../Data/API";
+import { notify } from "../Pages/HomePage/HomePage";
 
 interface ClassType {
   Module: string;
@@ -55,26 +56,43 @@ export const ClassesContextProvider = ({ children }: any) => {
     [[default_value]]
   );
   const fetchNotes = async () => {
-    let json = ["dsadsad", "asdsad"];
     let index = 0;
-    while (json.length !== 0) {
-      const response = await fetch(`${Server}/api/file/${index}`, {
-        headers: {
-          "Content-Type": "Application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      json = await response.json();
-      if (json.length === 0) {
-        dispatch({
-          type: "ADDCLASSES",
-          payload: [
-            {
-              Module: "end",
-              Teacher: "",
-            },
-          ],
-        });
+    while (1) {
+      const response = await fetch(
+        `${Server}/api/file/${index}${localStorage.getItem("specIndex")}`,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        notify("error", "Something went during getting the Classes");
+        break;
+      }
+      const json = await response.json();
+      if (!json.length) {
+        if (index === 0)
+          dispatch({
+            type: "SETCLASSES",
+            payload: [
+              {
+                Module: "end",
+                Teacher: "",
+              },
+            ],
+          });
+        else
+          dispatch({
+            type: "ADDCLASSES",
+            payload: [
+              {
+                Module: "end",
+                Teacher: "",
+              },
+            ],
+          });
         break;
       }
       dispatch({
@@ -87,7 +105,6 @@ export const ClassesContextProvider = ({ children }: any) => {
   useEffect(() => {
     fetchNotes();
   }, []);
-
   return (
     <ClassesContext.Provider value={{ state, dispatch }}>
       {children}

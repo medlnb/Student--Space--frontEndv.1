@@ -94,7 +94,7 @@ function TaskEdit() {
       },
     };
 
-    const response = await fetch(`${Server}/api/task/create`, {
+    const response = await fetch(`${Server}/api/task/create/${user.specIndex}`, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",

@@ -20,7 +20,7 @@ function TeachersManager() {
   ]);
 
   useEffect(() => {
-    fetch(`${Server}/api/user/teacher`, {
+    fetch(`${Server}/api/user/teacher/${user.specIndex}`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`,

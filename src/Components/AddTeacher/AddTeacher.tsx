@@ -14,20 +14,25 @@ function AddTeacher() {
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setInputs((prev) => ({ ...prev, loading: true }));
-    const response = await fetch(`${Server}/api/user/teacher`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      },
-      body: JSON.stringify({
-        email: inputs.email,
-        Module: inputs.Module,
-      }),
-    });
+    const response = await fetch(
+      `${Server}/api/user/teacher/${localStorage.getItem("specIndex")}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          email: inputs.email,
+          Module: inputs.Module,
+        }),
+      }
+    );
     setInputs((prev) => ({ ...prev, email: "", Module: "", loading: false }));
-    if (response.ok) notify("success", "Teacher was added successfully");
-    else notify("error", "Error Adding Teacher");
+    if (response.ok) {
+      notify("success", "Teacher was added successfully");
+      location.reload();
+    } else notify("error", "Error Adding Teacher");
   };
   return (
     <form className="taskedit--create" onSubmit={HandleSubmit}>
