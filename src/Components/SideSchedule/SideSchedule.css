@@ -6,10 +6,35 @@
 .dark--homepage--container .sideschedule--container--big {
   background: var(--secondary-light-color);
 }
-.sideschedule--container {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-.sideschedule--title{
+
+.sideschedule--title {
   padding-left: 0.5rem;
+}
+.days--grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  text-align: center;
+}
+.hours {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  text-align: center;
+}
+.big--days {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem;
+}
+.rightSide--days {
+  flex: 1;
+}
+.schedule--day {
+  margin-top: 0.5rem;
+  background: var(--primary-dark-color);
+}
+.dark--homepage--container .schedule--day {
+  background: var(--primary-light-color);
+}
+.day {
+  margin-top: 0.5rem;
 }

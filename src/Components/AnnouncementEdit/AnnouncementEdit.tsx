@@ -20,7 +20,6 @@ function AnnouncementEdit() {
   const { DarkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   const { state, dispatch } = useContext(AnnouncementsContext);
-  if (!state) return;
 
   const filtredState = state.filter(
     (annou) => annou.Publisher === user.username
@@ -61,7 +60,7 @@ function AnnouncementEdit() {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     setIsloadingDel(-1);

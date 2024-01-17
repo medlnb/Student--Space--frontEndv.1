@@ -36,7 +36,8 @@ function HomePage() {
                   <UserBar />
                   <Outlet />
                 </div>
-                {!user.speciality[0].Module && <SideBar />}
+                {/* {!user.speciality[0].Module && <SideBar />} */}
+                <SideBar />
 
               </LocalizationProvider>
             </AnnouncementsContextProvider>

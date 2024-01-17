@@ -1,63 +1,70 @@
-import { createContext,  useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { Server } from "../Data/API";
+import { AuthContext } from "./UserContext";
 interface scheduleDayType {
-  id: number,
-  module: string,
-  Classroom: string,
-  type: string
+  dayID: number;
+  Classname: string;
+  Classroom: string;
+  Type: string;
 }
 export const ScheduleContext = createContext<{
-  ScheduleData: scheduleDayType[][],
-  setScheduleData: React.Dispatch<React.SetStateAction<scheduleDayType[][]>>
-}>
-  ({
-    ScheduleData: [],
-    setScheduleData: () => { }
-  })
+  ScheduleData: scheduleDayType[];
+  dispatch: any;
+}>({
+  ScheduleData: [],
+  dispatch: () => {},
+});
+
+export const ScheduleReducer = (state: scheduleDayType[], action: any) => {
+  switch (action.type) {
+    case "SETSCHEDULE":
+      return action.payload;
+
+    case "PATCHSCHEDULE":
+      return [
+        ...state.slice(0, action.payload.dayID),
+        {
+          ...state[action.payload.dayID],
+          [action.payload.targeted]: action.payload.value,
+        },
+        ...state.slice(action.payload.dayID + 1),
+      ];
+
+    default:
+      return state;
+  }
+};
 
 export const ScheduleContextProvider = ({ children }: any) => {
-  const day = {
-    id: 1000000000,
-    module: " ",
-    Classroom: " ",
-    type: " "
-  }
-  const [ScheduleData, setScheduleData] = useState<scheduleDayType[][]>(
-    [[day, day, day, day, day, day],
-      [day, day, day, day, day, day],
-      [day, day, day, day, day, day],
-      [day, day, day, day, day, day],
-      [day, day, day, day, day, day],
-      [day, day, day, day, day, day]]
-  )
+  const [ScheduleData, dispatch] = useReducer<
+    React.Reducer<scheduleDayType[], any>
+  >(ScheduleReducer, []);
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const fetchingSchedule = async () => {
-      const response = await fetch(`${Server}/api/newSchedule/${localStorage.getItem("specIndex")}`, {
-        headers: {
-          "Content-Type": "Application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+      const response = await fetch(
+        `${Server}/api/Schedule/${localStorage.getItem("specIndex")}${
+          user.Group
+        }`,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      })
-      const json = await response.json()
-      const scheduledata: scheduleDayType[][] = [[], [], [], [], [], []];
+      );
+      const json = await response.json();
 
-      for (let index = 0; index < 36; index++) {
-        const day = {
-          id: index + 1,
-          Classroom: json.Classrooms[index],
-          type: json.types[index],
-          module: json.modules[index],
-        };
-        const arrayIndex = Math.floor(index / 6)
-        scheduledata[arrayIndex].push(day)
-      }
-      setScheduleData(scheduledata)
-    }
-    fetchingSchedule()
-  }, [])
+      dispatch({
+        type: "SETSCHEDULE",
+        payload: json.Days,
+      });
+    };
+    fetchingSchedule();
+  }, [user.Group]);
   return (
-    <ScheduleContext.Provider value={{ ScheduleData, setScheduleData }}>
+    <ScheduleContext.Provider value={{ ScheduleData, dispatch }}>
       {children}
     </ScheduleContext.Provider>
-  )
-}
+  );
+};

@@ -26,6 +26,8 @@ import Members from "./Components/Members/Members";
 import TeachersManager from "./Components/TeachersManager/TeachersManager";
 import WelcomePage from "./Pages/WelcomePage/WelcomePage";
 import WelcomeNav from "./Components/WelcomeNav/WelcomeNav";
+import { MembersContextProvider } from "./Contexts/MembersContext";
+import Promo from "./Components/Promo/Promo";
 
 const AuthenticatedRoute: React.FC = () => {
   const { user } = useContext(AuthContext);
@@ -57,8 +59,8 @@ function App() {
         <Routes>
           <Route path="welcome" element={<WelcomePage />}>
             <Route path="" element={<WelcomeNav />} />
-            <Route path="signup/prof" element={<Signup isTeacher={true}/>} />
-            <Route path="signup/stu" element={<Signup isTeacher={false}/>} />
+            <Route path="signup/prof" element={<Signup isTeacher={true} />} />
+            <Route path="signup/stu" element={<Signup isTeacher={false} />} />
             <Route path="login" element={<Login />} />
             <Route path="promotionrequest" element={<PromotionRequest />} />
           </Route>
@@ -79,16 +81,18 @@ function App() {
               }
               {/* Admin specific routes */}
               <Route element={<AdminRoute />}>
-                <Route path="Admin/" element={<Admin />}>
+                <Route
+                  path="Admin/"
+                  element={
+                    <MembersContextProvider>
+                      <Admin />
+                    </MembersContextProvider>
+                  }
+                >
                   <Route path="" element={<ScheduleEdit />} />
                   <Route path="Members" element={<Members />} />
                   <Route path="Teachers" element={<TeachersManager />} />
-                  <Route
-                    path="Promo"
-                    element={
-                      <p style={{ padding: "2.5rem 1rem" }}>Working on it.</p>
-                    }
-                  />
+                  <Route path="Promo" element={<Promo />} />
                 </Route>
               </Route>
               <Route path="Module/:selected" element={<Module />} />

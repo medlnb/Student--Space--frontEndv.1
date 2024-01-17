@@ -1,61 +1,72 @@
-import { useContext, useEffect, useState } from 'react';
-import SideScheduleElement from '../SideScheduleElement/SideScheduleElement';
-import './SideSchedule.css'
-import { ScheduleContext } from '../../Contexts/ScheduleContext';
+import { useContext, useEffect, useState } from "react";
+import "./SideSchedule.css";
+import { ScheduleContext } from "../../Contexts/ScheduleContext";
 
-interface scheduleDayType {
-  id: number,
-  module: string,
-  Classroom: string,
-  type: "Lecture" | "TP" | "TD" | "EL" | ""
-}
+const getShortCut = (str: string) => {
+  const words = str.split(" ");
+  if (words.length == 1) return str;
 
-function zip(array0: any[][], array1: any[]) {
-  const copyOfarray0 = JSON.parse(JSON.stringify(array0));
-  for (let i = 0; i < array1.length; i++) {
-    copyOfarray0[i].unshift(array1[i]);
-  }
-  return copyOfarray0
-}
+  const firstLetters = words.map((word) => {
+    if (!isNaN(parseFloat(word))) return word;
+    return word[0];
+  });
+  return firstLetters.join("");
+};
 
 function SideSchedule() {
-  const [ToggleSchedule, setToggleSchedule] = useState(true)
+  const [ToggleSchedule, setToggleSchedule] = useState(true);
   useEffect(() => {
-    if (window.innerWidth <= 700)
-      return setToggleSchedule(false)
-  }, [])
-  const days = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
-  const classes = ['', "8.00", "9.40", "11.20", "13.10", "14.50", "16.30"]
-  const { ScheduleData } = useContext(ScheduleContext)
+    if (window.innerWidth <= 700) return setToggleSchedule(false);
+  }, []);
 
-  const formedSchedule: (scheduleDayType | string)[][] = zip(ScheduleData, days)
-  formedSchedule.unshift(classes)
-
-  let key = 0
-  const schedule: JSX.Element[] = []
-  formedSchedule.map(element => {
-    element.map((subElement, index) => {
-      schedule.push(
-        <SideScheduleElement
-          key={key}
-          index={index}
-          scheduleDay={subElement} />)
-      key++
-    }
-    )
-  })
+  const hours = ["8.00", "9.40", "11.20", "13.10", "14.50", "16.30"];
+  const { ScheduleData } = useContext(ScheduleContext);
+  const data = ScheduleData.map((day) => {
+    return (
+      <div
+        className="schedule--day"
+        key={day.dayID}
+        style={
+          !((day.dayID + 1) % 6)
+            ? { borderRadius: "0 .5rem .5rem 0 " }
+            : (day.dayID + 1) % 6 == 1
+            ? { borderRadius: ".5rem 0 0 .5rem" }
+            : {}
+        }
+      >
+        {day.Classname !== " " ? (
+          <>
+            <p>{getShortCut(day.Classname)}</p>
+            <p>{day.Type}</p>
+            <p>{getShortCut(day.Classroom)}</p>
+          </>
+        ) : (
+          <p style={{ visibility: "hidden" }}>b</p>
+        )}
+      </div>
+    );
+  });
 
   return (
-    <div className='sideschedule--container--big' onClick={() => {
-      if (window.innerWidth <= 700)
-        setToggleSchedule(prev => !prev)
-    }}>
-      <h3 className='sideschedule--title'>Schedule</h3>
-      <div className='sideschedule--container'>
-        {ToggleSchedule && schedule}
+    <div
+      className="sideschedule--container--big"
+      onClick={() => {
+        if (window.innerWidth <= 700) setToggleSchedule((prev) => !prev);
+      }}
+    >
+      <h3 className="sideschedule--title">Schedule</h3>
+      <div className="big--days">
+        <div className="rightSide--days">
+          <div className="hours">
+            {hours.map((hour, index) => (
+              <p key={index}>{hour}</p>
+            ))}
+          </div>
+          <div className="days--grid">{ToggleSchedule && data}</div>
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default SideSchedule
+export default SideSchedule;

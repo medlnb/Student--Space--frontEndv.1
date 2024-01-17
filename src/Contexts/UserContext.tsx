@@ -3,10 +3,10 @@ import { createContext, useState } from "react";
 interface User {
   username: string;
   email: string;
-  Module?: string;
   token: string;
   speciality: { name: string; Admin: boolean; Year: string; Module?: string }[];
   specIndex: number;
+  Group: string;
 }
 
 interface UserContext_type {
@@ -48,6 +48,7 @@ let _default: User = {
   token: localStorage.getItem("token") || "",
   speciality: specs,
   specIndex: parseInt(localStorage.getItem("specIndex") + "") || 0,
+  Group: localStorage.getItem("Group") || "main",
 };
 
 export const AuthContext = createContext<UserContext_type>({
@@ -61,16 +62,16 @@ export const AuthContextProvider = ({ children }: any) => {
 
   // Function to update the state when a change occurs in the user's data
 
-  const handleUserChange = (user: User) => {
+  const handleUserChange = (userinfo: User) => {
     // to log in by adding the user infomation to the local storage
-    if (user.username) {
-      localStorage.setItem("username", user.username);
-      localStorage.setItem("email", user.email);
-      localStorage.setItem("token", user.token);
-      localStorage.setItem("specIndex", "" + user.specIndex);
+    if (userinfo.username) {
+      localStorage.setItem("username", userinfo.username);
+      localStorage.setItem("email", userinfo.email);
+      localStorage.setItem("token", userinfo.token);
+      localStorage.setItem("specIndex", "" + userinfo.specIndex);
 
       let specialities = "";
-      user.speciality?.map(
+      userinfo.speciality?.map(
         (spec: {
           name: string;
           Admin: boolean;
@@ -89,8 +90,10 @@ export const AuthContextProvider = ({ children }: any) => {
         }
       );
       localStorage.setItem("speciality", "" + specialities);
-
-      if (user.Module) localStorage.setItem("Module", "" + user.Module);
+      setUser({ ...userinfo, email: userinfo.email });
+    } else if (userinfo.Group) {
+      localStorage.setItem("Group", "" + userinfo.Group);
+      return setUser((prev) => ({ ...prev, Group: userinfo.Group }));
     }
     // to log out by deleting the user infomation from the local storage
     else {
@@ -99,8 +102,9 @@ export const AuthContextProvider = ({ children }: any) => {
       localStorage.removeItem("speciality");
       localStorage.removeItem("specIndex");
       localStorage.removeItem("token");
+      setUser({ ...userinfo, email: userinfo.email });
     }
-    setUser({ ...user, email: user.email });
+    console.log("out");
   };
   // console.log(user);
   return (

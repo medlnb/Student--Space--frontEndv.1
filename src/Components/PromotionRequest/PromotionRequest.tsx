@@ -31,7 +31,7 @@ function PromotionRequest() {
       !inputs.username ||
       !inputs.Module
     )
-      return notify("error","Please fill all the fields");
+      return notify("error", "Please fill all the fields");
     setInputs((prev) => ({ ...prev, loading: true }));
 
     const response = await fetch(`${Server}/api/user/admin`, {

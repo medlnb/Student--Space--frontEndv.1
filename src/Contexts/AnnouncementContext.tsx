@@ -9,8 +9,16 @@ interface AnnouncementType {
   speciality: string
 }
 
-export const AnnouncementsContext = createContext<{ state: AnnouncementType[] | null, dispatch: any | null }>({
-  state: null,
+const default_value = {
+  _id: "####",
+  Publisher: "####",
+  Content: "####",
+  speciality: "####",
+  Date: new Date()
+}
+
+export const AnnouncementsContext = createContext<{ state: AnnouncementType[] , dispatch: any | null }>({
+  state: [default_value],
   dispatch: null
 })
 
@@ -31,13 +39,6 @@ export const TaskReducer = (state: AnnouncementType[], action: any) => {
 }
 export const AnnouncementsContextProvider = ({ children }: any) => {
 
-  const default_value = {
-    _id: "####",
-    Publisher: "####",
-    Content: "####",
-    speciality: "####",
-    Date: new Date()
-  }
   const [state, dispatch] = useReducer<React.Reducer<AnnouncementType[], any>>(TaskReducer, [default_value])
 
   const fetchTasks = async () => {
