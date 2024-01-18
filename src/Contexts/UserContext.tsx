@@ -65,6 +65,9 @@ export const AuthContextProvider = ({ children }: any) => {
   const handleUserChange = (userinfo: User) => {
     // to log in by adding the user infomation to the local storage
     if (userinfo.username) {
+      localStorage.setItem("Types", "TD$TP$");
+      localStorage.setItem("ClassRooms", "ClassRoom 24$ClassRoom 22$");
+
       localStorage.setItem("username", userinfo.username);
       localStorage.setItem("email", userinfo.email);
       localStorage.setItem("token", userinfo.token);

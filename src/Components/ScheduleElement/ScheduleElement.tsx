@@ -21,27 +21,31 @@ const getShortCut = (str: string) => {
   return firstLetters.join("");
 };
 
-function ScheduleElement ({ scheduleDay }: { scheduleDay: scheduleDayType }) {
+function ScheduleElement({
+  scheduleDay,
+  modules,
+}: {
+  scheduleDay: scheduleDayType;
+  modules: string[];
+}) {
   const { dispatch } = useContext(ScheduleContext);
-  const typeList = ["Lecture", "TP", "TD", "EL"," "];
-  const Modules = [
-    "Image Numérique",
-    "Statistics for Data Science",
-    "Programming for Data Science",
-    "Data exploration and visualization",
-    "Mathematics for Machine Learning 1",
-    "English",
-    " "
-  ];
-  const ClassroomList = ["Classroom 24", "Classroom 22", "Labo 7"," "];
+  const typeList: string[] = ("" + localStorage.getItem("Types"))
+    .split("$")
+    .filter(Boolean);
+  const ClassroomList: string[] = ("" + localStorage.getItem("ClassRooms"))
+    .split("$")
+    .filter(Boolean);
 
-  const Classroomoptions = ClassroomList.map((element) => (
-    <option key={nanoid()} value={element}>
-      {getShortCut(element)}
-    </option>
-  ));
+  const Classroomoptions = ClassroomList.map((element) => {
+    if (getShortCut(element) !== scheduleDay.Classroom)
+      return (
+        <option key={nanoid()} value={element}>
+          {getShortCut(element)}
+        </option>
+      );
+  });
 
-  const Modluesoptions = Modules.map((element) => {
+  const Modluesoptions = modules.map((element) => {
     if (element !== scheduleDay.Classname)
       return (
         <option key={nanoid()} value={element}>
@@ -50,11 +54,14 @@ function ScheduleElement ({ scheduleDay }: { scheduleDay: scheduleDayType }) {
       );
   });
 
-  const Typeoptions = typeList.map((element) => (
-    <option key={nanoid()} value={element}>
-      {element}
-    </option>
-  ));
+  const Typeoptions = typeList.map((element) => {
+    if (element !== scheduleDay.Type)
+      return (
+        <option key={nanoid()} value={element}>
+          {element}
+        </option>
+      );
+  });
 
   return (
     <div className="EditSchedule--class">
@@ -107,6 +114,11 @@ function ScheduleElement ({ scheduleDay }: { scheduleDay: scheduleDayType }) {
               {scheduleDay.Type}
             </option>
             {Typeoptions}
+            {scheduleDay.Type !== " " && (
+              <option key={nanoid()} value={" "}>
+                {" "}
+              </option>
+            )}
           </>
         </select>
       </p>
@@ -133,6 +145,11 @@ function ScheduleElement ({ scheduleDay }: { scheduleDay: scheduleDayType }) {
               {getShortCut(scheduleDay.Classroom)}
             </option>
             {Classroomoptions}
+            {scheduleDay.Classroom !== " " && (
+              <option key={nanoid()} value={" "}>
+                {" "}
+              </option>
+            )}
           </>
         </select>
       </p>

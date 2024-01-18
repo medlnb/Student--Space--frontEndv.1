@@ -3,6 +3,8 @@ import "./Promo.css";
 import { Server } from "../../Data/API";
 import { ScheduleContext } from "../../Contexts/ScheduleContext";
 import { notify } from "../../Pages/HomePage/HomePage";
+import ScheduleManager from "../ScheduleManager/ScheduleManager";
+import { FaSave } from "react-icons/fa";
 
 function Promo() {
   const { ScheduleData } = useContext(ScheduleContext);
@@ -40,36 +42,31 @@ function Promo() {
     } else notify("error", "Something went wrong");
   };
   return (
-    // <div className="Promo">
-    //   {groups.map((group: string) => (
-    //     <p>{group}</p>
-    //   ))}
-    //   {/* <div></div> */}
-    // </div>
-    <div className="taskedit--create">
-      <div className="taskedit--title">
-        <h3>Groups</h3>
-      </div>
-      <div className="taskedit--body ">
-        {groups.map((group: string) => (
-          <p key={group}>{group}</p>
-        ))}
-        <div style={{ display: "flex", gap: ".5rem" }}>
-          <input
-            placeholder="New Group..."
-            className="task--title--input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <button
-            style={{ background: "none", border: "none" }}
-            onClick={HandleADD}
-          >
-            Add
-          </button>
+    <>
+      <div className="taskedit--create">
+        <div className="taskedit--title">
+          <h3>Groups</h3>
+        </div>
+        <div className="taskedit--body">
+          <div style={{ display: "flex", gap: ".3rem" }}>
+            {groups.map((group: string) => (
+              <p key={group}>{group}</p>
+            ))}
+          </div>
+          <div style={{ display: "flex", placeItems: "center", gap: ".5rem" }}>
+            <input
+              placeholder="New Group..."
+              className="task--title--input"
+              style={{ width: "10rem" }}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <FaSave onClick={HandleADD} />
+          </div>
         </div>
       </div>
-    </div>
+      <ScheduleManager />
+    </>
   );
 }
 

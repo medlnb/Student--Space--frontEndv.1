@@ -70,11 +70,13 @@ function UserBar() {
           });
         }}
       >
-        <option value={user.Group}>{user.Group}</option>
+        <option className="inside--option" value={user.Group}>
+          {user.Group}
+        </option>
         {groups.map((group) => {
           if (group !== user.Group)
             return (
-              <option key={group} value={group}>
+              <option className="inside--option" key={group} value={group}>
                 {group}
               </option>
             );

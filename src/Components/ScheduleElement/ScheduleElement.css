@@ -16,7 +16,7 @@
   padding: 0.1rem;
 }
 .dark--homepage--container .classes {
-  background: var(--primary-light-color)
+  background: var(--primary-light-color);
 }
 .class--type {
   color: #b4b3c6;
@@ -42,15 +42,21 @@
 }
 .dark--homepage--container .select--class {
   background: var(--secondary-light-color);
-
 }
-.hidden{
+.hidden {
   color: var(--secondary-dark-color);
 }
-.dark--homepage--container .hidden{
+.dark--homepage--container .hidden {
   color: var(--secondary-light-color);
-
 }
-.dehighlighted{
- color: #48465e;
+.dehighlighted {
+  color: #48465e;
 }
+/* .schedule--input--container {
+  text-align: center;
+}
+.schedule--input {
+  width: 60%;
+  background: none;
+  border: none;
+} */
