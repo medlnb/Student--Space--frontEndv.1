@@ -4,7 +4,6 @@ import { ScheduleContextProvider } from '../../Contexts/ScheduleContext'
 import { TasksContextProvider } from '../../Contexts/TaskContext'
 import { ClassesContextProvider } from '../../Contexts/Class'
 import { useContext } from 'react'
-import { AuthContext } from '../../Contexts/UserContext'
 import { Outlet } from 'react-router-dom'
 import { AnnouncementsContextProvider } from '../../Contexts/AnnouncementContext'
 import { DarkModeContext } from '../../Contexts/Theme'
@@ -21,7 +20,6 @@ export const notify = (toastType: "success" | "info" | "warning" | "error", toas
   });
 
 function HomePage() {
-  const { user } = useContext(AuthContext)
   const { DarkMode } = useContext(DarkModeContext)
 
   return (

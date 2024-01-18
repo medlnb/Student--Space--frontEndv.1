@@ -29,7 +29,6 @@ function Signup({ isTeacher }: { isTeacher: boolean }) {
     };
     fetchOptions();
   }, []);
-  //just refreshing vervel server
   const [inputs, setInputs] = useState({
     matricule: "",
     firstName: "",
