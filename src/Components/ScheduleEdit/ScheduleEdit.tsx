@@ -47,7 +47,7 @@ function ScheduleEdit() {
         ))}
       </div>
       <div className="scheduleedit--container">{Schedule}</div>
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center", marginBottom: "4rem" }}>
         {loading ? (
           <ClipLoader color="green" size={15} />
         ) : (
