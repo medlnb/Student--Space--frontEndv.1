@@ -90,7 +90,11 @@ export const AuthContextProvider = ({ children }: any) => {
         }
       );
       localStorage.setItem("speciality", "" + specialities);
-      setUser({ ...userinfo, email: userinfo.email });
+      setUser({
+        ...userinfo,
+        email: userinfo.email,
+        Group: localStorage.getItem("Group") || "main",
+      });
     } else if (userinfo.Group) {
       localStorage.setItem("Group", "" + userinfo.Group);
       return setUser((prev) => ({ ...prev, Group: userinfo.Group }));
@@ -104,7 +108,6 @@ export const AuthContextProvider = ({ children }: any) => {
       localStorage.removeItem("token");
       setUser({ ...userinfo, email: userinfo.email });
     }
-    console.log("out");
   };
   // console.log(user);
   return (
