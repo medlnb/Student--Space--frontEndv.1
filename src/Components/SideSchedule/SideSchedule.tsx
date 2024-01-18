@@ -20,6 +20,8 @@ function SideSchedule() {
   }, []);
 
   const hours = ["8.00", "9.40", "11.20", "13.10", "14.50", "16.30"];
+  const days = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
+
   const { ScheduleData } = useContext(ScheduleContext);
   const data = ScheduleData.map((day) => {
     return (
@@ -41,7 +43,11 @@ function SideSchedule() {
             <p>{getShortCut(day.Classroom)}</p>
           </>
         ) : (
-          <p style={{ visibility: "hidden" }}>b</p>
+          <div style={{ visibility: "hidden" }}>
+            <p>b</p>
+            <p>b</p>
+            <p>b</p>
+          </div>
         )}
       </div>
     );
@@ -55,16 +61,23 @@ function SideSchedule() {
       }}
     >
       <h3 className="sideschedule--title">Schedule</h3>
-      <div className="big--days">
-        <div className="rightSide--days">
-          <div className="hours">
-            {hours.map((hour, index) => (
-              <p key={index}>{hour}</p>
+      {ToggleSchedule && (
+        <div className="big--days">
+          <div className="leftSide--days">
+            {days.map((day, index) => (
+              <p key={index}>{day}</p>
             ))}
           </div>
-          <div className="days--grid">{ToggleSchedule && data}</div>
+          <div className="rightSide--days">
+            <div className="hours">
+              {hours.map((hour, index) => (
+                <p key={index}>{hour}</p>
+              ))}
+            </div>
+            <div className="days--grid">{data}</div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

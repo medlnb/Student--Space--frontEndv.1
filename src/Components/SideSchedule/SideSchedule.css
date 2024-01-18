@@ -28,6 +28,13 @@
 .rightSide--days {
   flex: 1;
 }
+.leftSide--days {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem 0.4rem 1.2rem 0;
+}
+
 .schedule--day {
   margin-top: 0.5rem;
   background: var(--primary-dark-color);
