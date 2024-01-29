@@ -18,28 +18,28 @@ function NavBar() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { DarkMode, setDarkMode } = useContext(DarkModeContext);
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setWindowWidth(window.innerWidth);
-  //   };
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
 
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       dropdownRef.current &&
-  //       !dropdownRef.current.contains(event.target as Node)
-  //     ) {
-  //       setToggleNavBar(false);
-  //     }
-  //   };
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setToggleNavBar(false);
+      }
+    };
 
-  //   window.addEventListener("resize", handleResize);
-  //   document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("mousedown", handleClickOutside);
 
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [dropdownRef]);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 

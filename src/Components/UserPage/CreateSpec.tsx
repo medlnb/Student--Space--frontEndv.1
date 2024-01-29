@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import "./UserPage.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import { notify } from "../../Pages/HomePage/HomePage";
-import { Server } from "../../Data/API";
+// import { Server } from "../../Data/API";
 import { AuthContext } from "../../Contexts/UserContext";
 
 function CreateSpec() {

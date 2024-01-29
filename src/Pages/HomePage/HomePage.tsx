@@ -12,7 +12,7 @@ import UserBar from "../../Components/UserBar/UserBar";
 import NavBar from "../../Components/NavBar/NavBar";
 import { toast } from "sonner";
 import { Outlet } from "react-router-dom";
-import SideBar from "../../Components/SideBar/SideBar";
+// import SideBar from "../../Components/SideBar/SideBar";
 
 export const notify = (
   toastType: "success" | "info" | "warning" | "error",
