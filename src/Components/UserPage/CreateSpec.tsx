@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import "./UserPage.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import { notify } from "../../Pages/HomePage/HomePage";
-// import { Server } from "../../Data/API";
 import { AuthContext } from "../../Contexts/UserContext";
+import { Server } from "../../Data/API";
 
 function CreateSpec() {
   const { dispatchUser } = useContext(AuthContext);
@@ -12,6 +12,7 @@ function CreateSpec() {
     Year: "",
     isloading: false,
   });
+
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -20,7 +21,7 @@ function CreateSpec() {
 
     setInputs({ ...inputs, isloading: true });
 
-    const response = await fetch(`http://localhost:4000/api/user/admin`, {
+    const response = await fetch(`${Server}/api/user/admin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,6 +48,7 @@ function CreateSpec() {
     });
     notify("success", "Speciality added successfully");
   };
+  
   return (
     <form className="taskedit--create" onSubmit={HandleSubmit}>
       <div className="taskedit--title">

@@ -44,7 +44,6 @@ export const UserReducer = (
       // to log in by adding the user infomation to the local storage
       localStorage.setItem("Types", "TD$TP$");
       localStorage.setItem("ClassRooms", "ClassRoom 24$ClassRoom 22$");
-
       localStorage.setItem("username", action.payload.username);
       localStorage.setItem("email", action.payload.email);
       localStorage.setItem("token", action.payload.token);
@@ -96,7 +95,6 @@ export const AuthContextProvider = ({ children }: any) => {
       Group: localStorage.getItem("Group") || "main",
     }
   );
-
   return (
     <AuthContext.Provider value={{ user, dispatchUser }}>
       {children}

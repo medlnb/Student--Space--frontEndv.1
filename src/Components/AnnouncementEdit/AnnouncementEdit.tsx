@@ -31,7 +31,7 @@ function AnnouncementEdit() {
 
   const HandleSubmit = async (e: any) => {
     e.preventDefault();
-    if (Content == "") {
+    if (Content === "") {
       notify("error", "Content must be filled");
       return;
     }
@@ -54,6 +54,7 @@ function AnnouncementEdit() {
       payload: json,
     });
   };
+
   const HandleDelete = async (id: string, index: number) => {
     setIsloadingDel(index);
     const response = await fetch(`${Server}/api/announcement/${id}`, {

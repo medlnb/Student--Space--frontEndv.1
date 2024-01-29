@@ -1,21 +1,14 @@
-// import { useEffect, useState } from "react";
 import "./UserPage.css";
-// import { Server } from "../../Data/API";
 import CreateSpec from "./CreateSpec";
+import GroupManagement from "./GroupManagement";
+import SpecsManagement from "./SpecsManagement";
 
 function UserPage() {
-  // const [specs, setSpecs] = useState([]);
-  // useEffect(() => {
-  //   fetch(`${Server}/api/user/specs`)
-  //     .then((res) => res.json())
-  //     .then((data: any) => {
-  //       console.log(data);
-  //       setSpecs(data);
-  //     });
-  // }, []);
   return (
     <div className="sub--main--container">
       <h1 className="sub--main--title">User</h1>
+      <GroupManagement />
+      <SpecsManagement />
       <CreateSpec />
     </div>
   );
