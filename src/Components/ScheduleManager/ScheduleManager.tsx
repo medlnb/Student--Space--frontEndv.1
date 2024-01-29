@@ -32,7 +32,7 @@ function ScheduleManager() {
         <div className="taskedit--body ">
           <div style={{ display: "flex", gap: ".3rem" }}>
             {Types.map((type, index) => {
-              if (type !== "null")
+              if (type !== "null" && type !== "")
                 return (
                   <p
                     style={{ display: "inline-block", marginLeft: ".5rem" }}
@@ -61,7 +61,7 @@ function ScheduleManager() {
         <div className="taskedit--body">
           <div>
             {ClassRooms.map((classroom, index) => {
-              if (classroom !== "null")
+              if (classroom !== "null" && classroom !== "")
                 return (
                   <p
                     style={{ display: "inline-block", marginLeft: ".5rem" }}

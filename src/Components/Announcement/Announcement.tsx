@@ -9,7 +9,6 @@ import { TbMoodEmpty } from "react-icons/tb";
 function Announcement() {
   const { DarkMode } = useContext(DarkModeContext);
   const { state } = useContext(AnnouncementsContext);
-  
   const Announcements = state.map((element, index) => (
     <AnnouncementElement
       key={index}

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 
 interface User {
   username: string;
@@ -6,115 +6,103 @@ interface User {
   token: string;
   speciality: { name: string; Admin: boolean; Year: string; Module?: string }[];
   specIndex: number;
-  Group: string;
+  Group: [string] | string;
 }
 
 interface UserContext_type {
   user: User;
-  handleUserChange: any;
+  dispatchUser: any;
 }
-
-const specs: { name: string; Admin: boolean; Year: string; Module?: string }[] =
-  [];
-const specialityString = localStorage.getItem("speciality");
-if (specialityString) {
-  specialityString.split("####").forEach((element) => {
-    if (element !== "") {
-      const spec: {
-        name: string;
-        Admin: boolean;
-        Year: string;
-        Module?: string;
-      } = {
-        name: element.split("$$")[0],
-        Admin: element.split("$$")[1] === "true",
-        Year: element.split("$$")[2],
-      };
-
-      if (
-        element.split("$$")[3] !== undefined &&
-        element.split("$$")[3] !== "undefined"
-      ) {
-        spec.Module = element.split("$$")[3];
-      }
-      specs.push(spec);
-    }
-  });
-}
-
-let _default: User = {
-  username: localStorage.getItem("username") || "",
-  email: localStorage.getItem("email") || "",
-  token: localStorage.getItem("token") || "",
-  speciality: specs,
-  specIndex: parseInt(localStorage.getItem("specIndex") + "") || 0,
-  Group: localStorage.getItem("Group") || "main",
-};
 
 export const AuthContext = createContext<UserContext_type>({
-  user: _default,
-  handleUserChange: null,
+  user: {
+    username: localStorage.getItem("username") || "",
+    email: localStorage.getItem("email") || "",
+    token: localStorage.getItem("token") || "",
+    speciality: JSON.parse(localStorage.getItem("speciality") + ""),
+    specIndex: parseInt(localStorage.getItem("specIndex") + "") || 0,
+    Group: localStorage.getItem("Group") || "main",
+  },
+  dispatchUser: null,
 });
 
-export const AuthContextProvider = ({ children }: any) => {
-  // State for holding the current user and a function to change it
-  const [user, setUser] = useState<User>(_default);
-
-  // Function to update the state when a change occurs in the user's data
-
-  const handleUserChange = (userinfo: User) => {
-    // to log in by adding the user infomation to the local storage
-    if (userinfo.username) {
+export const UserReducer = (
+  state: User,
+  action: {
+    type:
+      | "SETUSER"
+      | "CHANGEGROUP"
+      | "LOGOUT"
+      | "CHANGETOKEN"
+      | "CHANGEspecIndex"
+      | "NEWSPEC";
+    payload: any;
+  }
+) => {
+  switch (action.type) {
+    case "SETUSER":
+      // to log in by adding the user infomation to the local storage
       localStorage.setItem("Types", "TD$TP$");
       localStorage.setItem("ClassRooms", "ClassRoom 24$ClassRoom 22$");
 
-      localStorage.setItem("username", userinfo.username);
-      localStorage.setItem("email", userinfo.email);
-      localStorage.setItem("token", userinfo.token);
-      localStorage.setItem("specIndex", "" + userinfo.specIndex);
+      localStorage.setItem("username", action.payload.username);
+      localStorage.setItem("email", action.payload.email);
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("specIndex", "" + action.payload.specIndex);
 
-      let specialities = "";
-      userinfo.speciality?.map(
-        (spec: {
-          name: string;
-          Admin: boolean;
-          Year: string;
-          Module?: string;
-        }) => {
-          specialities +=
-            spec.name +
-            "$$" +
-            spec.Admin +
-            "$$" +
-            spec.Year +
-            "$$" +
-            spec.Module +
-            "####";
-        }
+      localStorage.setItem(
+        "speciality",
+        JSON.stringify(action.payload.speciality)
       );
-      localStorage.setItem("speciality", "" + specialities);
-      setUser({
-        ...userinfo,
-        email: userinfo.email,
+      return {
+        ...action.payload,
+        email: action.payload.email,
         Group: localStorage.getItem("Group") || "main",
-      });
-    } else if (userinfo.Group) {
-      localStorage.setItem("Group", "" + userinfo.Group);
-      return setUser((prev) => ({ ...prev, Group: userinfo.Group }));
+      };
+
+    case "CHANGEGROUP":
+      localStorage.setItem("Group", "" + action.payload);
+      return { ...state, Group: action.payload };
+
+    case "LOGOUT":
+      localStorage.clear();
+      return {};
+
+    case "CHANGEspecIndex":
+      localStorage.setItem("specIndex", "" + action.payload);
+      return { ...state, specIndex: action.payload };
+
+    // case "NEWSPEC":
+    //   localStorage.setItem(
+    //     "speciality",
+    //     ArrayObjectToString(action.payload.speciality)
+    //   );
+    //   localStorage.setItem("token", action.payload.token);
+    //   return {
+    //     ...state,
+    //     spec: action.payload.speciality,
+    //     token: action.payload.token,
+    //   };
+    default:
+      return state;
+  }
+};
+
+export const AuthContextProvider = ({ children }: any) => {
+  // State for holding the current user and a function to change it
+  const [user, dispatchUser] = useReducer<React.Reducer<User, any>>(
+    UserReducer,
+    {
+      username: localStorage.getItem("username") || "",
+      email: localStorage.getItem("email") || "",
+      token: localStorage.getItem("token") || "",
+      speciality: JSON.parse(localStorage.getItem("speciality") + ""),
+      specIndex: parseInt(localStorage.getItem("specIndex") + "") || 0,
+      Group: localStorage.getItem("Group") || "main",
     }
-    // to log out by deleting the user infomation from the local storage
-    else {
-      localStorage.removeItem("username");
-      localStorage.removeItem("email");
-      localStorage.removeItem("speciality");
-      localStorage.removeItem("specIndex");
-      localStorage.removeItem("token");
-      setUser({ ...userinfo, email: userinfo.email });
-    }
-  };
-  // console.log(user);
+  );
   return (
-    <AuthContext.Provider value={{ user, handleUserChange }}>
+    <AuthContext.Provider value={{ user, dispatchUser }}>
       {children}
     </AuthContext.Provider>
   );

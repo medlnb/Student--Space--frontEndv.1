@@ -4,20 +4,21 @@ import "./Login.css";
 import { AuthContext } from "../../Contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { Server } from "../../Data/API";
-import { IoChevronBackSharp } from "react-icons/io5";
+import { notify } from "../../Pages/HomePage/HomePage";
 
 function Login() {
-  const { handleUserChange } = useContext(AuthContext);
+  const { dispatchUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     mail: "",
     password: "",
     loading: false,
-    err: { MailErr: "", PwErr: "" },
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!inputs.mail || !inputs.password)
+      return notify("error", "Please fill all the fields");
     setInputs((prev) => ({ ...prev, loading: true }));
 
     const response = await fetch(`${Server}/api/user/login`, {
@@ -30,41 +31,26 @@ function Login() {
 
     const json = await response.json();
     if (!response.ok) {
-      if (json.MailErr)
-        setInputs((prev) => ({
-          ...prev,
-          err: { ...prev.err, MailErr: json.MailErr },
-        }));
-      else
-        setInputs((prev) => ({ ...prev, err: { ...prev.err, MailErr: "" } }));
-
-      if (json.PwErr)
-        setInputs((prev) => ({
-          ...prev,
-          err: { ...prev.err, PwErr: json.PwErr },
-        }));
-
+      notify("error", json.err);
       setInputs((prev) => ({ ...prev, loading: false }));
       return;
     }
-    handleUserChange({
-      username: json.username,
-      email: json.email,
-      speciality: json.speciality,
-      Module: json.Module,
-      token: json.token,
-      specIndex: 0,
-    })
+    dispatchUser({
+      type: "SETUSER",
+      payload: {
+        username: json.username,
+        email: json.email,
+        speciality: json.speciality,
+        token: json.token,
+        specIndex: 0,
+      },
+    });
     setInputs((prev) => ({ ...prev, loading: false }));
     navigate("/My classes");
   };
 
   return (
     <form className="form_conatiner" onSubmit={handleSubmit}>
-      <IoChevronBackSharp
-        style={{ fontSize: "1.5rem", position: "relative", left: "-0.4rem" ,cursor:"pointer"}}
-        onClick={() => navigate("/welcome")}
-      />
       <h2>Login</h2>
       <h3>Please enter your details</h3>
       <div className="inputs_container">
@@ -76,9 +62,6 @@ function Login() {
             setInputs((prev) => ({ ...prev, mail: e.target.value }))
           }
         />
-        {inputs.err.MailErr && (
-          <p className="error--msg">{inputs.err.MailErr}</p>
-        )}
       </div>
       <div className="inputs_container">
         <input
@@ -90,7 +73,6 @@ function Login() {
             setInputs((prev) => ({ ...prev, password: e.target.value }));
           }}
         />
-        {inputs.err.PwErr && <p className="error--msg">{inputs.err.PwErr}</p>}
       </div>
       <button
         type="submit"
@@ -106,6 +88,12 @@ function Login() {
           data-testid="loader"
         />
       </button>
+      <p
+        style={{ cursor: "pointer", textDecoration: "underline" }}
+        onClick={() => navigate("/welcome")}
+      >
+        Go to Sign up
+      </p>
     </form>
   );
 }

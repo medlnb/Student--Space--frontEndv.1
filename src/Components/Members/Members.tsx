@@ -3,6 +3,7 @@ import { Server } from "../../Data/API";
 import "./Members.css";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { DarkModeContext } from "../../Contexts/Theme";
+import Students from "../Students/Students";
 
 interface RequestType {
   _id: string;
@@ -72,62 +73,65 @@ function Members() {
   };
 
   return (
-    <div className="editclass--container">
-      <div className="taskedit--create">
-        <div className="taskedit--title">
-          <h3>Manage Requests</h3>
-        </div>
-        <div className="members--body">
-          {Requests.length === 0 && "No New Requests"}
-          {Requests.length === 1 && Requests[0]._id === "Default_Value" ? (
-            <div className="loader--container">
-              <PropagateLoader
-                color={`${DarkMode ? "white" : "black"}`}
-                loading={true}
-                size={20}
-              />
-            </div>
-          ) : (
-            Requests.map((request, index) => (
-              <div
-                key={index}
-                className={`members--request ${
-                  index !== 0 && "istop--members--request"
-                }`}
-              >
-                <div className="members--request--info">
-                  <h4>{`${request.lastname} ${request.firstname} ( ${request.Speciality.name} ~ ${request.Speciality.Year} )`}</h4>
-                  <p>{request.mail}</p>
-                  <p>{request.matricule}</p>
-                </div>
-                <div className="members--request--buttons">
-                  <button
-                    onClick={() => HandleAccepte(request._id)}
-                    className={
-                      loadingAccept === request._id
-                        ? "request--loading"
-                        : "members--request--button"
-                    }
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={() => HandleDecline(request._id)}
-                    className={
-                      loadingDecline === request._id
-                        ? "request--loading"
-                        : "members--request--button"
-                    }
-                  >
-                    Decline
-                  </button>
-                </div>
+    <>
+      <div className="editclass--container">
+        <div className="taskedit--create">
+          <div className="taskedit--title">
+            <h3>Manage Requests</h3>
+          </div>
+          <div className="members--body">
+            {Requests.length === 0 && "No New Requests"}
+            {Requests.length === 1 && Requests[0]._id === "Default_Value" ? (
+              <div className="loader--container">
+                <PropagateLoader
+                  color={`${DarkMode ? "white" : "black"}`}
+                  loading={true}
+                  size={20}
+                />
               </div>
-            ))
-          )}
+            ) : (
+              Requests.map((request, index) => (
+                <div
+                  key={index}
+                  className={`members--request ${
+                    index !== 0 && "istop--members--request"
+                  }`}
+                >
+                  <div className="members--request--info">
+                    <h4>{`${request.lastname} ${request.firstname} ( ${request.Speciality.name} ~ ${request.Speciality.Year} )`}</h4>
+                    <p>{request.mail}</p>
+                    <p>{request.matricule}</p>
+                  </div>
+                  <div className="members--request--buttons">
+                    <button
+                      onClick={() => HandleAccepte(request._id)}
+                      className={
+                        loadingAccept === request._id
+                          ? "request--loading"
+                          : "members--request--button"
+                      }
+                    >
+                      Accept
+                    </button>
+                    <button
+                      onClick={() => HandleDecline(request._id)}
+                      className={
+                        loadingDecline === request._id
+                          ? "request--loading"
+                          : "members--request--button"
+                      }
+                    >
+                      Decline
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <Students />
+    </>
   );
 }
 

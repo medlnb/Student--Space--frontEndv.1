@@ -1,5 +1,5 @@
 import "./App.css";
-import HomePage, { notify } from "./Pages/HomePage/HomePage";
+import HomePage from "./Pages/HomePage/HomePage";
 import {
   BrowserRouter,
   Route,
@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Signup from "./Components/Signup/Signup";
-import PromotionRequest from "./Components/PromotionRequest/PromotionRequest";
 import { useContext } from "react";
 import Classes from "./Components/Classes/Classes";
 import Announcement from "./Components/Announcement/Announcement";
@@ -25,22 +24,13 @@ import ScheduleEdit from "./Components/ScheduleEdit/ScheduleEdit";
 import Members from "./Components/Members/Members";
 import TeachersManager from "./Components/TeachersManager/TeachersManager";
 import WelcomePage from "./Pages/WelcomePage/WelcomePage";
-import WelcomeNav from "./Components/WelcomeNav/WelcomeNav";
 import { MembersContextProvider } from "./Contexts/MembersContext";
 import Promo from "./Components/Promo/Promo";
+import UserPage from "./Components/UserPage/UserPage";
 
 const AuthenticatedRoute: React.FC = () => {
   const { user } = useContext(AuthContext);
-  if (!user.username) {
-    return <Navigate to="/welcome" replace />;
-  }
-  if (user.speciality.length === 0) {
-    notify(
-      "error",
-      " Hi {user.username}, \n it seems like you are not included in any promotion, \n so there is no specialty assigned to you yet. \n Please provide your email to your school's administrator to Add you in."
-    );
-    return <Navigate to="/welcome" replace />;
-  }
+  if (!user.username) return <Navigate to="/welcome" replace />;
   return <Outlet />;
 };
 
@@ -58,27 +48,23 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="welcome" element={<WelcomePage />}>
-            <Route path="" element={<WelcomeNav />} />
-            <Route path="signup/prof" element={<Signup isTeacher={true} />} />
-            <Route path="signup/stu" element={<Signup isTeacher={false} />} />
+            <Route path="" element={<Signup />} />
             <Route path="login" element={<Login />} />
-            <Route path="promotionrequest" element={<PromotionRequest />} />
+            {/* <Route path="promotionrequest" element={<PromotionRequest />} /> */}
           </Route>
           {/* Wrap routes that require authentication */}
           <Route element={<AuthenticatedRoute />}>
             <Route path="/" element={<HomePage />}>
-              <Route index element={<Navigate to="/My classes" replace />} />
+              <Route path="User" element={<UserPage />} />
               <Route path="My classes" element={<Classes />} />
               <Route path="Announcement" element={<Announcement />} />
               <Route path="Task" element={<TaskPage />} />
               {/* Prof specific routes */}
-              {
-                <Route path="Edit/" element={<Edit />}>
-                  <Route path="" element={<EditClass />} />
-                  <Route path="Tasks" element={<TaskEdit />} />
-                  <Route path="Annou" element={<AnnouncementEdit />} />
-                </Route>
-              }
+              <Route path="Edit/" element={<Edit />}>
+                <Route path="" element={<EditClass />} />
+                <Route path="Tasks" element={<TaskEdit />} />
+                <Route path="Annou" element={<AnnouncementEdit />} />
+              </Route>
               {/* Admin specific routes */}
               <Route element={<AdminRoute />}>
                 <Route
@@ -91,8 +77,8 @@ function App() {
                 >
                   <Route path="" element={<ScheduleEdit />} />
                   <Route path="Members" element={<Members />} />
-                  <Route path="Teachers" element={<TeachersManager />} />
                   <Route path="Promo" element={<Promo />} />
+                  <Route path="Teachers" element={<TeachersManager />} />
                 </Route>
               </Route>
               <Route path="Module/:selected" element={<Module />} />

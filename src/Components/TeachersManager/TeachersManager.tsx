@@ -11,7 +11,6 @@ function TeachersManager() {
   const { DarkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   const { state } = useContext(MembersContext);
-
   return (
     <>
       <AddTeacher />
@@ -36,8 +35,7 @@ function TeachersManager() {
                   spec.Year === user.speciality[0].Year &&
                   spec.Module
               );
-
-              // Use map to extract the 'Module' property from each filtered spec
+              if (specs.length === 0) return null;
               const list: string[] = specs.map((spec) => spec.Module!) || [
                 "No Module",
               ];
