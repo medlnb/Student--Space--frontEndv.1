@@ -12,6 +12,7 @@ function EditClass() {
   const { DarkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   const { state } = useContext(ClassesContext);
+  
   const chapters: string[] = ["Chapters"];
   state?.map((modulee) => {
     modulee.map((file) => {

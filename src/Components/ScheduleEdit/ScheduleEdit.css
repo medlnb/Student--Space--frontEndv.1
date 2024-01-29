@@ -1,15 +1,20 @@
 .scheduleedit--container--big {
   text-align: center;
 }
+.hours {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  text-align: center;
+}
 .scheduleedit--container {
-  padding:0 0 2rem 0 ;
+  padding: 0 0 2rem 0;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
 }
 .scheduleedit--submit {
   width: 7rem;
-  border-radius: .5rem;
-  background:var(--primary-dark-color) ;
-  padding: .5rem;
+  border-radius: 0.5rem;
+  background: var(--primary-dark-color);
+  padding: 0.5rem;
   border: none;
 }

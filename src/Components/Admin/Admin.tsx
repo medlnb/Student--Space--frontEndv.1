@@ -1,28 +1,21 @@
-import { Outlet, useLocation } from 'react-router-dom'
-import './Admin.css'
-import EditNavBar from '../EditNavBar/EditNavBar'
+import { Outlet } from "react-router-dom";
+import "./Admin.css";
+import EditNavBar from "../EditNavBar/EditNavBar";
 
 function Admin() {
-  const NavOptions = ["Schedule", "Members", "Promo","Teachers"]
-  const { pathname } = useLocation()
-  const allpath = pathname.substring(1).replace("%20", " ")
-  const PageSelected = allpath.split("/")[1] || "Schedule"
+  const NavOptions = ["Schedule", "Members", "Promo", "Teachers"];
 
   return (
     <div className={`sub--main--container `}>
-      <h1 className='sub--main--title'>{PageSelected}</h1>
-      <div className='edit--container'>
-        <div className='edit--page'>
+      <h1 className="sub--main--title">Admin</h1>
+      <div className="edit--container">
+        <div className="edit--page">
           <Outlet />
         </div>
-        <EditNavBar
-          PageSelected={PageSelected}
-          NavOptions={NavOptions}
-          source="Admin"
-        />
+        <EditNavBar NavOptions={NavOptions} />
       </div>
     </div>
-  )
+  );
 }
 
-export default Admin
+export default Admin;

@@ -55,13 +55,15 @@ function App() {
           {/* Wrap routes that require authentication */}
           <Route element={<AuthenticatedRoute />}>
             <Route path="/" element={<HomePage />}>
+              <Route index element={<Navigate to="/User" />} />
               <Route path="User" element={<UserPage />} />
               <Route path="My classes" element={<Classes />} />
               <Route path="Announcement" element={<Announcement />} />
               <Route path="Task" element={<TaskPage />} />
               {/* Prof specific routes */}
               <Route path="Edit/" element={<Edit />}>
-                <Route path="" element={<EditClass />} />
+                <Route index element={<Navigate to="/Edit/Classes" />} />
+                <Route path="Classes" element={<EditClass />} />
                 <Route path="Tasks" element={<TaskEdit />} />
                 <Route path="Annou" element={<AnnouncementEdit />} />
               </Route>
@@ -75,7 +77,8 @@ function App() {
                     </MembersContextProvider>
                   }
                 >
-                  <Route path="" element={<ScheduleEdit />} />
+                  <Route index element={<Navigate to="/Admin/Schedule" />} />
+                  <Route path="Schedule" element={<ScheduleEdit />} />
                   <Route path="Members" element={<Members />} />
                   <Route path="Promo" element={<Promo />} />
                   <Route path="Teachers" element={<TeachersManager />} />

@@ -15,10 +15,11 @@
   text-align: center;
   padding: 0.15rem;
   border-radius: 0 0 .6rem .6rem;
+  text-decoration: none;
 }
-.SelectedPage {
+.active {
   background: var(--secondary-dark-color);
 }
-.dark--homepage--container .SelectedPage {
+.dark--homepage--container .active {
   background: var(--secondary-light-color);
 }

@@ -66,30 +66,25 @@ export const UserReducer = (
 
     case "LOGOUT":
       localStorage.clear();
-      return {};
+      return {
+        username: "",
+        email: "",
+        token: "",
+        speciality: [],
+        specIndex: 0,
+        Group: "main",
+      };
 
     case "CHANGEspecIndex":
       localStorage.setItem("specIndex", "" + action.payload);
       return { ...state, specIndex: action.payload };
 
-    // case "NEWSPEC":
-    //   localStorage.setItem(
-    //     "speciality",
-    //     ArrayObjectToString(action.payload.speciality)
-    //   );
-    //   localStorage.setItem("token", action.payload.token);
-    //   return {
-    //     ...state,
-    //     spec: action.payload.speciality,
-    //     token: action.payload.token,
-    //   };
     default:
       return state;
   }
 };
 
 export const AuthContextProvider = ({ children }: any) => {
-  // State for holding the current user and a function to change it
   const [user, dispatchUser] = useReducer<React.Reducer<User, any>>(
     UserReducer,
     {
@@ -101,6 +96,7 @@ export const AuthContextProvider = ({ children }: any) => {
       Group: localStorage.getItem("Group") || "main",
     }
   );
+
   return (
     <AuthContext.Provider value={{ user, dispatchUser }}>
       {children}
