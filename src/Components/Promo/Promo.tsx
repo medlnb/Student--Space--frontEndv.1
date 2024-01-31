@@ -5,32 +5,39 @@ import { ScheduleContext } from "../../Contexts/ScheduleContext";
 import { notify } from "../../Pages/HomePage/HomePage";
 import ScheduleManager from "../ScheduleManager/ScheduleManager";
 import { FaSave } from "react-icons/fa";
+import { AuthContext } from "../../Contexts/UserContext";
+import TelegramBots from "../TelegramBots/TelegramBots";
 
 function Promo() {
   const { ScheduleData } = useContext(ScheduleContext);
   const [groups, setGroups] = useState(["main"]);
   const [input, setInput] = useState("");
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const fetchingGroups = async () => {
-      const response = await fetch(`${Server}/api/Schedule/groups/0`, {
-        headers: {
-          "Content-Type": "Application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${Server}/api/Schedule/groups/${user.specIndex}`,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const json = await response.json();
       setGroups(json);
     };
     fetchingGroups();
   }, []);
+
   const HandleADD = async () => {
     const response = await fetch(
-      `${Server}/api/Schedule/${localStorage.getItem("specIndex")}${input}`,
+      `${Server}/api/Schedule/${user.specIndex}${input}`,
       {
         method: "POST",
         headers: {
           "Content-Type": "Application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
           Days: ScheduleData,
@@ -41,6 +48,7 @@ function Promo() {
       location.reload();
     } else notify("error", "Something went wrong");
   };
+
   return (
     <>
       <div className="taskedit--create">
@@ -66,6 +74,7 @@ function Promo() {
         </div>
       </div>
       <ScheduleManager />
+      <TelegramBots />
     </>
   );
 }

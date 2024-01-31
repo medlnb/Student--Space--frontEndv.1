@@ -12,6 +12,7 @@ import UserBar from "../../Components/UserBar/UserBar";
 import NavBar from "../../Components/NavBar/NavBar";
 import { toast } from "sonner";
 import { Outlet } from "react-router-dom";
+import { AuthContext } from "../../Contexts/UserContext";
 // import SideBar from "../../Components/SideBar/SideBar";
 
 export const notify = (
@@ -23,30 +24,40 @@ export const notify = (
   });
 
 function HomePage() {
+  const { user } = useContext(AuthContext);
   const { DarkMode } = useContext(DarkModeContext);
-
   return (
     <div
       className={`homepage--container ${
         !DarkMode && "dark--homepage--container"
       }`}
     >
-      <ClassesContextProvider>
-        <TasksContextProvider>
-          <ScheduleContextProvider>
-            <AnnouncementsContextProvider>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <NavBar />
-                <div className="main--container">
-                  <UserBar />
-                  <Outlet />
-                </div>
-                {/* <SideBar /> */}
-              </LocalizationProvider>
-            </AnnouncementsContextProvider>
-          </ScheduleContextProvider>
-        </TasksContextProvider>
-      </ClassesContextProvider>
+      {user.speciality.length > 0 ? (
+        <ClassesContextProvider>
+          <TasksContextProvider>
+            <ScheduleContextProvider>
+              <AnnouncementsContextProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <NavBar />
+                  <div className="main--container">
+                    <UserBar />
+                    <Outlet />
+                  </div>
+                  {/* <SideBar /> */}
+                </LocalizationProvider>
+              </AnnouncementsContextProvider>
+            </ScheduleContextProvider>
+          </TasksContextProvider>
+        </ClassesContextProvider>
+      ) : (
+        <>
+          <NavBar />
+          <div className="main--container">
+            <UserBar />
+            <Outlet />
+          </div>
+        </>
+      )}
     </div>
   );
 }

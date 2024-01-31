@@ -6,6 +6,7 @@ import { AuthContext } from "../../Contexts/UserContext";
 function GroupManagement() {
   const [groupData, setGroupData] = useState(["main"]);
   const { user, dispatchUser } = useContext(AuthContext);
+
   useEffect(() => {
     const fetchingGroups = async () => {
       const response = await fetch(

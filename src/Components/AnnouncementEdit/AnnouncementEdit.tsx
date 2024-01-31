@@ -42,9 +42,12 @@ function AnnouncementEdit() {
         method: "POST",
         headers: {
           "Content-Type": "Application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${user.token}`,
         },
-        body: JSON.stringify({ Content }),
+        body: JSON.stringify({
+          Content,
+          Channel: localStorage.getItem("serialcode"),
+        }),
       }
     );
     const json = await response.json();
@@ -61,7 +64,7 @@ function AnnouncementEdit() {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${user.token}`,
       },
     });
     setIsloadingDel(-1);

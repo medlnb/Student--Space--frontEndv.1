@@ -49,7 +49,7 @@
   border: none;
   width: 90%;
 }
-.dark--homepage--container .taskedit--body--submit{
+.dark--homepage--container .taskedit--body--submit {
   background: var(--secondary-light-color);
 }
 .taskedit--body--submit:hover {

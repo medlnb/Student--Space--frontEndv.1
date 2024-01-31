@@ -7,7 +7,6 @@ function ScheduleManager() {
   const ClassRooms: string[] = ("" + localStorage.getItem("ClassRooms")).split(
     "$"
   );
-
   const [inputs, setInputs] = useState({
     type: "",
     classroom: "",

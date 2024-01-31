@@ -26,7 +26,7 @@ function TaskEdit() {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${user.token}`,
       },
     });
     setIsloadingDel(-1);
@@ -92,16 +92,20 @@ function TaskEdit() {
         year: parseInt(inputs.deadline.format("YYYY")),
         time: inputs.deadline.format("HH:mm"),
       },
+      Channel: localStorage.getItem("serialcode"),
     };
 
-    const response = await fetch(`${Server}/api/task/create/${user.specIndex}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "Application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(task),
-    });
+    const response = await fetch(
+      `${Server}/api/task/create/${user.specIndex}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(task),
+      }
+    );
     const json = await response.json();
     setInputs((prev) => ({
       ...prev,

@@ -47,12 +47,12 @@ export const UserReducer = (
       localStorage.setItem("username", action.payload.username);
       localStorage.setItem("email", action.payload.email);
       localStorage.setItem("token", action.payload.token);
-      localStorage.setItem("specIndex", "" + action.payload.specIndex);
-
+      localStorage.setItem("specIndex", action.payload.specIndex);
       localStorage.setItem(
         "speciality",
         JSON.stringify(action.payload.speciality)
       );
+
       return {
         ...action.payload,
         email: action.payload.email,
@@ -60,7 +60,7 @@ export const UserReducer = (
       };
 
     case "CHANGEGROUP":
-      localStorage.setItem("Group", "" + action.payload);
+      localStorage.setItem("Group", action.payload);
       return { ...state, Group: action.payload };
 
     case "LOGOUT":

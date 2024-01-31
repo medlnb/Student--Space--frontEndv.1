@@ -3,7 +3,7 @@ import "../../Pages/WelcomePage/WelcomePage.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import "../Login/Login.css";
 import { Server } from "../../Data/API";
-// import Select from "react-select";
+
 import { useNavigate } from "react-router-dom";
 import { notify } from "../../Pages/HomePage/HomePage";
 

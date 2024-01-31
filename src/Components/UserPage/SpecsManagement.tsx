@@ -18,13 +18,15 @@ function SpecsManagement() {
                 className={`groups--card ${
                   index === user.specIndex && "groups--card--selected"
                 }`}
-                key={spec.name}
+                key={index}
                 onClick={() => {
                   if (index !== user.specIndex)
                     dispatchUser({ type: "CHANGEspecIndex", payload: index });
                 }}
               >
-                {spec.name}
+                {`${spec.name}  ${spec.Year} ${spec.Module ?? ""} ${
+                  spec.Admin ? "Admin" : ""
+                }`}
               </div>
             );
           })}

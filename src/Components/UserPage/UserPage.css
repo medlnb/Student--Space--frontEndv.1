@@ -11,10 +11,21 @@
   transition: 0.3s;
   text-align: center;
 }
+.dark--homepage--container .groups--card {
+  background: var(--primary-light-color);
+}
+
 .groups--card:hover {
   background: var(--primary-light-color);
   color: var(--text-light-color);
 }
+.dark--homepage--container .groups--card:hover {
+  background: rgb(208, 208, 255);
+}
+
 .groups--card--selected {
   outline: 1px solid white;
+}
+.dark--homepage--container .groups--card--selected {
+  outline: 1px solid black;
 }

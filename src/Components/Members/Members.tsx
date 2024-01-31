@@ -4,34 +4,33 @@ import "./Members.css";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { DarkModeContext } from "../../Contexts/Theme";
 import Students from "../Students/Students";
+import { AuthContext } from "../../Contexts/UserContext";
+import { notify } from "../../Pages/HomePage/HomePage";
 
 interface RequestType {
   _id: string;
-  matricule: string;
-  mail: string;
-  firstname: string;
-  lastname: string;
-  Speciality: { name: String; Year: String };
+  email: string;
+  username: string;
 }
 function Members() {
+  const { user } = useContext(AuthContext);
   const { DarkMode } = useContext(DarkModeContext);
+
   const [loadingAccept, setLoadingAccept] = useState<string | null>(null);
   const [loadingDecline, setLoadingDecline] = useState<string | null>(null);
+
   const [Requests, setRequests] = useState<RequestType[]>([
     {
       _id: "Default_Value",
-      matricule: "string",
-      mail: "string",
-      firstname: "string",
-      lastname: "string",
-      Speciality: { name: "", Year: "" },
+      email: "string",
+      username: "string",
     },
   ]);
 
   useEffect(() => {
-    fetch(`${Server}/api/request/${localStorage.getItem("specIndex")}`, {
+    fetch(`${Server}/api/request/${user.specIndex}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${user.token}`,
       },
     })
       .then((res) => {
@@ -49,12 +48,17 @@ function Members() {
     const response = await fetch(`${Server}/api/request/${_id}`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${user.token}`,
       },
     });
     setLoadingAccept(null);
+    const json = await response.json();
     if (response.ok) {
       setRequests((prev) => prev.filter((request) => request._id !== _id));
+      notify("success", json.msg);
+      return;
+    } else {
+      notify("error", json.err);
     }
   };
 
@@ -63,12 +67,17 @@ function Members() {
     const response = await fetch(`${Server}/api/request/reject/${_id}`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${user.token}`,
       },
     });
     setLoadingDecline(null);
+    const json = await response.json();
     if (response.ok) {
       setRequests((prev) => prev.filter((request) => request._id !== _id));
+      notify("success", json.msg);
+      return;
+    } else {
+      notify("error", json.err);
     }
   };
 
@@ -98,9 +107,8 @@ function Members() {
                   }`}
                 >
                   <div className="members--request--info">
-                    <h4>{`${request.lastname} ${request.firstname} ( ${request.Speciality.name} ~ ${request.Speciality.Year} )`}</h4>
-                    <p>{request.mail}</p>
-                    <p>{request.matricule}</p>
+                    <h4>{request.username}</h4>
+                    <p>{request.email}</p>
                   </div>
                   <div className="members--request--buttons">
                     <button

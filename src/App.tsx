@@ -34,6 +34,12 @@ const AuthenticatedRoute: React.FC = () => {
   return <Outlet />;
 };
 
+const HaveSpecRoute: React.FC = () => {
+  const { user } = useContext(AuthContext);
+  if (user.speciality.length === 0) return <Navigate to="/User" replace />;
+  return <Outlet />;
+};
+
 const AdminRoute: React.FC = () => {
   const { user } = useContext(AuthContext);
   if (!user.speciality[user.specIndex].Admin) {
@@ -50,38 +56,39 @@ function App() {
           <Route path="welcome" element={<WelcomePage />}>
             <Route path="" element={<Signup />} />
             <Route path="login" element={<Login />} />
-            {/* <Route path="promotionrequest" element={<PromotionRequest />} /> */}
           </Route>
           {/* Wrap routes that require authentication */}
           <Route element={<AuthenticatedRoute />}>
             <Route path="/" element={<HomePage />}>
               <Route index element={<Navigate to="/User" />} />
               <Route path="User" element={<UserPage />} />
-              <Route path="My classes" element={<Classes />} />
-              <Route path="Announcement" element={<Announcement />} />
-              <Route path="Task" element={<TaskPage />} />
-              {/* Prof specific routes */}
-              <Route path="Edit/" element={<Edit />}>
-                <Route index element={<Navigate to="/Edit/Classes" />} />
-                <Route path="Classes" element={<EditClass />} />
-                <Route path="Tasks" element={<TaskEdit />} />
-                <Route path="Annou" element={<AnnouncementEdit />} />
-              </Route>
-              {/* Admin specific routes */}
-              <Route element={<AdminRoute />}>
-                <Route
-                  path="Admin/"
-                  element={
-                    <MembersContextProvider>
-                      <Admin />
-                    </MembersContextProvider>
-                  }
-                >
-                  <Route index element={<Navigate to="/Admin/Schedule" />} />
-                  <Route path="Schedule" element={<ScheduleEdit />} />
-                  <Route path="Members" element={<Members />} />
-                  <Route path="Promo" element={<Promo />} />
-                  <Route path="Teachers" element={<TeachersManager />} />
+              <Route element={<HaveSpecRoute />}>
+                <Route path="My classes" element={<Classes />} />
+                <Route path="Announcement" element={<Announcement />} />
+                <Route path="Task" element={<TaskPage />} />
+                {/* Prof specific routes */}
+                <Route path="Edit/" element={<Edit />}>
+                  <Route index element={<Navigate to="/Edit/Classes" />} />
+                  <Route path="Classes" element={<EditClass />} />
+                  <Route path="Tasks" element={<TaskEdit />} />
+                  <Route path="Annou" element={<AnnouncementEdit />} />
+                </Route>
+                {/* Admin specific routes */}
+                <Route element={<AdminRoute />}>
+                  <Route
+                    path="Admin/"
+                    element={
+                      <MembersContextProvider>
+                        <Admin />
+                      </MembersContextProvider>
+                    }
+                  >
+                    <Route index element={<Navigate to="/Admin/Schedule" />} />
+                    <Route path="Schedule" element={<ScheduleEdit />} />
+                    <Route path="Members" element={<Members />} />
+                    <Route path="Promo" element={<Promo />} />
+                    <Route path="Teachers" element={<TeachersManager />} />
+                  </Route>
                 </Route>
               </Route>
               <Route path="Module/:selected" element={<Module />} />
