@@ -8,8 +8,7 @@ function TaskPage() {
   const { DarkMode } = useContext(DarkModeContext);
   const { state } = useContext(TasksContext);
   if (!state) return;
-
-  const Tasks = state.map((element, index) => (
+  const Tasks = state?.map((element, index) => (
     <div className="Task--container" key={index}>
       <h3 className="tasks--title">
         {element.className} ({element.taskTitle}){" "}
@@ -41,7 +40,7 @@ function TaskPage() {
             </div>
           </div>
         ) : state[0]._id === "default_value" ? (
-          <div className="loader--container">
+          <div className="loader">
             <PropagateLoader
               color={`${DarkMode ? "white" : "black"}`}
               loading={true}

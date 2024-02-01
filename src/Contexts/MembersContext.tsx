@@ -1,5 +1,6 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { Server } from "../Data/API";
+import { AuthContext } from "./UserContext";
 
 interface MemberType {
   _id: string;
@@ -39,6 +40,7 @@ export const MemberReducer = (state: MemberType[], action: any) => {
 };
 
 export const MembersContextProvider = ({ children }: any) => {
+  const { user } = useContext(AuthContext);
   const [state, dispatch] = useReducer<React.Reducer<MemberType[], any>>(
     MemberReducer,
     default_value
@@ -65,7 +67,7 @@ export const MembersContextProvider = ({ children }: any) => {
 
   useEffect(() => {
     fetchMembers();
-  }, []);
+  }, [user.specIndex, user.token]);
 
   return (
     <MembersContext.Provider value={{ state, dispatch }}>

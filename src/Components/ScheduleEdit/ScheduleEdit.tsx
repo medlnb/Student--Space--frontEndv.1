@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-// import SideScheduleElement from "../ScheduleElement/ScheduleElement";
 import "./ScheduleEdit.css";
 import { ScheduleContext } from "../../Contexts/ScheduleContext";
 import { Server } from "../../Data/API";
@@ -7,32 +6,39 @@ import { notify } from "../../Pages/HomePage/HomePage";
 import { FaSave } from "react-icons/fa";
 import ScheduleElement from "../ScheduleElement/ScheduleElement";
 import ClipLoader from "react-spinners/ClipLoader";
-import { ClassesContext } from "../../Contexts/Class";
+import { AuthContext } from "../../Contexts/UserContext";
+import { MembersContext } from "../../Contexts/MembersContext";
 
 function ScheduleEdit() {
   const [loading, setloading] = useState(false);
-  const classes = ["8.00", "9.40", "11.20", "13.10", "14.50", "16.30"];
   const { ScheduleData } = useContext(ScheduleContext);
-  const { state } = useContext(ClassesContext);
+  const { user } = useContext(AuthContext);
+  const { state } = useContext(MembersContext);
+  const classes = ["8.00", "9.40", "11.20", "13.10", "14.50", "16.30"];
 
   const modules: string[] = [" "];
-  state?.map((module) => {
-    if (module[0].Module !== "default_value" && module[0].Module !== "end")
-      modules.push(module[0].Module);
+
+  state.map((teacher) => {
+    teacher.speciality.map((spec) => {
+      if (
+        spec.name === user.speciality[user.specIndex].name &&
+        spec.Year === user.speciality[user.specIndex].Year &&
+        spec.Module
+      )
+        modules.push(spec.Module);
+    });
   });
 
   const handleSave = async () => {
     setloading(true);
     const response = await fetch(
-      `${Server}/api/Schedule/${localStorage.getItem(
-        "specIndex"
-      )}${localStorage.getItem("Group")}`,
+      `${Server}/api/Schedule/${user.specIndex}${user.Group}`,
       {
         method: "PATCH",
         body: JSON.stringify({ Days: ScheduleData }),
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${user.token}`,
         },
       }
     );
@@ -41,14 +47,9 @@ function ScheduleEdit() {
     else notify("success", "Schedule saved");
   };
 
-  // const startTime = performance.now();
-
   const Schedule = ScheduleData.map((day, index) => (
     <ScheduleElement key={index} scheduleDay={day} modules={modules} />
   ));
-  // const endTime = performance.now();
-  // const elapsedTime = endTime - startTime;
-  // console.log("Elapsed time:", elapsedTime, "milliseconds");
   return (
     <>
       <div className="hours">

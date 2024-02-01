@@ -43,13 +43,13 @@ export const ScheduleContextProvider = ({ children }: any) => {
   useEffect(() => {
     const fetchingSchedule = async () => {
       const response = await fetch(
-        `${Server}/api/Schedule/${localStorage.getItem("specIndex")}${
+        `${Server}/api/Schedule/${user.specIndex}${
           user.Group
         }`,
         {
           headers: {
             "Content-Type": "Application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );
@@ -61,7 +61,7 @@ export const ScheduleContextProvider = ({ children }: any) => {
       });
     };
     fetchingSchedule();
-  }, [user.Group]);
+  }, [user.Group , user.specIndex, user.token]);
   return (
     <ScheduleContext.Provider value={{ ScheduleData, dispatch }}>
       {children}

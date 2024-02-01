@@ -1,5 +1,6 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { Server } from "../Data/API";
+import { AuthContext } from "./UserContext";
 
 interface date {
   day: number;
@@ -8,36 +9,39 @@ interface date {
   time: string;
 }
 interface TaskType {
-  _id?: string,
-  className: string,
-  taskTitle: string,
-  Link: string,
-  Description: string,
-  deadLine: date | null,
-  speciality: string
+  _id?: string;
+  className: string;
+  taskTitle: string;
+  Link: string;
+  Description: string;
+  deadLine: date | null;
+  speciality: string;
 }
 
-export const TasksContext = createContext<{ state: TaskType[] | null, dispatch: any | null }>({
+export const TasksContext = createContext<{
+  state: TaskType[] | null;
+  dispatch: any | null;
+}>({
   state: null,
-  dispatch: null
-})
+  dispatch: null,
+});
 export const TaskReducer = (state: TaskType[], action: any) => {
   switch (action.type) {
     case "SETTASKS":
-      return action.payload
+      return action.payload;
 
     case "ADDTASK":
       return [...state, action.payload];
 
     case "REMOVETASK":
-      return state.filter(task => task._id !== action.payload)
+      return state.filter((task) => task._id !== action.payload);
 
     default:
-      return state
+      return state;
   }
-}
+};
 export const TasksContextProvider = ({ children }: any) => {
-
+  const { user } = useContext(AuthContext);
   const default_value = {
     _id: "default_value",
     className: "",
@@ -45,30 +49,33 @@ export const TasksContextProvider = ({ children }: any) => {
     Description: "",
     Link: "",
     speciality: "",
-    deadLine: null
-  }
-  const [state, dispatch] = useReducer<React.Reducer<TaskType[], any>>(TaskReducer, [default_value])
+    deadLine: null,
+  };
+  const [state, dispatch] = useReducer<React.Reducer<TaskType[], any>>(
+    TaskReducer,
+    [default_value]
+  );
   const fetchTasks = async () => {
-    const response = await fetch(`${Server}/api/task/${localStorage.getItem("specIndex")}`, {
+    const response = await fetch(`${Server}/api/task/${user.specIndex}`, {
       headers: {
         "Content-Type": "Application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
-    })
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
     const json: TaskType[] = await response.json();
     dispatch({
       type: "SETTASKS",
-      payload: json
-    })
-  }
+      payload: json,
+    });
+  };
 
   useEffect(() => {
-    fetchTasks()
-  }, [])
+    fetchTasks();
+  }, [user.specIndex, user.token]);
 
   return (
     <TasksContext.Provider value={{ state, dispatch }}>
       {children}
     </TasksContext.Provider>
   );
-}
+};

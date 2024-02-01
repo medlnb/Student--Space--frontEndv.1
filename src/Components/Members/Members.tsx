@@ -91,7 +91,7 @@ function Members() {
           <div className="members--body">
             {Requests.length === 0 && "No New Requests"}
             {Requests.length === 1 && Requests[0]._id === "Default_Value" ? (
-              <div className="loader--container">
+              <div className="loader">
                 <PropagateLoader
                   color={`${DarkMode ? "white" : "black"}`}
                   loading={true}

@@ -28,11 +28,12 @@ function Announcement() {
           </div>
         </div>
       ) : state[0].Publisher === "####" ? (
-        <PropagateLoader
-          color={`${DarkMode ? "white" : "black"}`}
-          loading={true}
-          size={20}
-        />
+        <div className="loader">
+          <PropagateLoader
+            color={`${DarkMode ? "white" : "black"}`}
+            size={20}
+          />
+        </div>
       ) : (
         Announcements
       )}

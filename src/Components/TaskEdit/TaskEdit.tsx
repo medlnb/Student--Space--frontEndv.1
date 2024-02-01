@@ -92,7 +92,6 @@ function TaskEdit() {
         year: parseInt(inputs.deadline.format("YYYY")),
         time: inputs.deadline.format("HH:mm"),
       },
-      Channel: localStorage.getItem("serialcode"),
     };
 
     const response = await fetch(

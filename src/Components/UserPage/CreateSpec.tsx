@@ -6,7 +6,7 @@ import { AuthContext } from "../../Contexts/UserContext";
 import { Server } from "../../Data/API";
 
 function CreateSpec() {
-  const { dispatchUser } = useContext(AuthContext);
+  const { user, dispatchUser } = useContext(AuthContext);
   const [inputs, setInputs] = useState({
     speciality: "",
     Year: "",
@@ -25,7 +25,7 @@ function CreateSpec() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${user.token}`,
       },
       body: JSON.stringify({
         speciality: inputs.speciality,
@@ -46,13 +46,16 @@ function CreateSpec() {
       type: "NEWSPEC",
       payload: { speciality: json.speciality, token: json.token },
     });
-    notify("success", "Speciality added successfully");
+    notify(
+      "success",
+      "Speciality added successfully, relog to see the changes"
+    );
   };
-  
+
   return (
     <form className="taskedit--create" onSubmit={HandleSubmit}>
       <div className="taskedit--title">
-        <h3>Create Promotion</h3>
+        <h3>Create Promotion (For managers)</h3>
       </div>
       <div className="taskedit--body editclass--body">
         <input

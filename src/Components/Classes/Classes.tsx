@@ -56,11 +56,11 @@ function Classes() {
   return (
     <div className="sub--main--container">
       <h1 className="sub--main--title">Classes</h1>
+
       {loading ? (
-        <div className="loader--container">
+        <div className="loader">
           <PropagateLoader
             color={`${DarkMode ? "white" : "black"}`}
-            loading={true}
             size={20}
           />
         </div>

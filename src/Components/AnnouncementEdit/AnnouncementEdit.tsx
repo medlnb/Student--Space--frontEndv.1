@@ -46,7 +46,6 @@ function AnnouncementEdit() {
         },
         body: JSON.stringify({
           Content,
-          Channel: localStorage.getItem("serialcode"),
         }),
       }
     );

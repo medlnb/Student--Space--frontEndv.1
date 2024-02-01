@@ -20,7 +20,7 @@ function TeachersManager() {
         </div>
         <div className="members--body">
           {state[0].email === "Default" ? (
-            <div className="loader--container">
+            <div className="loader">
               <PropagateLoader
                 color={`${DarkMode ? "white" : "black"}`}
                 loading={true}

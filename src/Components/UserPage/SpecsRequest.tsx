@@ -19,7 +19,11 @@ function SpecsRequest() {
 
   useEffect(() => {
     const fetchOptions = async () => {
-      const response = await fetch(`${Server}/api/user/specs`);
+      const response = await fetch(`${Server}/api/user/specs`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const json = await response.json();
 
       const userSpecsSet: Set<string> = new Set(

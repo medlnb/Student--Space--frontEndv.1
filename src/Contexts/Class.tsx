@@ -1,6 +1,7 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { Server } from "../Data/API";
 import { notify } from "../Pages/HomePage/HomePage";
+import { AuthContext } from "./UserContext";
 
 interface ClassType {
   Module: string;
@@ -8,6 +9,7 @@ interface ClassType {
   description?: string;
   Chapter?: string;
 }
+
 export const ClassesContext = createContext<{
   state: ClassType[][] | null;
   dispatch: any | null;
@@ -30,7 +32,8 @@ const GroupingData = (Data: any) => {
   });
   return groupedData;
 };
-export const TaskReducer = (state: ClassType[][], action: any) => {
+
+export const ClassReducer = (state: ClassType[][], action: any) => {
   switch (action.type) {
     case "SETCLASSES":
       return GroupingData(action.payload);
@@ -47,23 +50,24 @@ export const TaskReducer = (state: ClassType[][], action: any) => {
   }
 };
 export const ClassesContextProvider = ({ children }: any) => {
+  const { user } = useContext(AuthContext);
   const default_value = {
     Module: "default_value",
     Teacher: "",
   };
   const [state, dispatch] = useReducer<React.Reducer<ClassType[][], any>>(
-    TaskReducer,
+    ClassReducer,
     [[default_value]]
   );
   const fetchNotes = async () => {
     let index = 0;
     while (1) {
       const response = await fetch(
-        `${Server}/api/file/${index}${localStorage.getItem("specIndex")}`,
+        `${Server}/api/file/${index}${user.specIndex}`,
         {
           headers: {
             "Content-Type": "Application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );
@@ -71,7 +75,9 @@ export const ClassesContextProvider = ({ children }: any) => {
         notify("error", "Something went during getting the Classes");
         break;
       }
+
       const json = await response.json();
+
       if (!json.length) {
         if (index === 0)
           dispatch({
@@ -95,6 +101,7 @@ export const ClassesContextProvider = ({ children }: any) => {
           });
         break;
       }
+
       dispatch({
         type: `${index === 0 ? "SETCLASSES" : "ADDCLASSES"}`,
         payload: json,
@@ -104,7 +111,7 @@ export const ClassesContextProvider = ({ children }: any) => {
   };
   useEffect(() => {
     fetchNotes();
-  }, []);
+  }, [user.specIndex, user.token]);
   return (
     <ClassesContext.Provider value={{ state, dispatch }}>
       {children}
