@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { Server } from "../../Data/API";
 import "./Members.css";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { DarkModeContext } from "../../Contexts/Theme";
 import Students from "../Students/Students";
 import { AuthContext } from "../../Contexts/UserContext";
 import { notify } from "../../Pages/HomePage/HomePage";
@@ -14,7 +13,6 @@ interface RequestType {
 }
 function Members() {
   const { user } = useContext(AuthContext);
-  const { DarkMode } = useContext(DarkModeContext);
 
   const [loadingAccept, setLoadingAccept] = useState<string | null>(null);
   const [loadingDecline, setLoadingDecline] = useState<string | null>(null);
@@ -44,7 +42,7 @@ function Members() {
   }, []);
 
   const HandleAccepte = async (_id: string) => {
-    if (!loadingAccept) return;
+    if (loadingAccept) return;
     setLoadingAccept(_id);
     const response = await fetch(`${Server}/api/request/${_id}`, {
       method: "POST",
@@ -64,6 +62,7 @@ function Members() {
   };
 
   const HandleDecline = async (_id: string) => {
+    if (loadingDecline) return;
     setLoadingDecline(_id);
     const response = await fetch(`${Server}/api/request/reject/${_id}`, {
       method: "POST",
@@ -94,7 +93,7 @@ function Members() {
             {Requests.length === 1 && Requests[0]._id === "Default_Value" ? (
               <div className="loader">
                 <PropagateLoader
-                  color={`${DarkMode ? "white" : "black"}`}
+                  color="#9ec3db"
                   loading={true}
                   size={20}
                 />

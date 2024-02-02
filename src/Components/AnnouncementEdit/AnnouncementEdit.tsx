@@ -7,7 +7,6 @@ import { BiTrash } from "react-icons/bi";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { Server } from "../../Data/API";
 import { AnnouncementsContext } from "../../Contexts/AnnouncementContext";
-import { DarkModeContext } from "../../Contexts/Theme";
 
 interface AnnouncementType {
   _id: string;
@@ -17,7 +16,6 @@ interface AnnouncementType {
 }
 
 function AnnouncementEdit() {
-  const { DarkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   const { state, dispatch } = useContext(AnnouncementsContext);
 
@@ -99,7 +97,7 @@ function AnnouncementEdit() {
           >
             Add
             <ClipLoader
-              color={`${DarkMode ? "white" : "black"}`}
+              color="#9ec3db"
               loading={isloading}
               size={15}
               aria-label="Loading Spinner"
@@ -111,10 +109,7 @@ function AnnouncementEdit() {
       {!filtredState ? (
         <div style={{ position: "relative", height: "2rem" }}>
           <div className="loader">
-            <PropagateLoader
-              color={`${DarkMode ? "white" : "black"}`}
-              size={20}
-            />
+            <PropagateLoader color="#9ec3db" size={20} />
           </div>
         </div>
       ) : (
@@ -132,10 +127,7 @@ function AnnouncementEdit() {
                 >
                   <h4>{element.Content}</h4>
                   {isloadingDel === index ? (
-                    <ClipLoader
-                      color={`${DarkMode ? "white" : "black"}`}
-                      size={15}
-                    />
+                    <ClipLoader color="#9ec3db" size={15} />
                   ) : (
                     <BiTrash />
                   )}

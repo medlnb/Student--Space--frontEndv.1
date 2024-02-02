@@ -3,12 +3,10 @@ import AddTeacher from "../AddTeacher/AddTeacher";
 import "./TeachersManager.css";
 import { AuthContext } from "../../Contexts/UserContext";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { DarkModeContext } from "../../Contexts/Theme";
 import DropDown from "../DropDown/DropDown";
 import { MembersContext } from "../../Contexts/MembersContext";
 
 function TeachersManager() {
-  const { DarkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   const { state } = useContext(MembersContext);
   return (
@@ -22,7 +20,7 @@ function TeachersManager() {
           {!state ? (
             <div className="loader">
               <PropagateLoader
-                color={`${DarkMode ? "white" : "black"}`}
+                color="#9ec3db"
                 size={20}
               />
             </div>

@@ -39,7 +39,7 @@
   left: 0;
   transition: width 0.3s;
 }
-.dark--sub--main--container .members--request--button::after {
+.dark--homepage--container .members--request--button::after {
   background: black;
 }
 .request--loading::after {
@@ -51,16 +51,13 @@
   left: 0;
   width: 50%;
 }
-.dark--sub--main--container .request--loading::after {
+.dark--homepage--container .request--loading::after {
   background: black;
 }
 .request--loading:hover::after {
   width: 50%;
 }
 
-.dark--sub--main--container .request--loading::after {
-  background: black;
-}
 .members--request--button:hover::after {
   width: 100%;
 }

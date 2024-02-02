@@ -2,10 +2,9 @@ import { useContext } from "react";
 import { TasksContext } from "../../Contexts/TaskContext";
 import "./TaskPage.css";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { DarkModeContext } from "../../Contexts/Theme";
 import { TbMoodEmpty } from "react-icons/tb";
+
 function TaskPage() {
-  const { DarkMode } = useContext(DarkModeContext);
   const { state } = useContext(TasksContext);
 
   return (
@@ -15,7 +14,7 @@ function TaskPage() {
         {!state && (
           <div className="loader">
             <PropagateLoader
-              color={`${DarkMode ? "white" : "black"}`}
+              color="#9ec3db"
               loading={true}
               size={20}
             />

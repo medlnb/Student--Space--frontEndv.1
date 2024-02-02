@@ -6,10 +6,8 @@ import { AuthContext } from "../../Contexts/UserContext";
 import { Server } from "../../Data/API";
 import { FaGoogleDrive } from "react-icons/fa";
 import { ClassesContext } from "../../Contexts/Class";
-import { DarkModeContext } from "../../Contexts/Theme";
 
 function EditClass() {
-  const { DarkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   const { state } = useContext(ClassesContext);
 
@@ -30,7 +28,7 @@ function EditClass() {
     DescriptionClass: "",
     title: "",
   });
-  
+
   const HandleSubmit = async (e: any) => {
     e.preventDefault();
     if (inputs.Chapter == "" || inputs.Link == "" || inputs.title == "") {
@@ -142,7 +140,7 @@ function EditClass() {
             >
               Add
               <ClipLoader
-                color={`${DarkMode ? "white" : "black"}`}
+                color="#9ec3db"
                 loading={isloading}
                 size={15}
                 aria-label="Loading Spinner"

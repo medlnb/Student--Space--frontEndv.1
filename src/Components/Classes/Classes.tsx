@@ -4,7 +4,6 @@ import "./Classes.css";
 import { ClassesContext } from "../../Contexts/Class";
 import Class from "../Class/Class";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { DarkModeContext } from "../../Contexts/Theme";
 
 interface ClassType {
   Module: string;
@@ -13,7 +12,6 @@ interface ClassType {
   Chapter?: string;
 }
 function Classes() {
-  const { DarkMode } = useContext(DarkModeContext);
   const { state } = useContext(ClassesContext);
 
   if (!state)
@@ -22,7 +20,7 @@ function Classes() {
         <h1 className="sub--main--title">Classes</h1>
         <div className="loader">
           <PropagateLoader
-            color={`${DarkMode ? "white" : "black"}`}
+            color="#9ec3db"
             size={20}
           />
         </div>

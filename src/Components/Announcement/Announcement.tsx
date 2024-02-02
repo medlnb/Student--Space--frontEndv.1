@@ -3,17 +3,18 @@ import "./Announcement.css";
 import AnnouncementElement from "../AnnouncementElement/AnnouncementElement";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { AnnouncementsContext } from "../../Contexts/AnnouncementContext";
-import { DarkModeContext } from "../../Contexts/Theme";
 import { TbMoodEmpty } from "react-icons/tb";
 
 function Announcement() {
-  const { DarkMode } = useContext(DarkModeContext);
   const { state } = useContext(AnnouncementsContext);
 
   if (!state)
     return (
-      <div className="loader">
-        <PropagateLoader color={`${DarkMode ? "white" : "black"}`} size={20} />
+      <div className="sub--main--container">
+        <h1 className="sub--main--title">Announcement</h1>
+        <div className="loader">
+          <PropagateLoader color="#9ec3db" size={20} />
+        </div>
       </div>
     );
 

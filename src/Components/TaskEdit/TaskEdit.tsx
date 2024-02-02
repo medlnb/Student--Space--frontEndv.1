@@ -8,11 +8,9 @@ import { BiTrash } from "react-icons/bi";
 import ClipLoader from "react-spinners/ClipLoader";
 import { notify } from "../../Pages/HomePage/HomePage";
 import { Server } from "../../Data/API";
-import { DarkModeContext } from "../../Contexts/Theme";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
 function TaskEdit() {
-  const { DarkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   const { state, dispatch } = useContext(TasksContext);
 
@@ -183,7 +181,7 @@ function TaskEdit() {
           >
             Add
             <ClipLoader
-              color={`${DarkMode ? "white" : "black"}`}
+              color="#9ec3db"
               loading={inputs.loading}
               size={15}
               aria-label="Loading Spinner"
@@ -197,7 +195,7 @@ function TaskEdit() {
         <div style={{ position: "relative", height: "2rem" }}>
           <div className="loader">
             <PropagateLoader
-              color={`${DarkMode ? "white" : "black"}`}
+              color="#9ec3db"
               size={20}
             />
           </div>
@@ -218,7 +216,7 @@ function TaskEdit() {
                   <h4>{task.taskTitle}</h4>
                   {isloadingDel === index ? (
                     <ClipLoader
-                      color={`${DarkMode ? "white" : "black"}`}
+                    color="#9ec3db"
                       size={15}
                     />
                   ) : (
