@@ -36,7 +36,7 @@ function GroupManagement() {
           {!groupData ? (
             <div style={{ position: "relative", height: "2rem" }}>
               <div className="loader">
-                <PropagateLoader color="yellow" size={15} />
+                <PropagateLoader color="#9ec3db" size={15} />
               </div>
             </div>
           ) : (

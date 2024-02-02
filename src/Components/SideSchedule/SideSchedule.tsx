@@ -23,6 +23,7 @@ function SideSchedule() {
   const days = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
 
   const { ScheduleData } = useContext(ScheduleContext);
+
   const data = ScheduleData.map((day) => {
     return (
       <div
@@ -61,7 +62,7 @@ function SideSchedule() {
       }}
     >
       <h3 className="sideschedule--title">Schedule</h3>
-      {ToggleSchedule && (
+      {ToggleSchedule && ScheduleData.length !== 0 && (
         <div className="big--days">
           <div className="leftSide--days">
             {days.map((day, index) => (

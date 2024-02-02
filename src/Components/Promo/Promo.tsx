@@ -71,7 +71,7 @@ function Promo() {
           {!groups ? (
             <div style={{ position: "relative", height: "2rem" }}>
               <div className="loader">
-                <PropagateLoader color="yellow" size={20} />
+                <PropagateLoader color="#9ec3db" size={20} />
               </div>
             </div>
           ) : (
