@@ -16,7 +16,7 @@ interface UserContext_type {
 
 // Web App version check
 if (localStorage.getItem("V") !== "1.0.0") {
-  localStorage.clear();
+  localStorage.clear(); 
 }
 
 export const AuthContext = createContext<UserContext_type>({
