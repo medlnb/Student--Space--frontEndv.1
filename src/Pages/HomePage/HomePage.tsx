@@ -25,14 +25,6 @@ export const notify = (
   });
 
 function HomePage() {
-  useEffect(() => {
-    // Web App version check
-    if (localStorage.getItem("V") !== "1.0.0") {
-      localStorage.clear();
-      location.reload();
-      return;
-    }
-  }, []);
   const { user, dispatchUser } = useContext(AuthContext);
   const { DarkMode } = useContext(DarkModeContext);
   useEffect(() => {

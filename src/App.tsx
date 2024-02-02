@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Signup from "./Components/Signup/Signup";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Classes from "./Components/Classes/Classes";
 import Announcement from "./Components/Announcement/Announcement";
 import TaskPage from "./Components/TaskPage/TaskPage";
@@ -49,6 +49,14 @@ const AdminRoute: React.FC = () => {
 };
 
 function App() {
+  useEffect(() => {
+    // Web App version check
+    if (localStorage.getItem("V") !== "1.0.0") {
+      localStorage.clear();
+      location.reload();
+      return;
+    }
+  }, []);
   return (
     <div className="everything--black">
       <BrowserRouter>
