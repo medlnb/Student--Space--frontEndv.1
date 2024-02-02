@@ -91,8 +91,10 @@ function SpecsRequest() {
             borderRadius: 0,
             colors: {
               ...theme.colors,
-              primary: "white",
+              primary: `${DarkMode ? "white" : "black"}`,
+              secondary: "black",
               neutral0: `${DarkMode ? "#25212e" : "#f4f5f9"}`,
+              primary25: `${DarkMode ? "#383246" : "#eaf1f7"}`,
             },
           })}
           onChange={(value) => {

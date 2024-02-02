@@ -47,6 +47,8 @@ export const UserReducer = (
     case "SETUSER":
       //Set App Version
       localStorage.setItem("V", "1.0.0");
+      //Set User version
+      localStorage.setItem("__v", action.payload.__v);
       // to log in by adding the user infomation to the local storage
       localStorage.setItem("Types", "TD$TP$");
       localStorage.setItem("ClassRooms", "ClassRoom 24$ClassRoom 22$");

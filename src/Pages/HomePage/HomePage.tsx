@@ -3,7 +3,7 @@ import "./Main.css";
 import { ScheduleContextProvider } from "../../Contexts/ScheduleContext";
 import { TasksContextProvider } from "../../Contexts/TaskContext";
 import { ClassesContextProvider } from "../../Contexts/Class";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AnnouncementsContextProvider } from "../../Contexts/AnnouncementContext";
 import { DarkModeContext } from "../../Contexts/Theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { Outlet } from "react-router-dom";
 import { AuthContext } from "../../Contexts/UserContext";
 import SideBar from "../../Components/SideBar/SideBar";
+import { Server } from "../../Data/API";
 
 export const notify = (
   toastType: "success" | "info" | "warning" | "error",
@@ -24,8 +25,36 @@ export const notify = (
   });
 
 function HomePage() {
-  const { user } = useContext(AuthContext);
+  const { user, dispatchUser } = useContext(AuthContext);
   const { DarkMode } = useContext(DarkModeContext);
+  useEffect(() => {
+    const fetchUserVersion = async () => {
+      const response = await fetch(`${Server}/api/user/version`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+      if (response.ok) {
+        if (""+json.__v !== localStorage.getItem("__v")) {
+          dispatchUser({
+            type: "SETUSER",
+            payload: {
+              username: json.username,
+              email: json.email,
+              speciality: json.speciality,
+              token: json.token,
+              specIndex: 0,
+              __v: json.__v,
+            },
+          });
+          notify("info", "Ur acc is updated");
+          return;
+        }
+      }
+    };
+    fetchUserVersion();
+  }, []);
   return (
     <div
       className={`homepage--container ${
@@ -43,7 +72,7 @@ function HomePage() {
                     <UserBar />
                     <Outlet />
                   </div>
-                  <SideBar />
+                  {user.speciality[user.specIndex].Module && <SideBar />}
                 </LocalizationProvider>
               </AnnouncementsContextProvider>
             </ScheduleContextProvider>

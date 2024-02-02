@@ -44,6 +44,7 @@ function Members() {
   }, []);
 
   const HandleAccepte = async (_id: string) => {
+    if (!loadingAccept) return;
     setLoadingAccept(_id);
     const response = await fetch(`${Server}/api/request/${_id}`, {
       method: "POST",

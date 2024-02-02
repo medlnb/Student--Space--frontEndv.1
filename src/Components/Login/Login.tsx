@@ -43,6 +43,7 @@ function Login() {
         speciality: json.speciality,
         token: json.token,
         specIndex: 0,
+        __v: json.__v,
       },
     });
     setInputs((prev) => ({ ...prev, loading: false }));

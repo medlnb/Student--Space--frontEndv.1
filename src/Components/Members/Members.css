@@ -9,7 +9,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-top: .5rem;
+  padding-top: 0.5rem;
 }
 .istop--members--request {
   border-top: 1px solid #3d3b4a;
@@ -20,7 +20,8 @@
   align-items: center;
 }
 
-.members--request--button,.request--loading {
+.members--request--button,
+.request--loading {
   margin: 0.5rem 0;
   width: 3rem;
   background: none;
@@ -34,42 +35,44 @@
   height: 1px;
   background: white;
   position: absolute;
-  bottom: -.2rem;
+  bottom: -0.2rem;
   left: 0;
   transition: width 0.3s;
 }
 .dark--sub--main--container .members--request--button::after {
   background: black;
-
 }
-.request--loading::after{
+.request--loading::after {
   content: "";
   height: 1px;
   background: white;
   position: absolute;
-  bottom: -.2rem;
+  bottom: -0.2rem;
   left: 0;
   width: 50%;
 }
-.dark--sub--main--container .request--loading::after{ 
+.dark--sub--main--container .request--loading::after {
   background: black;
 }
 .request--loading:hover::after {
   width: 50%;
 }
+
+.dark--sub--main--container .request--loading::after {
+  background: black;
+}
 .members--request--button:hover::after {
   width: 100%;
 }
 
-@media (max-width:700px){
+@media (max-width: 700px) {
   .members--request--buttons {
     flex-direction: row;
     width: 100%;
     justify-content: space-evenly;
   }
-  .members--request{
+  .members--request {
     flex-direction: column;
-    gap: .5rem;
+    gap: 0.5rem;
   }
-  
 }
