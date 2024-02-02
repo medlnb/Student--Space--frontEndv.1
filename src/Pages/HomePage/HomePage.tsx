@@ -28,6 +28,11 @@ function HomePage() {
   const { user, dispatchUser } = useContext(AuthContext);
   const { DarkMode } = useContext(DarkModeContext);
   useEffect(() => {
+    // Web App version check
+    if (localStorage.getItem("V") !== "1.0.0") {
+      localStorage.clear();
+    }
+    // User version check
     const fetchUserVersion = async () => {
       const response = await fetch(`${Server}/api/user/version`, {
         headers: {
@@ -36,7 +41,7 @@ function HomePage() {
       });
       const json = await response.json();
       if (response.ok) {
-        if (""+json.__v !== localStorage.getItem("__v")) {
+        if ("" + json.__v !== localStorage.getItem("__v")) {
           dispatchUser({
             type: "SETUSER",
             payload: {

@@ -26,10 +26,7 @@ export const AuthContext = createContext<UserContext_type>({
   dispatchUser: null,
 });
 
-// Web App version check
-if (localStorage.getItem("V") !== "1.0.0") {
-  localStorage.clear();
-}
+
 export const UserReducer = (
   state: User,
   action: {
