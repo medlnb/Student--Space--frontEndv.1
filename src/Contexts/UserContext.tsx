@@ -14,6 +14,12 @@ interface UserContext_type {
   dispatchUser: any;
 }
 
+// Web App version check
+if (localStorage.getItem("V") !== "1.0.0") {
+  localStorage.clear();
+  location.reload();
+}
+
 export const AuthContext = createContext<UserContext_type>({
   user: {
     username: localStorage.getItem("username") || "",
@@ -26,11 +32,6 @@ export const AuthContext = createContext<UserContext_type>({
   dispatchUser: null,
 });
 
-// Web App version check
-if (localStorage.getItem("V") !== "1.0.0") {
-  localStorage.clear();
-  location.reload();
-}
 export const UserReducer = (
   state: User,
   action: {
