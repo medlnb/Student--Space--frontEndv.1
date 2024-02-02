@@ -13,7 +13,8 @@ function Students() {
       </div>
       <div className="taskedit--body">
         <div className="taskedit--body--container">
-          {state.map((member, index) => {
+          {state?.map((member, index) => {
+            if (member.email === user.email) return null;
             const specs = member.speciality.filter(
               (spec) =>
                 spec.name === user.speciality[0].name &&

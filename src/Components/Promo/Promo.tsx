@@ -7,12 +7,16 @@ import ScheduleManager from "../ScheduleManager/ScheduleManager";
 import { FaSave } from "react-icons/fa";
 import { AuthContext } from "../../Contexts/UserContext";
 import TelegramBots from "../TelegramBots/TelegramBots";
+import PropagateLoader from "react-spinners/PropagateLoader";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function Promo() {
   const { ScheduleData } = useContext(ScheduleContext);
-  const [groups, setGroups] = useState(["main"]);
+  const [groups, setGroups] = useState<String[] | null>(null);
   const [input, setInput] = useState("");
+  const [isloading, setIsLoading] = useState(false);
   const { user } = useContext(AuthContext);
+
   useEffect(() => {
     const fetchingGroups = async () => {
       const response = await fetch(
@@ -24,13 +28,18 @@ function Promo() {
           },
         }
       );
-      const json = await response.json();
+      const json: [string] = await response.json();
       setGroups(json);
     };
     fetchingGroups();
   }, []);
 
   const HandleADD = async () => {
+    if (input === "") return notify("error", "Group name is empty");
+    if (isloading) return notify("error", "Please wait");
+    if (groups?.includes(input)) return notify("error", "Group already exists");
+
+    setIsLoading(true);
     const response = await fetch(
       `${Server}/api/Schedule/${user.specIndex}${input}`,
       {
@@ -44,8 +53,11 @@ function Promo() {
         }),
       }
     );
+    setIsLoading(false);
     if (response.ok) {
-      location.reload();
+      notify("success", "Group added");
+      setGroups([...groups!, input]);
+      setInput("");
     } else notify("error", "Something went wrong");
   };
 
@@ -56,11 +68,19 @@ function Promo() {
           <h3>Groups</h3>
         </div>
         <div className="taskedit--body">
-          <div style={{ display: "flex", gap: ".3rem" }}>
-            {groups.map((group: string) => (
-              <p key={group}>{group}</p>
-            ))}
-          </div>
+          {!groups ? (
+            <div style={{ position: "relative", height: "2rem" }}>
+              <div className="loader">
+                <PropagateLoader color="yellow" size={20} />
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: "flex", gap: ".3rem" }}>
+              {groups.map((group) => (
+                <p key={group + ""}>{group}</p>
+              ))}
+            </div>
+          )}
           <div style={{ display: "flex", placeItems: "center", gap: ".5rem" }}>
             <input
               placeholder="New Group..."
@@ -69,7 +89,11 @@ function Promo() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
-            <FaSave onClick={HandleADD} />
+            {isloading ? (
+              <ClipLoader color="yellow" size={15} />
+            ) : (
+              <FaSave onClick={HandleADD} />
+            )}
           </div>
         </div>
       </div>

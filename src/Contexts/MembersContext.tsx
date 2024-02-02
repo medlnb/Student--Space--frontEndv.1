@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import { Server } from "../Data/API";
 import { AuthContext } from "./UserContext";
 
@@ -13,23 +19,22 @@ interface MemberType {
     Module?: string;
   }[];
 }
-const default_value = [
-  {
-    username: "Default",
-    _id: "Default",
-    email: "Default",
-    speciality: [],
-  },
-];
+
 export const MembersContext = createContext<{
-  state: MemberType[];
+  state: MemberType[] | null;
   dispatch: any;
 }>({
-  state: default_value,
+  state: null,
   dispatch: null,
 });
 
-export const MemberReducer = (state: MemberType[], action: any) => {
+export const MemberReducer = (
+  state: MemberType[] | null,
+  action: {
+    type: "SETMEMBERS";
+    payload: any;
+  }
+) => {
   switch (action.type) {
     case "SETMEMBERS":
       return action.payload;
@@ -39,24 +44,25 @@ export const MemberReducer = (state: MemberType[], action: any) => {
   }
 };
 
-export const MembersContextProvider = ({ children }: any) => {
+export const MembersContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const { user } = useContext(AuthContext);
-  const [state, dispatch] = useReducer<React.Reducer<MemberType[], any>>(
+  const [state, dispatch] = useReducer<React.Reducer<MemberType[] | null, any>>(
     MemberReducer,
-    default_value
+    null
   );
 
   const fetchMembers = async () => {
     //maybe change this latter for better preformance
-    const response = await fetch(
-      `${Server}/api/user/users/${localStorage.getItem("specIndex")}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await fetch(`${Server}/api/user/users/${user.specIndex}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
     const json: MemberType[] = await response.json();
 
     dispatch({
@@ -66,6 +72,10 @@ export const MembersContextProvider = ({ children }: any) => {
   };
 
   useEffect(() => {
+    dispatch({
+      type: "SETMEMBERS",
+      payload: null,
+    });
     fetchMembers();
   }, [user.specIndex, user.token]);
 

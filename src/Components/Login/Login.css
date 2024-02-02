@@ -76,6 +76,9 @@
   margin-left: 1rem;
 }
 
+.google-login * {
+  color: black;
+}
 @media (max-width: 700px) {
   .form_conatiner {
     width: 90%;

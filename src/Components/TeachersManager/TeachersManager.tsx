@@ -19,11 +19,10 @@ function TeachersManager() {
           <h3>Teachers </h3>
         </div>
         <div className="members--body">
-          {state[0].email === "Default" ? (
+          {!state ? (
             <div className="loader">
               <PropagateLoader
                 color={`${DarkMode ? "white" : "black"}`}
-                loading={true}
                 size={20}
               />
             </div>

@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import { Server } from "../Data/API";
 import { AuthContext } from "./UserContext";
 
@@ -25,35 +31,34 @@ export const TasksContext = createContext<{
   state: null,
   dispatch: null,
 });
-export const TaskReducer = (state: TaskType[], action: any) => {
+export const TaskReducer = (
+  state: TaskType[] | null,
+  action: {
+    type: "SETTASKS" | "ADDTASK" | "REMOVETASK";
+    payload: any;
+  }
+) => {
   switch (action.type) {
     case "SETTASKS":
       return action.payload;
 
     case "ADDTASK":
-      return [...state, action.payload];
+      return state ? [...state, action.payload] : [action.payload];
 
     case "REMOVETASK":
+      if (!state) return;
       return state.filter((task) => task._id !== action.payload);
 
     default:
       return state;
   }
 };
-export const TasksContextProvider = ({ children }: any) => {
+export const TasksContextProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useContext(AuthContext);
-  const default_value = {
-    _id: "default_value",
-    className: "",
-    taskTitle: "",
-    Description: "",
-    Link: "",
-    speciality: "",
-    deadLine: null,
-  };
-  const [state, dispatch] = useReducer<React.Reducer<TaskType[], any>>(
+
+  const [state, dispatch] = useReducer<React.Reducer<TaskType[] | null, any>>(
     TaskReducer,
-    [default_value]
+    null
   );
   const fetchTasks = async () => {
     const response = await fetch(`${Server}/api/task/${user.specIndex}`, {
@@ -70,6 +75,10 @@ export const TasksContextProvider = ({ children }: any) => {
   };
 
   useEffect(() => {
+    dispatch({
+      type: "SETTASKS",
+      payload: null,
+    });
     fetchTasks();
   }, [user.specIndex, user.token]);
 

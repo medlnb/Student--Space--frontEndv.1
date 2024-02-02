@@ -2,12 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import "./UserPage.css";
 import { Server } from "../../Data/API";
 import { AuthContext } from "../../Contexts/UserContext";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 function GroupManagement() {
-  const [groupData, setGroupData] = useState(["main"]);
+  const [groupData, setGroupData] = useState<String[] | null>(null);
   const { user, dispatchUser } = useContext(AuthContext);
 
   useEffect(() => {
+    setGroupData(null);
     const fetchingGroups = async () => {
       const response = await fetch(
         `${Server}/api/Schedule/groups/${user.specIndex}`,
@@ -18,11 +20,12 @@ function GroupManagement() {
           },
         }
       );
-      const json = await response.json();
+      const json: String[] = await response.json();
+      dispatchUser({ type: "CHANGEGROUP", payload: "main" });
       setGroupData(json);
     };
     fetchingGroups();
-  }, []);
+  }, [user.specIndex]);
   return (
     <div className="taskedit--create">
       <div className="taskedit--title">
@@ -30,22 +33,30 @@ function GroupManagement() {
       </div>
       <div className="taskedit--body editclass--body">
         <div className="groups--card--container">
-          {groupData.map((group: string) => {
-            return (
-              <div
-                className={`groups--card ${
-                  group === user.Group && "groups--card--selected"
-                }`}
-                key={group}
-                onClick={() => {
-                  if (group !== user.Group)
-                    dispatchUser({ type: "CHANGEGROUP", payload: group });
-                }}
-              >
-                {group}
+          {!groupData ? (
+            <div style={{ position: "relative", height: "2rem" }}>
+              <div className="loader">
+                <PropagateLoader color="yellow" size={15} />
               </div>
-            );
-          })}
+            </div>
+          ) : (
+            groupData.map((group) => {
+              return (
+                <div
+                  className={`groups--card ${
+                    group === user.Group && "groups--card--selected"
+                  }`}
+                  key={"" + group}
+                  onClick={() => {
+                    if (group !== user.Group)
+                      dispatchUser({ type: "CHANGEGROUP", payload: group });
+                  }}
+                >
+                  {group}
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

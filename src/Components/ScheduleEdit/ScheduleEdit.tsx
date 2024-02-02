@@ -18,7 +18,7 @@ function ScheduleEdit() {
 
   const modules: string[] = [" "];
 
-  state.map((teacher) => {
+  state?.map((teacher) => {
     teacher.speciality.map((spec) => {
       if (
         spec.name === user.speciality[user.specIndex].name &&

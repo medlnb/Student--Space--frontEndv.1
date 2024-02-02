@@ -21,7 +21,7 @@ function AnnouncementEdit() {
   const { user } = useContext(AuthContext);
   const { state, dispatch } = useContext(AnnouncementsContext);
 
-  const filtredState = state.filter(
+  const filtredState = state?.filter(
     (annou) => annou.Publisher === user.username
   );
 
@@ -73,22 +73,6 @@ function AnnouncementEdit() {
         payload: id,
       });
   };
-  const TasksToDelete = filtredState.map(
-    (element: AnnouncementType, index: number) => (
-      <div
-        className="tasktodelete"
-        key={index}
-        onClick={() => HandleDelete(element._id, index)}
-      >
-        <h4>{element.Content}</h4>
-        {isloadingDel === index ? (
-          <ClipLoader color={`${DarkMode ? "white" : "black"}`} size={15} />
-        ) : (
-          <BiTrash />
-        )}
-      </div>
-    )
-  );
 
   return (
     <div className="editclass--container">
@@ -124,20 +108,42 @@ function AnnouncementEdit() {
           </button>
         </form>
       </div>
-      {!(filtredState.length === 0) && filtredState[0]._id === "####" && (
-        <PropagateLoader
-          color={`${DarkMode ? "white" : "black"}`}
-          size={20}
-          className="loader--anouc"
-        />
-      )}
-      {!(filtredState.length === 0) && filtredState[0]._id !== "####" && (
-        <div className="taskedit--create">
-          <div className="taskedit--title">
-            <h3>Delete Anouccements</h3>
+      {!filtredState ? (
+        <div style={{ position: "relative", height: "2rem" }}>
+          <div className="loader">
+            <PropagateLoader
+              color={`${DarkMode ? "white" : "black"}`}
+              size={20}
+            />
           </div>
-          <div className="taskedit--body">{TasksToDelete}</div>
         </div>
+      ) : (
+        filtredState.length !== 0 && (
+          <div className="taskedit--create">
+            <div className="taskedit--title">
+              <h3>Delete Anouccements</h3>
+            </div>
+            <div className="taskedit--body">
+              {filtredState.map((element: AnnouncementType, index: number) => (
+                <div
+                  className="tasktodelete"
+                  key={index}
+                  onClick={() => HandleDelete(element._id, index)}
+                >
+                  <h4>{element.Content}</h4>
+                  {isloadingDel === index ? (
+                    <ClipLoader
+                      color={`${DarkMode ? "white" : "black"}`}
+                      size={15}
+                    />
+                  ) : (
+                    <BiTrash />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { TbMoodEmpty } from "react-icons/tb";
 import "./Classes.css";
 import { ClassesContext } from "../../Contexts/Class";
@@ -14,17 +14,22 @@ interface ClassType {
 }
 function Classes() {
   const { DarkMode } = useContext(DarkModeContext);
-  const [FetchingEnded, setFetchingEnded] = useState(false);
   const { state } = useContext(ClassesContext);
-  let loading = false;
-  if (!state) return;
 
-  useEffect(() => {
-    if (state[state.length - 1][0].Module === "end") setFetchingEnded(true);
-  }, [state]);
-  const newState = state.filter((Module) => Module[0].Module !== "end");
+  if (!state)
+    return (
+      <div className="sub--main--container">
+        <h1 className="sub--main--title">Classes</h1>
+        <div className="loader">
+          <PropagateLoader
+            color={`${DarkMode ? "white" : "black"}`}
+            size={20}
+          />
+        </div>
+      </div>
+    );
 
-  if (!newState.length) {
+  if (!state.length) {
     return (
       <div className="sub--main--container">
         <h1 className="sub--main--title">Classes</h1>
@@ -37,43 +42,49 @@ function Classes() {
       </div>
     );
   }
-  if (newState[0][0].Module === "default_value") loading = true;
 
-  const classesData: ClassType[] = [];
+  const FetchingEnded = state[state.length - 1].Module === "end";
 
-  newState.map((element) => {
-    classesData.push(element[0]);
+  const Modules: string[] = [];
+  state.map((Class: ClassType) => {
+    if (
+      !Modules.includes(Class.Module + "$$" + Class.Teacher) &&
+      Class.Module !== "end"
+    )
+      return Modules.push(Class.Module + "$$" + Class.Teacher);
   });
 
-  const classes = classesData.map((element, index) => (
-    <Class
-      key={index}
-      Module={element.Module}
-      Teacher={element.Teacher}
-      description={element.description}
-    />
-  ));
+  if (state[0].Module === "end") {
+    return (
+      <div className="sub--main--container">
+        <h1 className="sub--main--title">Classes</h1>
+        <div className="emptyPage">
+          <div className="in--emptyPage">
+            <TbMoodEmpty />
+            <p>There is no Classes included yet.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="sub--main--container">
       <h1 className="sub--main--title">Classes</h1>
-
-      {loading ? (
-        <div className="loader">
-          <PropagateLoader
-            color={`${DarkMode ? "white" : "black"}`}
-            size={20}
+      <div className="classes--container">
+        {Modules.map((element, index) => (
+          <Class
+            key={index}
+            Module={element.split("$$")[0]}
+            Teacher={element.split("$$")[1]}
           />
-        </div>
-      ) : (
-        <div className="classes--container">
-          {classes}
-          {!FetchingEnded && (
-            <div className="class--container" style={{ padding: "0" }}>
-              <div className="animated-background"></div>
-            </div>
-          )}
-        </div>
-      )}
+        ))}
+        {!FetchingEnded && (
+          <div className="class--container" style={{ padding: "0" }}>
+            <div className="animated-background"></div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

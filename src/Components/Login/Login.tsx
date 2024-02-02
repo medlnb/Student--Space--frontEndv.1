@@ -46,7 +46,7 @@ function Login() {
       },
     });
     setInputs((prev) => ({ ...prev, loading: false }));
-    navigate("/My classes");
+    navigate("/User");
   };
 
   return (

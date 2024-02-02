@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import { Server } from "../Data/API";
 import { notify } from "../Pages/HomePage/HomePage";
 import { AuthContext } from "./UserContext";
@@ -11,53 +17,54 @@ interface ClassType {
 }
 
 export const ClassesContext = createContext<{
-  state: ClassType[][] | null;
-  dispatch: any | null;
+  state: ClassType[] | null;
+  dispatch: any;
 }>({
   state: null,
   dispatch: null,
 });
 
-const GroupingData = (Data: any) => {
-  const groupedData: any = [];
-  const moduleIndexes = new Map();
-  Data.forEach((item: any) => {
-    const { Module } = item;
-    if (!moduleIndexes.has(Module)) {
-      moduleIndexes.set(Module, groupedData.length);
-      groupedData.push([]);
-    }
-    const index = moduleIndexes.get(Module);
-    groupedData[index].push(item);
-  });
-  return groupedData;
-};
+// const GroupingData = (Data: any) => {
+//   const groupedData: any = [];
+//   const moduleIndexes = new Map();
+//   Data.forEach((item: any) => {
+//     const { Module } = item;
+//     if (!moduleIndexes.has(Module)) {
+//       moduleIndexes.set(Module, groupedData.length);
+//       groupedData.push([]);
+//     }
+//     const index = moduleIndexes.get(Module);
+//     groupedData[index].push(item);
+//   });
+//   return groupedData;
+// };
 
-export const ClassReducer = (state: ClassType[][], action: any) => {
+export const ClassReducer = (
+  state: ClassType[] | null,
+  action: { type: "SETCLASSES" | "ADDCLASSES"; payload: ClassType[] | null }
+) => {
   switch (action.type) {
     case "SETCLASSES":
-      return GroupingData(action.payload);
+      return action.payload;
 
     case "ADDCLASSES":
-      if (action.payload[1])
-        return GroupingData(
-          [...state, action.payload[0], action.payload[1]].flat()
-        );
-      else return GroupingData([...state, action.payload[0]].flat());
+      if (!action.payload) return state;
+      return state ? [...state, ...action.payload] : action.payload;
 
     default:
       return state;
   }
 };
-export const ClassesContextProvider = ({ children }: any) => {
+export const ClassesContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const { user } = useContext(AuthContext);
-  const default_value = {
-    Module: "default_value",
-    Teacher: "",
-  };
-  const [state, dispatch] = useReducer<React.Reducer<ClassType[][], any>>(
+
+  const [state, dispatch] = useReducer<React.Reducer<ClassType[] | null, any>>(
     ClassReducer,
-    [[default_value]]
+    null
   );
   const fetchNotes = async () => {
     let index = 0;
@@ -101,7 +108,6 @@ export const ClassesContextProvider = ({ children }: any) => {
           });
         break;
       }
-
       dispatch({
         type: `${index === 0 ? "SETCLASSES" : "ADDCLASSES"}`,
         payload: json,
@@ -110,6 +116,10 @@ export const ClassesContextProvider = ({ children }: any) => {
     }
   };
   useEffect(() => {
+    dispatch({
+      type: "SETCLASSES",
+      payload: null,
+    });
     fetchNotes();
   }, [user.specIndex, user.token]);
   return (

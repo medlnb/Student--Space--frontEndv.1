@@ -9,17 +9,16 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { notify } from "../../Pages/HomePage/HomePage";
 import { Server } from "../../Data/API";
 import { DarkModeContext } from "../../Contexts/Theme";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 function TaskEdit() {
   const { DarkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   const { state, dispatch } = useContext(TasksContext);
-  if (!state || !dispatch) return;
 
   const [isloadingDel, setIsloadingDel] = useState(-1);
-  const newstate = state.filter(
-    (task: any) => task.className === user.username
-  );
+  const newstate = state?.filter((task) => task.className === user.username);
+
   const HandleDelete = async (id: string | undefined, index: number) => {
     setIsloadingDel(index);
     const response = await fetch(`${Server}/api/task/${id}`, {
@@ -36,20 +35,6 @@ function TaskEdit() {
         payload: id,
       });
   };
-  const TasksToDelete = newstate.map((task, index) => (
-    <div
-      className="tasktodelete"
-      key={index}
-      onClick={() => HandleDelete(task._id, index)}
-    >
-      <h4>{task.taskTitle}</h4>
-      {isloadingDel === index ? (
-        <ClipLoader color={`${DarkMode ? "white" : "black"}`} size={15} />
-      ) : (
-        <BiTrash />
-      )}
-    </div>
-  ));
 
   const today = new Date();
   const [inputs, setInputs] = useState<{
@@ -118,8 +103,9 @@ function TaskEdit() {
         payload: json,
       });
   };
+
   return (
-    <div className="taskedit--container overflowScroll">
+    <div className="editclass--container">
       <form className="taskedit--create" onSubmit={HandleSubmit}>
         <div className="taskedit--title">
           <h3>New Task</h3>
@@ -206,13 +192,43 @@ function TaskEdit() {
           </button>
         </div>
       </form>
-      {newstate.length !== 0 && (
-        <div className="taskedit--create">
-          <div className="taskedit--title">
-            <h3>Delete Tasks</h3>
+
+      {!newstate ? (
+        <div style={{ position: "relative", height: "2rem" }}>
+          <div className="loader">
+            <PropagateLoader
+              color={`${DarkMode ? "white" : "black"}`}
+              size={20}
+            />
           </div>
-          <div className="taskedit--body">{TasksToDelete}</div>
         </div>
+      ) : (
+        newstate.length !== 0 && (
+          <div className="taskedit--create">
+            <div className="taskedit--title">
+              <h3>Delete Tasks</h3>
+            </div>
+            <div className="taskedit--body">
+              {newstate?.map((task, index) => (
+                <div
+                  className="tasktodelete"
+                  key={index}
+                  onClick={() => HandleDelete(task._id, index)}
+                >
+                  <h4>{task.taskTitle}</h4>
+                  {isloadingDel === index ? (
+                    <ClipLoader
+                      color={`${DarkMode ? "white" : "black"}`}
+                      size={15}
+                    />
+                  ) : (
+                    <BiTrash />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )
       )}
     </div>
   );

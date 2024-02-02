@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import { Server } from "../Data/API";
 import { AuthContext } from "./UserContext";
 
@@ -10,44 +16,46 @@ interface AnnouncementType {
   speciality: string;
 }
 
-const default_value = {
-  _id: "####",
-  Publisher: "####",
-  Content: "####",
-  speciality: "####",
-  Date: new Date(),
-};
-
 export const AnnouncementsContext = createContext<{
-  state: AnnouncementType[];
+  state: AnnouncementType[] | null;
   dispatch: any | null;
 }>({
-  state: [default_value],
+  state: null,
   dispatch: null,
 });
 
-export const AnnouncementReducer = (state: AnnouncementType[], action: any) => {
+export const AnnouncementReducer = (
+  state: AnnouncementType[] | null,
+  action: {
+    type: "SETANNOUNCEMENTS" | "ADDANNOUNCEMENTS" | "REMOVEANNOUNCEMENT";
+    payload: any;
+  }
+) => {
   switch (action.type) {
     case "SETANNOUNCEMENTS":
       return action.payload;
 
     case "ADDANNOUNCEMENTS":
-      return [...state, action.payload];
+      return state ? [...state, action.payload] : [action.payload];
 
     case "REMOVEANNOUNCEMENT":
+      if (!state) return;
       return state.filter((task) => task._id !== action.payload);
 
     default:
       return state;
   }
 };
-export const AnnouncementsContextProvider = ({ children }: any) => {
+export const AnnouncementsContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const { user } = useContext(AuthContext);
 
-  const [state, dispatch] = useReducer<React.Reducer<AnnouncementType[], any>>(
-    AnnouncementReducer,
-    [default_value]
-  );
+  const [state, dispatch] = useReducer<
+    React.Reducer<AnnouncementType[] | null, any>
+  >(AnnouncementReducer, null);
 
   const fetchTasks = async () => {
     const response = await fetch(
@@ -67,6 +75,10 @@ export const AnnouncementsContextProvider = ({ children }: any) => {
   };
 
   useEffect(() => {
+    dispatch({
+      type: "SETANNOUNCEMENTS",
+      payload: null,
+    });
     fetchTasks();
   }, [user.specIndex, user.token]);
 

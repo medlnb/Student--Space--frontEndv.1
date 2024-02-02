@@ -9,14 +9,14 @@ import { TbMoodEmpty } from "react-icons/tb";
 function Announcement() {
   const { DarkMode } = useContext(DarkModeContext);
   const { state } = useContext(AnnouncementsContext);
-  const Announcements = state.map((element, index) => (
-    <AnnouncementElement
-      key={index}
-      Publisher={element.Publisher}
-      Content={element.Content}
-      date={element.Date}
-    />
-  ));
+
+  if (!state)
+    return (
+      <div className="loader">
+        <PropagateLoader color={`${DarkMode ? "white" : "black"}`} size={20} />
+      </div>
+    );
+
   return (
     <div className="sub--main--container">
       <h1 className="sub--main--title">Announcement</h1>
@@ -27,15 +27,15 @@ function Announcement() {
             <p>There is no Announcements included yet.</p>
           </div>
         </div>
-      ) : state[0].Publisher === "####" ? (
-        <div className="loader">
-          <PropagateLoader
-            color={`${DarkMode ? "white" : "black"}`}
-            size={20}
-          />
-        </div>
       ) : (
-        Announcements
+        state.map((element, index) => (
+          <AnnouncementElement
+            key={index}
+            Publisher={element.Publisher}
+            Content={element.Content}
+            date={element.Date}
+          />
+        ))
       )}
     </div>
   );

@@ -12,17 +12,15 @@ function EditClass() {
   const { DarkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
   const { state } = useContext(ClassesContext);
-  
+
   const chapters: string[] = ["Chapters"];
-  state?.map((modulee) => {
-    modulee.map((file) => {
-      if (
-        file.Module === user.speciality[user.specIndex].Module &&
-        file.Chapter &&
-        !chapters.includes(file.Chapter)
-      )
-        chapters.push(file.Chapter);
-    });
+  state?.map((file) => {
+    if (
+      file.Module === user.speciality[user.specIndex].Module &&
+      file.Chapter &&
+      !chapters.includes(file.Chapter)
+    )
+      chapters.push(file.Chapter);
   });
 
   const [isloading, setLoading] = useState(false);
@@ -32,6 +30,7 @@ function EditClass() {
     DescriptionClass: "",
     title: "",
   });
+  
   const HandleSubmit = async (e: any) => {
     e.preventDefault();
     if (inputs.Chapter == "" || inputs.Link == "" || inputs.title == "") {

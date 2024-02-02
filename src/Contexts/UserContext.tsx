@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { ReactNode, createContext, useReducer } from "react";
 
 interface User {
   username: string;
@@ -26,6 +26,10 @@ export const AuthContext = createContext<UserContext_type>({
   dispatchUser: null,
 });
 
+// Web App version check
+if (localStorage.getItem("V") !== "1.0.0") {
+  localStorage.clear();
+}
 export const UserReducer = (
   state: User,
   action: {
@@ -41,6 +45,8 @@ export const UserReducer = (
 ) => {
   switch (action.type) {
     case "SETUSER":
+      //Set App Version
+      localStorage.setItem("V", "1.0.0");
       // to log in by adding the user infomation to the local storage
       localStorage.setItem("Types", "TD$TP$");
       localStorage.setItem("ClassRooms", "ClassRoom 24$ClassRoom 22$");
@@ -83,7 +89,7 @@ export const UserReducer = (
   }
 };
 
-export const AuthContextProvider = ({ children }: any) => {
+export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, dispatchUser] = useReducer<React.Reducer<User, any>>(
     UserReducer,
     {

@@ -4,10 +4,9 @@ import './Class.css'
 interface props {
   Module: string,
   Teacher: string,
-  description?: string,
 }
 
-function Class({ Module, Teacher, description }: props) {
+function Class({ Module, Teacher }: props) {
   const navigate = useNavigate()
   const handleClick = () => {
     navigate(`/Module/:${Module}`)
@@ -17,7 +16,6 @@ function Class({ Module, Teacher, description }: props) {
       className="class--container ">
       <h2>{Module}</h2>
       <h3>{Teacher}</h3>
-      <p>{description && description}</p>
     </div>
   )
 }
