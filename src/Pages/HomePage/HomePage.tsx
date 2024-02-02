@@ -25,15 +25,17 @@ export const notify = (
   });
 
 function HomePage() {
-  const { user, dispatchUser } = useContext(AuthContext);
-  const { DarkMode } = useContext(DarkModeContext);
   useEffect(() => {
     // Web App version check
     if (localStorage.getItem("V") !== "1.0.0") {
       localStorage.clear();
       location.reload();
-      return 
+      return;
     }
+  }, []);
+  const { user, dispatchUser } = useContext(AuthContext);
+  const { DarkMode } = useContext(DarkModeContext);
+  useEffect(() => {
     // User version check
     const fetchUserVersion = async () => {
       const response = await fetch(`${Server}/api/user/version`, {
