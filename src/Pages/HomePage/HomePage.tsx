@@ -31,6 +31,8 @@ function HomePage() {
     // Web App version check
     if (localStorage.getItem("V") !== "1.0.0") {
       localStorage.clear();
+      location.reload();
+      return 
     }
     // User version check
     const fetchUserVersion = async () => {
