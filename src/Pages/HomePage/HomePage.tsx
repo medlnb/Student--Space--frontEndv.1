@@ -13,7 +13,7 @@ import NavBar from "../../Components/NavBar/NavBar";
 import { toast } from "sonner";
 import { Outlet } from "react-router-dom";
 import { AuthContext } from "../../Contexts/UserContext";
-// import SideBar from "../../Components/SideBar/SideBar";
+import SideBar from "../../Components/SideBar/SideBar";
 
 export const notify = (
   toastType: "success" | "info" | "warning" | "error",
@@ -43,7 +43,7 @@ function HomePage() {
                     <UserBar />
                     <Outlet />
                   </div>
-                  {/* <SideBar /> */}
+                  <SideBar />
                 </LocalizationProvider>
               </AnnouncementsContextProvider>
             </ScheduleContextProvider>
