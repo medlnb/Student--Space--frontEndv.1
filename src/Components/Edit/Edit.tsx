@@ -7,7 +7,7 @@ function Edit() {
   
   return (
     <div className="sub--main--container">   
-      <h1 className='sub--main--title'>Edit</h1>
+      <h1 className='sub--main--title'>Teacher</h1>
       <div className='edit--container'>
         <div className='edit--page'>
           <Outlet />

@@ -24,19 +24,17 @@ const getShortCut = (str: string) => {
 function ScheduleElement({
   scheduleDay,
   modules,
+  ClassTypes,
+  ClassRooms,
 }: {
   scheduleDay: scheduleDayType;
   modules: string[];
+  ClassTypes: string[];
+  ClassRooms: string[];
 }) {
   const { dispatch } = useContext(ScheduleContext);
-  const typeList: string[] = ("" + localStorage.getItem("Types"))
-    .split("$")
-    .filter(Boolean);
-  const ClassroomList: string[] = ("" + localStorage.getItem("ClassRooms"))
-    .split("$")
-    .filter(Boolean);
 
-  const Classroomoptions = ClassroomList.map((element) => {
+  const Classroomoptions = ClassRooms.map((element) => {
     if (getShortCut(element) !== scheduleDay.Classroom)
       return (
         <option key={nanoid()} value={element}>
@@ -54,7 +52,7 @@ function ScheduleElement({
       );
   });
 
-  const Typeoptions = typeList.map((element) => {
+  const Typeoptions = ClassTypes.map((element) => {
     if (element !== scheduleDay.Type)
       return (
         <option key={nanoid()} value={element}>

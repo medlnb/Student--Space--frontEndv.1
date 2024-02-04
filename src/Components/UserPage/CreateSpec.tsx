@@ -6,7 +6,7 @@ import { AuthContext } from "../../Contexts/UserContext";
 import { Server } from "../../Data/API";
 
 function CreateSpec() {
-  const { user, dispatchUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [inputs, setInputs] = useState({
     speciality: "",
     Year: "",
@@ -22,7 +22,7 @@ function CreateSpec() {
     setInputs({ ...inputs, isloading: true });
 
     const response = await fetch(`${Server}/api/user/admin`, {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
@@ -42,14 +42,11 @@ function CreateSpec() {
 
     setInputs({ speciality: "", Year: "", isloading: false });
 
-    dispatchUser({
-      type: "NEWSPEC",
-      payload: { speciality: json.speciality, token: json.token },
-    });
     notify(
       "success",
-      "Speciality added successfully, relog to see the changes"
+      "Speciality added successfully"
     );
+    location.reload();
   };
 
   return (

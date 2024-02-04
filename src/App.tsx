@@ -67,8 +67,8 @@ function App() {
                 <Route path="Announcement" element={<Announcement />} />
                 <Route path="Task" element={<TaskPage />} />
                 {/* Prof specific routes */}
-                <Route path="Edit/" element={<Edit />}>
-                  <Route index element={<Navigate to="/Edit/Classes" />} />
+                <Route path="Teacher/" element={<Edit />}>
+                  <Route index element={<Navigate to="/Teacher/Classes" />} />
                   <Route path="Classes" element={<EditClass />} />
                   <Route path="Tasks" element={<TaskEdit />} />
                   <Route path="Annou" element={<AnnouncementEdit />} />

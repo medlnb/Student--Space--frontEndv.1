@@ -1,26 +1,57 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./ScheduleManager.css";
 import { FaSave } from "react-icons/fa";
+import { Server } from "../../Data/API";
+import { AuthContext } from "../../Contexts/UserContext";
+import { notify } from "../../Pages/HomePage/HomePage";
 
 function ScheduleManager() {
-  const Types: string[] = ("" + localStorage.getItem("Types")).split("$");
-  const ClassRooms: string[] = ("" + localStorage.getItem("ClassRooms")).split(
-    "$"
-  );
-
-  const [inputs, setInputs] = useState({
-    type: "",
-    classroom: "",
+  const { user } = useContext(AuthContext);
+  const [params, setParams] = useState({
+    ClassTypes: [],
+    ClassRooms: [],
   });
 
-  const HandleAdd = () => {
-    if (inputs.type !== "" || inputs.classroom !== "") {
-      Types.push(inputs.type);
-      ClassRooms.push(inputs.classroom);
-      localStorage.setItem("Types", Types.join("$"));
-      localStorage.setItem("ClassRooms", ClassRooms.join("$"));
-      setInputs({ type: "", classroom: "" });
-    }
+  useEffect(() => {
+    const getparames = async () => {
+      const response = await fetch(
+        `${Server}/api/Schedule/GetParams/${user.specIndex}${user.Group}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const { ClassTypes, ClassRooms } = await response.json();
+      setParams({ ClassTypes, ClassRooms });
+    };
+    getparames();
+  }, []);
+
+  const [inputs, setInputs] = useState({
+    ClassTypes: "",
+    ClassRooms: "",
+  });
+
+  const HandleAdd = async () => {
+    if (inputs.ClassTypes === "" && inputs.ClassRooms === "")
+      return notify("error", "at least one of the inputs is empty");
+
+    const response = await fetch(
+      `${Server}/api/Schedule/scheduleparams/${user.specIndex}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ ...inputs }),
+      }
+    );
+    if (response.ok) {
+      notify("success", "Added Successfully");
+      location.reload();
+    } else notify("error", "Failed to add");
   };
 
   return (
@@ -31,7 +62,7 @@ function ScheduleManager() {
       <div className="taskedit--body ">
         <div style={{ display: "flex", gap: ".3rem" }}>
           Class Types:
-          {Types.map((type, index) => {
+          {params.ClassTypes.map((type, index) => {
             if (type !== "null" && type !== "")
               return (
                 <p
@@ -45,7 +76,7 @@ function ScheduleManager() {
         </div>
         <div>
           ClassRooms:
-          {ClassRooms.map((classroom, index) => {
+          {params.ClassRooms.map((classroom, index) => {
             if (classroom !== "null" && classroom !== "")
               return (
                 <p
@@ -62,7 +93,9 @@ function ScheduleManager() {
             className="task--title--input"
             style={{ width: "10rem" }}
             placeholder="New ClassType..."
-            onChange={(e) => setInputs({ ...inputs, type: e.target.value })}
+            onChange={(e) =>
+              setInputs({ ...inputs, ClassTypes: e.target.value })
+            }
           />
           <FaSave onClick={HandleAdd} />
           <input
@@ -70,7 +103,7 @@ function ScheduleManager() {
             style={{ width: "10rem" }}
             placeholder="New ClassRoom..."
             onChange={(e) =>
-              setInputs({ ...inputs, classroom: e.target.value })
+              setInputs({ ...inputs, ClassRooms: e.target.value })
             }
           />
         </div>

@@ -69,10 +69,10 @@ export const ScheduleContextProvider = ({
     });
   };
   useEffect(() => {
-    // dispatch({
-    //   type: "SETSCHEDULE",
-    //   payload: null,
-    // });
+    dispatch({
+      type: "SETSCHEDULE",
+      payload: [],
+    });
     fetchingSchedule();
   }, [user.Group, user.specIndex, user.token]);
   return (

@@ -40,7 +40,6 @@ export const UserReducer = (
       | "LOGOUT"
       | "CHANGETOKEN"
       | "CHANGEspecIndex"
-      | "NEWSPEC";
     payload: any;
   }
 ) => {

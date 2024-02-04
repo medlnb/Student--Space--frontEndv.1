@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./ScheduleEdit.css";
 import { ScheduleContext } from "../../Contexts/ScheduleContext";
 import { Server } from "../../Data/API";
@@ -15,6 +15,27 @@ function ScheduleEdit() {
   const { user } = useContext(AuthContext);
   const { state } = useContext(MembersContext);
   const classes = ["8.00", "9.40", "11.20", "13.10", "14.50", "16.30"];
+
+  const [params, setParams] = useState({
+    ClassTypes: [],
+    ClassRooms: [],
+  });
+
+  useEffect(() => {
+    const getparames = async () => {
+      const response = await fetch(
+        `${Server}/api/Schedule/GetParams/${user.specIndex}${user.Group}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const { ClassTypes, ClassRooms } = await response.json();
+      setParams({ ClassTypes, ClassRooms });
+    };
+    getparames();
+  }, [user.specIndex]);
 
   const modules: string[] = [" "];
 
@@ -47,9 +68,6 @@ function ScheduleEdit() {
     else notify("success", "Schedule saved");
   };
 
-  const Schedule = ScheduleData.map((day, index) => (
-    <ScheduleElement key={index} scheduleDay={day} modules={modules} />
-  ));
   return (
     <>
       <div className="hours">
@@ -57,7 +75,17 @@ function ScheduleEdit() {
           <p key={index}>{hour}</p>
         ))}
       </div>
-      <div className="scheduleedit--container">{Schedule}</div>
+      <div className="scheduleedit--container">
+        {ScheduleData.map((day, index) => (
+          <ScheduleElement
+            key={index}
+            scheduleDay={day}
+            modules={modules}
+            ClassTypes={params.ClassTypes}
+            ClassRooms={params.ClassRooms}
+          />
+        ))}
+      </div>
       <div style={{ textAlign: "center", marginBottom: "4rem" }}>
         {loading ? (
           <ClipLoader color="green" size={15} />

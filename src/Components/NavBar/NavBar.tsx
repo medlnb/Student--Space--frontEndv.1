@@ -58,7 +58,7 @@ function NavBar() {
     navNames.push({ title: "Task", icon: <FaTasks className="icon" /> });
   }
   if (user.speciality.length > 0 && user.speciality[user.specIndex].Module)
-    navNames.push({ title: "Edit", icon: <FiEdit className="icon" /> });
+    navNames.push({ title: "Teacher", icon: <FiEdit className="icon" /> });
 
   if (user.speciality.length > 0 && user.speciality[user.specIndex].Admin)
     navNames.push({ title: "Admin", icon: <RiAdminLine className="icon" /> });
