@@ -63,7 +63,7 @@ function CreateSpec() {
         />
         <input
           className="task--title--input"
-          placeholder="Year..."
+          placeholder="Education's level (Master 1, ...)"
           value={inputs.Year}
           onChange={(e) => setInputs({ ...inputs, Year: e.target.value })}
         />
